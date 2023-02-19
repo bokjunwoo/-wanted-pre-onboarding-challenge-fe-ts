@@ -3,5 +3,5 @@ export default function Home() {
     <>
       <h1>시작</h1>
     </>
-  )
+  );
 }
