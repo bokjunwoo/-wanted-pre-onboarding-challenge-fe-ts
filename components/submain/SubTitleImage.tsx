@@ -2,12 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card } from 'react-bootstrap';
 
-export default function SubTitleImage({ region }) {
+export interface SubMainProps {
+  region: string;
+  regionName: string;
+}
+
+export default function SubTitleImage({ region, regionName }: SubMainProps) {
   return (
     <div className="card mt-5 mb-5">
-      <img alt="지역대표이미지" src="/images/submain/서울.jpg" />
+      <img alt="지역대표이미지" src={`/images/submain/${region}.jpg`} />
       <Card.ImgOverlay>
-        <AreaName>{region}</AreaName>
+        <AreaName>{regionName}</AreaName>
         <Areatext>
           온전히 내 취향대로, 나만의 감성을 그대로 담은 나만의 여행로그
         </Areatext>
