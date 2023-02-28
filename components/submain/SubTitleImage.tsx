@@ -10,7 +10,9 @@ export interface SubMainProps {
 export default function SubTitleImage({ region, regionName }: SubMainProps) {
   return (
     <div className="card mt-5 mb-5">
-      <img alt="지역대표이미지" src={`/images/submain/${region}.jpg`} />
+      {region && (
+        <img alt="지역대표이미지" src={`/images/submain/${region}.jpg`} />
+      )}
       <Card.ImgOverlay>
         <AreaName>{regionName}</AreaName>
         <Areatext>
