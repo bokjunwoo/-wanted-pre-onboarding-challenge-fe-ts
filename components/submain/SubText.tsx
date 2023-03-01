@@ -11,7 +11,7 @@ interface SubTextProps {
 export default function SubText({mainText, icon, subText}: SubTextProps) {
   return (
     <Row>
-      <Col className="mt-5 mb-5">
+      <Col className="mt-5 mb-4">
         <div>
           <Title>{icon} </Title>
           <Title>{mainText}</Title>
