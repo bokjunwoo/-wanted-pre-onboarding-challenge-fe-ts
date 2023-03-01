@@ -68,7 +68,7 @@ export default function Header() {
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </Navbar.Brand>
 
-          <Link href="login">
+          <Link href="/login">
             <Navbar.Brand>
               <FontAwesomeIcon icon={faUser} />
             </Navbar.Brand>
