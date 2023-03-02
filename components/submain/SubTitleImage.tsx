@@ -9,7 +9,7 @@ export interface SubMainProps {
 
 export default function SubTitleImage({ region, regionName }: SubMainProps) {
   return (
-    <div className="card mt-5 mb-5">
+    <Card className="card mt-5 rounded-0">
       {region && (
         <img alt="지역대표이미지" src={`/images/submain/${region}.jpg`} />
       )}
@@ -19,7 +19,7 @@ export default function SubTitleImage({ region, regionName }: SubMainProps) {
           온전히 내 취향대로, 나만의 감성을 그대로 담은 나만의 여행로그
         </Areatext>
       </Card.ImgOverlay>
-    </div>
+    </Card>
   );
 }
 
