@@ -42,7 +42,7 @@ export default function Region() {
         subText="다양한 사람들인 남긴 리뷰를 보고 결정해요!"
       />
 
-      <CommonNav />
+      <CommonNav region={region}/>
 
       <div>
         <SubText
