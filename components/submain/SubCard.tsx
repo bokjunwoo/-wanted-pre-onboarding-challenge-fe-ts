@@ -14,7 +14,7 @@ export default function SubCard({ data, dataLength }: SubCardProps) {
       className={`mb-4 ${data.id === dataLength ? '' : 'me-5'}`}
       key={data.id}
     >
-      <StyledImg src={data.image} />
+      <StyledImg variant="top" src={data.image} />
       <Card.Body>
         <p className="mb-0">{data.title}</p>
       </Card.Body>
