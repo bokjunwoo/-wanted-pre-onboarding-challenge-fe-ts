@@ -28,7 +28,7 @@ export default function Region() {
   return (
     <>
       <Head>
-        <title>{regionNames[region]} - 여행지</title>
+        <title>{`${regionNames[region]} - 여행지`}</title>
       </Head>
 
       <SubTitleImage
@@ -42,7 +42,7 @@ export default function Region() {
         subText="다양한 사람들인 남긴 리뷰를 보고 결정해요!"
       />
 
-      <CommonNav region={region}/>
+      <CommonNav region={region} />
 
       <div>
         <SubText

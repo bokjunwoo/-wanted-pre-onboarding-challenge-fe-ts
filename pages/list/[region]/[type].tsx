@@ -37,9 +37,7 @@ export default function Type() {
   return (
     <>
       <Head>
-        <title>
-          {regionNames[region]} - {typesNames[type]}
-        </title>
+        <title>{`${regionNames[region]} - ${typesNames[type]}`}</title>
       </Head>
 
       <CommonNav type={type} margin="mt-5" />
