@@ -26,7 +26,7 @@ export default function SubText({mainText, icon, subText}: SubTextProps) {
   );
 }
 
-const Title = styled.span`
+export const Title = styled.span`
   font: 2rem/1 'Inter';
   @media screen and (max-width: 1200px) {
     font: 2rem/1 'Inter';

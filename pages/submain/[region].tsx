@@ -1,5 +1,5 @@
 import SubCard from '@/components/submain/SubCard';
-import CommonNav from '@/components/submain/CommonNav';
+import CommonNav from '@/components/common/CommonNav';
 import SubText from '@/components/submain/SubText';
 import SubTitleImage from '@/components/submain/SubTitleImage';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
@@ -7,6 +7,8 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { pickData } from '@/data/region';
+import { Col, Row } from 'react-bootstrap';
+import SubPreparation from '@/components/submain/SubPreparation';
 
 type RegionNames = {
   [key: string]: string;
@@ -73,19 +75,21 @@ export default function Region() {
           subText="트립로그가 챙겨주는 이번 여행!"
         />
 
-        <Container>
-          <ScrollMenu>
-            {pickData.map((data) => {
-              return (
-                <SubCard
-                  data={data}
-                  key={data.id}
-                  dataLength={pickData.length}
-                />
-              );
-            })}
-          </ScrollMenu>
-        </Container>
+        <div className="d-flex justify-content-center">
+          <Row>
+            <Col>
+              <SubPreparation content="plan" region={region}/>
+            </Col>
+
+            <Col>
+              <SubPreparation content="ledger" />
+            </Col>
+
+            <Col>
+              <SubPreparation content="checklist" />
+            </Col>
+          </Row>
+        </div>
       </div>
 
       <div>
