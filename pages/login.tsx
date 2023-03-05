@@ -1,4 +1,3 @@
-import FormInput from '@/components/common/FormInput';
 import LocalButton from '@/components/common/LocalButton';
 import useInput from '@/components/hooks/useInput';
 import KakaoLogin from '@/components/kakao/KakaoLogin';
@@ -6,11 +5,16 @@ import { emailValidation, passwordValidation } from '@/utils/sign';
 import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
-import { Card, Badge, Col } from 'react-bootstrap';
+import { Card, Badge, Col, Form } from 'react-bootstrap';
+import styled from 'styled-components';
 
 export default function login() {
-  const [email, onChangeEmail, emailResult] = useInput('', emailValidation);
-  const [password, onChangePassword, passwordResult] = useInput('', passwordValidation);
+  const [email, onChangeEmail] = useInput('', emailValidation);
+  const [password, onChangePassword] = useInput('', passwordValidation);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
 
   return (
     <>
@@ -29,27 +33,41 @@ export default function login() {
             </Link>
           </div>
 
-          <FormInput
-            htmlFor="email"
-            label="아이디"
-            value={email}
-            onChange={onChangeEmail}
-            type="text"
-          />
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="email">
+              <Form.Label>아이디</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="아이디를 입력해주세요"
+                className="p-3"
+                value={email}
+                onChange={onChangeEmail}
+              />
+              <VisibilityHidden className="text-muted">visibilityHidden</VisibilityHidden>
+            </Form.Group>
 
-          <FormInput
-            htmlFor="password"
-            label="비밀번호"
-            value={password}
-            onChange={onChangePassword}
-            type="password"
-          />
+            <Form.Group controlId="password">
+              <Form.Label>비밀번호</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="비밀번호를 입력해주세요"
+                className="p-3"
+                value={password}
+                onChange={onChangePassword}
+              />
+              <VisibilityHidden className="text-muted">visibilityHidden</VisibilityHidden>
+            </Form.Group>
 
-          <LocalButton text="로그인" />
+            <LocalButton text="로그인" />
 
-          <KakaoLogin text="카카오 로그인" />
+            <KakaoLogin text="카카오 로그인" />
+          </Form>
         </Card>
       </Col>
     </>
   );
 }
+
+const VisibilityHidden = styled(Form.Text)`
+  visibility: hidden;
+`;
