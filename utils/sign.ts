@@ -26,6 +26,8 @@ export const nicknameValidation = (ninkname: string): ValidationResult => {
 };
 
 export const passwordReinspection = (value: string, reValue: string): ValidationResult => {
+  if (value.length === 0 && reValue.length === 0)
+    return { message: ERROR_MESSAGE.REPASSWORD_LEGNTH_ZERO, success: false };
   if (value !== reValue) return { message: ERROR_MESSAGE.REPASSWORD_CHECK_ERROR, success: false };
   return { message: SUCCESS_MESSAGE.REPASSWORD_SUCCESS, success: true };
 };

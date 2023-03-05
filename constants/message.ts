@@ -3,6 +3,7 @@ export const ERROR_MESSAGE = {
   PASSWORD_CHECK_ERROR: '8~20자의 영문자 또는 숫자이어야 합니다.',
   NICKNAME_CHECK_ERROR: '3~12자의 영문자, 한글, 숫자이어야 합니다.',
   REPASSWORD_CHECK_ERROR: '비밀번호가 일치하지 않습니다.',
+  REPASSWORD_LEGNTH_ZERO: '비밀번호가 입력되지 않았습니다.'
 };
 
 export const SUCCESS_MESSAGE = {
