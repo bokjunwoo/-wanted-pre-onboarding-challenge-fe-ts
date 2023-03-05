@@ -1,16 +1,35 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import FormInput from '@/components/common/FormInput';
-import UseInput from '@/components/hooks/UseInput';
 import LocalButton from '@/components/common/LocalButton';
 import { Card, Badge, Col } from 'react-bootstrap';
 import Head from 'next/head';
+import {
+  emailValidation,
+  nicknameValidation,
+  passwordReinspection,
+  passwordValidation,
+  ValidationResult,
+} from '@/utils/sign';
+import useInput from '@/components/hooks/useInput';
 
 export default function signup() {
-  const [email, onChangeEmail] = UseInput('');
-  const [password, onChangePassword] = UseInput('');
-  const [passwordCheck, onChangePasswordCheck] = UseInput('');
-  const [nickname, onChangeNickname] = UseInput('');
+  const [email, onChangeEmail, emailResult] = useInput('', emailValidation);
+  const [password, onChangePassword, passwordResult] = useInput('', passwordValidation);
+  const [nickname, onChangeNickname, nicknameResult] = useInput('', nicknameValidation);
+
+  const [passwordCheck, setPasswordCheck] = useState<string>('');
+  const [repasswordResult, setRepasswordResult] = useState<ValidationResult>({
+    message: '',
+    success: false,
+  });
+  const onChangePasswordCheck = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setPasswordCheck(e.target.value);
+      setRepasswordResult(passwordReinspection(password, e.target.value));
+    },
+    [password],
+  );
 
   return (
     <>
@@ -18,17 +37,12 @@ export default function signup() {
         <title>트립로그 - 회원가입</title>
       </Head>
 
-      <Col className="col-sm-10 col-md-8 col-lg-6 col-xl-4 m-auto mt-5 mb-5">
+      <Col className="col-sm-10 col-md-8 col-lg-6 col-xl-6 m-auto mt-5 mb-5">
         <Card className="p-5">
           <div className="d-flex mb-5">
             <h4>TripLog</h4>
             <Link href="/login">
-              <Badge
-                bg="secondary"
-                text="light"
-                className="ms-2 p-1"
-                style={{ fontSize: '.3rem' }}
-              >
+              <Badge bg="secondary" text="light" className="ms-2 p-1" style={{ fontSize: '.3rem' }}>
                 이미 회원이라면?
               </Badge>
             </Link>
@@ -40,6 +54,7 @@ export default function signup() {
             value={email}
             onChange={onChangeEmail}
             type="text"
+            result={emailResult}
           />
 
           <FormInput
@@ -48,6 +63,7 @@ export default function signup() {
             value={password}
             onChange={onChangePassword}
             type="password"
+            result={passwordResult}
           />
 
           <FormInput
@@ -56,6 +72,7 @@ export default function signup() {
             value={passwordCheck}
             onChange={onChangePasswordCheck}
             type="password"
+            result={repasswordResult}
           />
 
           <FormInput
@@ -64,6 +81,7 @@ export default function signup() {
             value={nickname}
             onChange={onChangeNickname}
             type="text"
+            result={nicknameResult}
           />
 
           <LocalButton text="가입하기" />

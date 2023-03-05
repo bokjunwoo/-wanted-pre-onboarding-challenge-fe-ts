@@ -1,15 +1,16 @@
 import FormInput from '@/components/common/FormInput';
 import LocalButton from '@/components/common/LocalButton';
-import UseInput from '@/components/hooks/UseInput';
+import useInput from '@/components/hooks/useInput';
 import KakaoLogin from '@/components/kakao/KakaoLogin';
+import { emailValidation, passwordValidation } from '@/utils/sign';
 import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
 import { Card, Badge, Col } from 'react-bootstrap';
 
 export default function login() {
-  const [email, onChangeEmail] = UseInput('');
-  const [password, onChangePassword] = UseInput('');
+  const [email, onChangeEmail, emailResult] = useInput('', emailValidation);
+  const [password, onChangePassword, passwordResult] = useInput('', passwordValidation);
 
   return (
     <>
@@ -17,17 +18,12 @@ export default function login() {
         <title>트립로그 - 로그인</title>
       </Head>
 
-      <Col className="col-sm-10 col-md-8 col-lg-6 col-xl-4 m-auto mt-5 mb-5">
+      <Col className="col-sm-10 col-md-8 col-lg-6 col-xl-6 m-auto mt-5 mb-5">
         <Card className="p-5">
           <div className="d-flex mb-5">
             <h4>TripLog</h4>
             <Link href="/signup">
-              <Badge
-                bg="secondary"
-                text="light"
-                className="ms-2 p-1"
-                style={{ fontSize: '.3rem' }}
-              >
+              <Badge bg="secondary" text="light" className="ms-2 p-1" style={{ fontSize: '.3rem' }}>
                 아직 회원이 아니라면?
               </Badge>
             </Link>
