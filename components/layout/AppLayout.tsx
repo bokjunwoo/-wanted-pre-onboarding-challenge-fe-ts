@@ -11,7 +11,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
     <>
       <Header />
 
-      <Row>
+      <Row className="m-auto">
         <Col xs={12} md={12} lg={1} xl={1} xxl={2}></Col>
         <Col xs={12} md={12} lg={10} xl={10} xxl={8}>
           <Container>{children}</Container>
