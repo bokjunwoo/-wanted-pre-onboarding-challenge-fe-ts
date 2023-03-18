@@ -8,7 +8,7 @@ export default function ListCard() {
         <Card.Img variant="top" src="/images/main/card0.jpg" height='230px' className="border" />
 
         <Card.Body className='p-2'>
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-between align-items-top">
             <Card.Title>제목</Card.Title>
             <Card.Text className="text-muted">조회수 0</Card.Text>
           </div>
