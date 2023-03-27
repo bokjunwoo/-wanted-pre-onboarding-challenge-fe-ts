@@ -1,5 +1,5 @@
 import ListCard from '@/components/list/ListCard';
-import CommonNav from '@/components/submain/CommonNav';
+import CommonNav from '@/components/common/CommonNav';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Row } from 'react-bootstrap';
