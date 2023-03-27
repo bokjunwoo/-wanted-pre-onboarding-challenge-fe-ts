@@ -56,7 +56,7 @@ export default function PlanCalendarModal({ show, onHide }: PlanCalendarModalPro
         )}
         <Calendar
           className="w-100"
-          onChange={onChange}
+          onChange={handleClose}
           minDate={new Date()}
           selectRange={true}
           formatDay={(locale, date) => moment(date).format('DD')}
