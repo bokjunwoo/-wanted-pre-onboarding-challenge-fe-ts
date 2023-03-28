@@ -1,39 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## **🔗 [배포 링크](https://triplogs.netlify.app/)**
 
-## Getting Started
+## ✨ 기술 스택
 
-First, run the development server:
+- Next.js
+- Typescript
+- Axios
+- React-router-dom
+- React Bootstrap
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## ⚙️ 리팩토링 목적
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 기존에는 단기간 내에 구현해야 했기 때문에 예상치 못한 오류, 코드의 가독성과 유지보수의 어려움, 초기 로딩 속도 문제 등이 발생하였습니다. 이를 해결하고 검색 엔진 최적화(SEO)를 위해 React 코드를 서버사이드 렌더링(SSR)할 수 있도록 변환하는 리팩토링 작업을 시작하게 되었습니다.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## **🚀 지금까지 구현된 기능**
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+2023.02.16 ~ 2023.03.27 (배포)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# wanted-pre-onboarding-challenge-fe-ts
+- 기본적인 페이지 구성이 완료되었으며, 반응형 웹페이지를 지원
+- 코드 상수화가 가능한 부분은 상수화하였으며, 유효성 검사 함수를 분리
