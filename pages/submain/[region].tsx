@@ -4,29 +4,14 @@ import SubText from '@/components/submain/SubText';
 import SubTitleImage from '@/components/submain/SubTitleImage';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { pickData } from '@/data/region';
 import { Col, Row } from 'react-bootstrap';
 import SubPreparation from '@/components/submain/SubPreparation';
+import { regionContents } from '@/data/contents';
+import { regionNames } from '@/data/region';
+import { ISubmainParams, SubmainParamsType } from './submain';
 
-type RegionNames = {
-  [key: string]: string;
-};
-
-const regionNames: RegionNames = {
-  seoul: '서울',
-  busan: '부산',
-  gangneung: '강릉',
-  gyeongju: '경주',
-  jeonju: '전주',
-  jeju: '제주',
-};
-
-export default function Region() {
-  const router = useRouter();
-  const { region } = router.query as { region: string };
-
+export default function Region({ region, stay, tour }: ISubmainParams) {
   return (
     <>
       <Head>
@@ -55,12 +40,13 @@ export default function Region() {
 
         <Container>
           <ScrollMenu>
-            {pickData.map((data) => {
+            {stay.map((data) => {
               return (
                 <SubCard
+                  region={region}
                   data={data}
-                  key={data.id}
-                  dataLength={pickData.length}
+                  key={data.contentid}
+                  dataLength={stay.length}
                 />
               );
             })}
@@ -78,7 +64,7 @@ export default function Region() {
         <div className="d-flex justify-content-center">
           <Row>
             <Col>
-              <SubPreparation content="plan" region={region}/>
+              <SubPreparation content="plan" region={region} />
             </Col>
 
             <Col>
@@ -101,12 +87,13 @@ export default function Region() {
 
         <Container>
           <ScrollMenu>
-            {pickData.map((data) => {
+            {tour.map((data) => {
               return (
                 <SubCard
+                  region={region}
                   data={data}
-                  key={data.id}
-                  dataLength={pickData.length}
+                  key={data.contentid}
+                  dataLength={tour.length}
                 />
               );
             })}
@@ -127,3 +114,30 @@ const Container = styled.div`
     scrollbar-width: none; /* Firefox */
   }
 `;
+
+export const getStaticPaths = async () => {
+  const paths = Object.keys(regionNames).map((region) => ({
+    params: {
+      region,
+    },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps = async ({ params }: SubmainParamsType) => {
+  const { region } = params;
+  const stay = regionContents[region as keyof typeof regionContents].stay;
+  const tour = regionContents[region as keyof typeof regionContents].tour;
+
+  return {
+    props: {
+      region,
+      stay,
+      tour,
+    },
+  };
+};
