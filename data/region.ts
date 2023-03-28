@@ -1,4 +1,4 @@
-interface IconData {
+export interface IconData {
   id: number;
   image: string;
   region: string;
