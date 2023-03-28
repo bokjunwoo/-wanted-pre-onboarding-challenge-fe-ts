@@ -1,16 +1,29 @@
-export interface IconData {
+interface IconData {
   id: number;
   image: string;
   region: string;
   name: string;
 }
 
-export interface MainCardData {
+interface MainCardData {
   id: number;
   image: string;
   text: string;
   region: string;
 }
+
+type RegionNames = {
+  [key: string]: string;
+};
+
+export const regionNames: RegionNames = {
+  seoul: '서울',
+  busan: '부산',
+  gangneung: '강릉',
+  gyeongju: '경주',
+  jeonju: '전주',
+  jeju: '제주',
+};
 
 export const iconData: IconData[] = [
   { id: 0, image: '/images/icons/seoul.png', region: 'seoul', name: '서울' },
@@ -60,39 +73,5 @@ export const mainCardData: MainCardData[] = [
     image: '/images/main/card3.jpg',
     text: '잘 몰랐던 경주 지금이 떠날 기회!',
     region: 'gyeongju',
-  },
-];
-
-export interface PickData {
-  id: number;
-  title: string;
-  image: string;
-}
-
-export const pickData: PickData[] = [
-  {
-    id: 1,
-    title: '산과 바다',
-    image: 'https://picsum.photos/id/237/200/300',
-  },
-  {
-    id: 2,
-    title: '도심 속 휴식',
-    image: 'https://picsum.photos/id/238/200/300',
-  },
-  {
-    id: 3,
-    title: '자연과 함께하는 여행',
-    image: 'https://picsum.photos/id/239/200/300',
-  },
-  {
-    id: 4,
-    title: '역사와 문화',
-    image: 'https://picsum.photos/id/240/200/300',
-  },
-  {
-    id: 5,
-    title: '여유로운 시간',
-    image: 'https://picsum.photos/id/241/200/300',
   },
 ];
