@@ -1,19 +1,26 @@
+import { IReviewInfo } from '@/pages/api/detail';
 import React, { useCallback, useState } from 'react';
 import { ListGroup, Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import ReviewWrite from './ReviewWrite';
+import moment from 'moment';
 
-export default function ReviewContent() {
+moment.locale('ko');
+
+export default function ReviewContent({ review }: { review: IReviewInfo }) {
   const [edit, setEdit] = useState<boolean>(false);
   const onClickEdit = useCallback(() => {
     setEdit((prev) => !prev);
   }, []);
 
-  const value =
-    'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique earum, mollitia quis laudantium esse expedita, porro sequiundeoditiusto quidem voluptas harum alias nostrum. Eaque officiis quo delenitioptio.';
+  const stars = [0, 0, 0, 0, 0];
+
+  for (let i = 0; i < review.star; i++) {
+    stars[i] = 1;
+  }
 
   return (
-    <ListGroup.Item className='ps-0 pe-0'>
+    <ListGroup.Item className="ps-0 pe-0">
       <div className="d-flex justify-content-between">
         <div className="d-flex">
           <div className="d-flex align-items-center">
@@ -21,10 +28,16 @@ export default function ReviewContent() {
           </div>
 
           <div className="ms-2">
-            <span>닉네임</span>
+            <span>{review.nickName}</span>
             <br />
-            <span>⭐️⭐️⭐️⭐️⭐️</span>
-            <span className="text-muted ms-1">23.03.03</span>
+            {stars.map((star, i) => (
+              <span key={i} style={{ color: star === 0 ? 'gray' : '#ffd400' }}>
+                ★
+              </span>
+            ))}
+            <span className="text-muted ms-1">
+              {moment(review.writeTime).format('YYYY.MM.DD')}
+            </span>
           </div>
         </div>
 
@@ -58,9 +71,9 @@ export default function ReviewContent() {
 
       <div>
         {edit ? (
-          <ReviewWrite value={value} autoFocus={true} />
+          <ReviewWrite value={review.content} autoFocus={true} />
         ) : (
-          <span>{value}</span>
+          <span>{review.content}</span>
         )}
       </div>
     </ListGroup.Item>

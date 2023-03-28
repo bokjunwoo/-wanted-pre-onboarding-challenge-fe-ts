@@ -5,10 +5,14 @@ import TextareaAutosize from 'react-textarea-autosize';
 interface ReviewWriteProps {
   value?: string;
   autoFocus?: boolean;
-  minRows?: number
+  minRows?: number;
 }
 
-export default function ReviewWrite({ value, autoFocus, minRows }: ReviewWriteProps) {
+export default function ReviewWrite({
+  value,
+  autoFocus,
+  minRows,
+}: ReviewWriteProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -18,11 +22,10 @@ export default function ReviewWrite({ value, autoFocus, minRows }: ReviewWritePr
     }
   }, []);
 
-  const [text, setText] = useState<string | undefined>(value)
+  const [text, setText] = useState<string | undefined>(value);
   const onChangeText = useCallback((e: any) => {
-    setText(e.target.value)
-  }, [])
-  
+    setText(e.target.value);
+  }, []);
 
   return (
     <Form className="mt-4">
