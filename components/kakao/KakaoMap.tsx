@@ -10,9 +10,11 @@ declare global {
 interface KakaoMapSize {
   width: string;
   height: string;
+  mapy: string;
+  mapx: string;
 }
 
-export default function KakaoMap({ width, height }: KakaoMapSize) {
+export default function KakaoMap({ width, height, mapy, mapx }: KakaoMapSize) {
   const [kakaoLoaded, setKakaoLoaded] = useState(false);
 
   useEffect(() => {
@@ -37,7 +39,7 @@ export default function KakaoMap({ width, height }: KakaoMapSize) {
     if (kakaoLoaded) {
       const container = document.getElementById('map');
       const options = {
-        center: new window.kakao.maps.LatLng(37.541, 126.986),
+        center: new window.kakao.maps.LatLng(mapy, mapx),
         level: 7,
       };
 
@@ -47,7 +49,7 @@ export default function KakaoMap({ width, height }: KakaoMapSize) {
 
       new window.kakao.maps.Marker({
         map: map,
-        position: new window.kakao.maps.LatLng(37.541, 126.986),
+        position: new window.kakao.maps.LatLng(mapy, mapx),
       });
     }
   }, [kakaoLoaded]);

@@ -1,25 +1,37 @@
+import { Cursor } from '@/styles/styled';
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import styled from 'styled-components';
 
-export default function DetailImageCard() {
+interface IDetailImageCardProps {
+  image: string;
+  like: number;
+  star: string;
+  likeClickUser: string;
+}
+
+export default function DetailImageCard({
+  image,
+  like,
+  star,
+  likeClickUser,
+}: IDetailImageCardProps) {
   return (
-    <Card>
+    <Card style={{ height: '500px' }}>
       <Card.Img
         variant="top"
-        src="/images/main/card0.jpg"
-        height="350px"
+        src={image}
+        height="420px"
         className="fluid border"
       />
       <Card.Body className="d-flex justify-content-center align-items-center text-center pt-2 pb-2 fs-6">
         <div className="col-3">
-          <Cursor>❤️</Cursor>
-          <div>0</div>
+          <Cursor>{likeClickUser}</Cursor>
+          <div>{like}</div>
         </div>
 
         <div className="col-3">
           <Cursor>⭐</Cursor>
-          <div>0</div>
+          <div>{star}</div>
         </div>
 
         <div className="col-3">
@@ -35,12 +47,3 @@ export default function DetailImageCard() {
     </Card>
   );
 }
-
-export const Container = styled(Card)`
-  height: 450px;
-  overflow: auto;
-`;
-
-export const Cursor = styled.span`
-  cursor: pointer;
-`;
