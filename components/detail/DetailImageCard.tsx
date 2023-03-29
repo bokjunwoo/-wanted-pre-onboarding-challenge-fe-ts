@@ -19,7 +19,7 @@ export default function DetailImageCard({
     <Card style={{ height: '500px' }}>
       <Card.Img
         variant="top"
-        src={image}
+        src={image === '' ? '/images/defaultImage.png' : image}
         height="420px"
         className="fluid border"
       />
