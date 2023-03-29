@@ -5,14 +5,6 @@ import { useCallback, useState } from 'react';
 import { Title } from '@/components/submain/SubText';
 import DetailInformation from '@/components/detail/DetailInformation';
 import ReviewWrite from '@/components/detail/review/ReviewWrite';
-import { dehydrate, QueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
-import {
-  fetchDetail,
-  fetchKoreaAPI,
-  fetchReview,
-  fetchReviewLike,
-} from '@/pages/api/detail';
 import {
   useFetchDetail,
   useFetchKoreaAPI,
@@ -27,15 +19,15 @@ import {
 } from '@/utils/detailHelper';
 import { Cursor } from '@/styles/styled';
 import Head from 'next/head';
+import { DetailParamsType, IDetailParams } from './detail';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
 
-export default function DetailId() {
-  const router = useRouter();
-  const { region, id } = router.query as { region: string; id: string };
+export default function DetailId({ region, id }: IDetailParams) {
   const nickName = 'thals0';
 
   const { isLoading: detailLoading, data: detail } = useFetchDetail(region, id);
   const { isLoading: reviewLoading, data: review } = useFetchReview(id);
-  const { isLoading: reviewLoadingLike, data: reviewLike } =
+  const { isLoading: reviewLikeLoading, data: reviewLike } =
     useFetchRevieLike(id);
   const { isLoading: koreaAPILoading, data: koreaAPI } = useFetchKoreaAPI(id);
 
@@ -49,6 +41,10 @@ export default function DetailId() {
   const homepageUrl = getExtractUrl(koreaAPI?.homepage);
   const likeClickUser = getLikeClickUser(reviewLike, nickName);
 
+  if (detailLoading || reviewLoading || reviewLikeLoading || koreaAPILoading) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <>
       {detail && (
@@ -56,7 +52,7 @@ export default function DetailId() {
           <Head>
             <title>{`${detail.title} - 트립로그`}</title>
           </Head>
-          
+
           <Row xs={1} md={1} lg={2} className="mt-5">
             <Col>
               <DetailImageCard
@@ -109,28 +105,13 @@ export default function DetailId() {
   );
 }
 
-type DetailParamsType = {
-  params: {
-    region: string;
-    id: string;
-  };
-};
-
-export const getServerSideProps = async ({ params }: DetailParamsType) => {
+export const getServerSideProps = ({ params }: DetailParamsType) => {
   const { region, id } = params;
-
-  const queryClient = new QueryClient();
-
-  await Promise.all([
-    queryClient.fetchQuery(['fetchDetail'], () => fetchDetail(region, id)),
-    queryClient.fetchQuery(['fetchReview'], () => fetchReview(id)),
-    queryClient.fetchQuery(['fetchReviewLike'], () => fetchReviewLike(id)),
-    queryClient.fetchQuery(['fetchKoreaAPI'], () => fetchKoreaAPI(id)),
-  ]);
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      region,
+      id,
     },
   };
 };
