@@ -21,8 +21,18 @@ import { Cursor } from '@/styles/styled';
 import Head from 'next/head';
 import { DetailParamsType, IDetailParams } from './detail';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
+import { dehydrate, QueryClient } from '@tanstack/react-query';
+import {
+  fetchDetail,
+  fetchKoreaAPI,
+  fetchReview,
+  fetchReviewLike,
+} from '@/pages/api/detail';
+import { useRouter } from 'next/router';
 
-export default function DetailId({ region, id }: IDetailParams) {
+export default function DetailId() {
+  const router = useRouter();
+  const { region, id } = router.query as { region: string; id: string };
   const nickName = 'thals0';
 
   const { isLoading: detailLoading, data: detail } = useFetchDetail(region, id);
@@ -105,13 +115,21 @@ export default function DetailId({ region, id }: IDetailParams) {
   );
 }
 
-export const getServerSideProps = ({ params }: DetailParamsType) => {
+export const getServerSideProps = async ({ params }: DetailParamsType) => {
   const { region, id } = params;
+
+  const queryClient = new QueryClient();
+
+  await Promise.all([
+    queryClient.prefetchQuery(['fetchDetail'], () => fetchDetail(region, id)),
+    queryClient.prefetchQuery(['fetchReview'], () => fetchReview(id)),
+    queryClient.prefetchQuery(['fetchReviewLike'], () => fetchReviewLike(id)),
+    queryClient.prefetchQuery(['fetchKoreaAPI'], () => fetchKoreaAPI(id)),
+  ]);
 
   return {
     props: {
-      region,
-      id,
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };
