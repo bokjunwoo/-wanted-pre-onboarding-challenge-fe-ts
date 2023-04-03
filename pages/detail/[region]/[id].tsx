@@ -121,10 +121,10 @@ export const getServerSideProps = async ({ params }: DetailParamsType) => {
   const queryClient = new QueryClient();
 
   await Promise.all([
-    queryClient.prefetchQuery(['fetchDetail'], () => fetchDetail(region, id)),
-    queryClient.prefetchQuery(['fetchReview'], () => fetchReview(id)),
-    queryClient.prefetchQuery(['fetchReviewLike'], () => fetchReviewLike(id)),
-    queryClient.prefetchQuery(['fetchKoreaAPI'], () => fetchKoreaAPI(id)),
+    queryClient.fetchQuery(['fetchDetail'], () => fetchDetail(region, id)),
+    queryClient.fetchQuery(['fetchReview'], () => fetchReview(id)),
+    queryClient.fetchQuery(['fetchReviewLike'], () => fetchReviewLike(id)),
+    queryClient.fetchQuery(['fetchKoreaAPI'], () => fetchKoreaAPI(id)),
   ]);
 
   return {
