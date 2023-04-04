@@ -25,6 +25,18 @@ export const regionNames: RegionNames = {
   jeju: '제주',
 };
 
+type TypeNames = {
+  [key: string]: string;
+};
+
+export const typesNames: TypeNames = {
+  sightseeing: '관광',
+  culture: '문화',
+  food: '음식',
+  lodgment: '숙소',
+  shopping: '쇼핑',
+};
+
 export const iconData: IconData[] = [
   { id: 0, image: '/images/icons/seoul.png', region: 'seoul', name: '서울' },
   { id: 1, image: '/images/icons/busan.png', region: 'busan', name: '부산' },

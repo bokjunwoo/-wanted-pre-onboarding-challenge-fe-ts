@@ -6,7 +6,10 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 
-const host = 'http://3.35.13.65:4000';
+const host =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:4000'
+    : 'http://3.35.13.65:4000';
 
 const instance = axios.create({
   baseURL: host,
