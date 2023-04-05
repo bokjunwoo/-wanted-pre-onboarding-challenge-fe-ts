@@ -1,14 +1,32 @@
 import ListCard from '@/components/list/ListCard';
-import CommonNav from '@/components/common/CommonNav';
+import CommonNav from '@/components/list/ListNav';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { Row } from 'react-bootstrap';
 import React from 'react';
 import { regionNames, typesNames } from '@/data/region';
+import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
+import { fetchList } from '@/pages/api/list';
+import { useRouter } from 'next/router';
+import { GetStaticPropsContext } from 'next';
+import { useSearchParams } from 'next/navigation';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
 
 export default function Type() {
+  const searchParams = useSearchParams();
+  const page = searchParams.get('page');
+
   const router = useRouter();
-  const { region, type } = router.query as { region: string; type: string };
+  const { region, type } = router.query as {
+    region: string;
+    type: string;
+  };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['fetchList', region, type, page],
+    queryFn: () => fetchList(region, type, Number(router.query.page)),
+  });
+
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <>
@@ -16,13 +34,48 @@ export default function Type() {
         <title>{`${regionNames[region]} - ${typesNames[type]}`}</title>
       </Head>
 
-      <CommonNav type={type} margin="mt-5" />
+      <CommonNav region={region} type={type} margin="mt-5" />
 
       <Row xs={1} sm={2} md={2} lg={3} className="mt-2">
-        {Array.from({ length: 12 }).map((_, i) => {
-          return <ListCard key={i} />;
+        {data?.data.map((data) => {
+          return <ListCard key={data._id} data={data} region={region} />;
         })}
       </Row>
     </>
   );
 }
+
+export const getStaticPaths = async () => {
+  const regionKeys = Object.keys(regionNames);
+  const typeKeys = Object.keys(typesNames);
+  const paths: Array<{
+    params: { region: string; type: string; page: string };
+  }> = [];
+
+  regionKeys.forEach((region) => {
+    typeKeys.forEach((type) => {
+      paths.push({ params: { region, type, page: '1' } });
+    });
+  });
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps = async (context: GetStaticPropsContext) => {
+  const queryClient = new QueryClient();
+
+  const { region, type } = context.params as { region: string; type: string };
+
+  await queryClient.prefetchQuery(['fetchList', region, type], () =>
+    fetchList(region, type),
+  );
+
+  return {
+    props: {
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
+  };
+};
