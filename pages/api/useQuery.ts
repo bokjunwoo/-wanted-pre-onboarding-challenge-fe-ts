@@ -1,18 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
-import * as api from './detail';
+import { IReviewInfo } from './api';
+import * as apiDetail from './detail';
+import * as apiList from './list';
 
+// detail
 export const useFetchDetail = (region: string, id: string) => {
-  return useQuery(['fetchDetail'], () => api.fetchDetail(region, id));
+  return useQuery(['fetchDetail'], () => apiDetail.fetchDetail(region, id));
 };
 
 export const useFetchReview = (id: string) => {
-  return useQuery(['fetchReview'], () => api.fetchReview(id));
+  return useQuery(['fetchReview'], () => apiDetail.fetchReview(id));
 };
 
 export const useFetchRevieLike = (id: string) => {
-  return useQuery(['fetchReviewLike'], () => api.fetchReviewLike(id));
+  return useQuery(['fetchReviewLike'], () => apiDetail.fetchReviewLike(id));
 };
 
 export const useFetchKoreaAPI = (id: string) => {
-  return useQuery(['fetchKoreaAPI'], () => api.fetchKoreaAPI(id));
+  return useQuery(['fetchKoreaAPI'], () => apiDetail.fetchKoreaAPI(id));
 };

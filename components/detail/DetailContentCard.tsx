@@ -1,4 +1,4 @@
-import { IDetailInfo } from '@/pages/api/detail';
+import { IItemInfo } from '@/pages/api/api';
 import { Container } from '@/styles/styled';
 import React from 'react';
 import { Row, Card } from 'react-bootstrap';
@@ -8,7 +8,7 @@ export default function DetailContentCard({
   detail,
   homepageUrl,
 }: {
-  detail: IDetailInfo;
+  detail: IItemInfo;
   homepageUrl: string;
 }) {
   return (
@@ -16,7 +16,9 @@ export default function DetailContentCard({
       <Card.Body className="mt-1">
         <div className="d-flex justify-content-between align-items-top mb-2">
           <Card.Title className="fs-3 fw-bold">{detail.title}</Card.Title>
-          <Card.Text className="text-muted">조회수 : {detail.view + 1}</Card.Text>
+          <Card.Text className="text-muted">
+            조회수 : {detail.view + 1}
+          </Card.Text>
         </div>
 
         <Card.Subtitle className="mb-2 text-muted">

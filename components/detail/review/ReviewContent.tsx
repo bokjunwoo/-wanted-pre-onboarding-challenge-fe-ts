@@ -1,4 +1,4 @@
-import { IReviewInfo } from '@/pages/api/detail';
+import { IReviewInfo } from '@/pages/api/api';
 import React, { useCallback, useState } from 'react';
 import { ListGroup, Button } from 'react-bootstrap';
 import styled from 'styled-components';
