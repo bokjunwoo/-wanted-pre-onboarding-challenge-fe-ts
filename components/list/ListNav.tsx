@@ -3,28 +3,28 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Nav } from 'react-bootstrap';
 
 interface SubNavProps {
-  region?: string;
+  region: string;
   type?: string;
   margin?: string;
 }
 
-export default function CommonNav({ region, type, margin }: SubNavProps) {
-  const [activeKey, setActiveKey] = useState<string | undefined>(type);
-
-  useEffect(() => {
-    setActiveKey(type);
-  }, [type, region]);
-
+export default function ListNav({ region, type, margin }: SubNavProps) {
   const router = useRouter();
+
+  const [activeKey, setActiveKey] = useState<string | undefined>(type);
 
   const routerHandle = useCallback(
     (type: string | null) => {
       if (type !== undefined) {
-        router.push(`/list/${region}/${type}`);
+        router.push(`/list/${region}/${type}?page=1`);
       }
     },
     [router],
   );
+
+  useEffect(() => {
+    setActiveKey(type);
+  }, [type, region]);
 
   return (
     <Nav

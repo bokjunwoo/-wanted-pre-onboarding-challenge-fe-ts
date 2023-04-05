@@ -1,5 +1,5 @@
 import SubCard from '@/components/submain/SubCard';
-import CommonNav from '@/components/common/CommonNav';
+import ListNav from '@/components/list/ListNav';
 import SubText from '@/components/submain/SubText';
 import SubTitleImage from '@/components/submain/SubTitleImage';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
@@ -29,7 +29,7 @@ export default function Region({ region, stay, tour }: ISubmainParams) {
         subText="다양한 사람들인 남긴 리뷰를 보고 결정해요!"
       />
 
-      <CommonNav region={region} />
+      <ListNav region={region} />
 
       <div>
         <SubText
