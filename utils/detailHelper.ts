@@ -1,5 +1,3 @@
-import { IReviewInfo } from '@/pages/api/detail';
-
 export const getExtractUrl = (homepage: string | undefined) => {
   const urlRegex = /<a href="([^"]+)"/;
   const match = homepage?.match(urlRegex);
@@ -10,10 +8,14 @@ export const getExtractUrl = (homepage: string | undefined) => {
   return url;
 };
 
-export const getAverageStar = (review: IReviewInfo[] | undefined) => {
-  if (!review?.length) return '0';
-  const totalStar = review.reduce((acc, cur) => acc + cur.star, 0);
-  return (totalStar / review.length).toFixed(1);
+export interface IStarInfo {
+  star: number;
+}
+
+export const getAverageStar = (star: IStarInfo[] | undefined) => {
+  if (!star?.length) return '0';
+  const totalStar = star.reduce((acc, cur) => acc + cur.star, 0);
+  return (totalStar / star.length).toFixed(1);
 };
 
 export const getLikeClickUser = (
