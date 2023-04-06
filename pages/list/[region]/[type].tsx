@@ -50,6 +50,8 @@ export default function Type() {
         <title>{`${regionNames[region]} - ${typesNames[type]}`}</title>
       </Head>
 
+      <div className='fs-2 mt-5'>{`${regionNames[region]} | ${typesNames[type]}`}</div>
+
       <CommonNav region={region} type={type} margin="mt-5" />
 
       <Row xs={1} sm={2} md={2} lg={3} className="mt-2">

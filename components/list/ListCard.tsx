@@ -28,15 +28,12 @@ export default function ListCard({ data, region }: IListCardProps) {
           />
 
           <Card.Body className="p-2">
-            <Card.Text className="text-muted" style={{ float: 'right' }}>
-              조회수 {data.view}
-            </Card.Text>
-
             <Card.Title>{data.title}</Card.Title>
 
             <Card.Text className="text-muted mb-2">{data.addr1}</Card.Text>
 
             <Card.Text className="text-muted">
+              <span className="text-muted me-2">조회수 {data.view}</span>
               <span className="me-2">
                 ⭐️ {averageStar}({data.star.length})
               </span>
