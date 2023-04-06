@@ -36,3 +36,58 @@ export const LoadingPosition = styled.div`
   position: relative;
   z-index: 9999;
 `;
+
+export const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+
+  ul {
+    list-style: none;
+
+    li {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border: 1px solid #e2e2e2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1rem;
+      padding: 1rem;
+
+      &:first-child {
+        border-radius: 5px 0 0 5px;
+      }
+
+      &:last-child {
+        border-radius: 0 5px 5px 0;
+      }
+
+      a {
+        text-decoration: none;
+        color: #198754;
+        font-size: 1rem;
+
+        &:hover,
+        &.active {
+          color: black;
+        }
+      }
+
+      &.active {
+        background-color: #198754;
+
+        a {
+          color: white;
+        }
+      }
+    }
+  }
+
+  .page-selection {
+    width: 48px;
+    height: 30px;
+    color: #198754;
+  }
+`;
