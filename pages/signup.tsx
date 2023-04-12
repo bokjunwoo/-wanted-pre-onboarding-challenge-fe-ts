@@ -14,9 +14,15 @@ import useInput from '@/components/hooks/useInput';
 
 export default function signup() {
   const [email, onChangeEmail, emailResult] = useInput('', emailValidation);
-  const [password, onChangePassword, passwordResult] = useInput('', passwordValidation);
-  const [nickname, onChangeNickname, nicknameResult] = useInput('', nicknameValidation);
+  const [nickname, onChangeNickname, nicknameResult] = useInput(
+    '',
+    nicknameValidation,
+  );
 
+  const [password, onChangePassword, passwordResult] = useInput(
+    '',
+    passwordValidation,
+  );
   const [repassword, setRepassword] = useState<string>('');
   const [repasswordResult, setRepasswordResult] = useState<ValidationResult>({
     message: '',
@@ -41,7 +47,12 @@ export default function signup() {
           <div className="d-flex mb-5">
             <h4>TripLog</h4>
             <Link href="/login">
-              <Badge bg="secondary" text="light" className="ms-2 p-1" style={{ fontSize: '.3rem' }}>
+              <Badge
+                bg="secondary"
+                text="light"
+                className="ms-2 p-1"
+                style={{ fontSize: '.3rem' }}
+              >
                 이미 회원이라면?
               </Badge>
             </Link>
@@ -57,7 +68,11 @@ export default function signup() {
                 value={email}
                 onChange={onChangeEmail}
               />
-              <Form.Text className={`${emailResult.success ? 'text-success' : 'text-danger'} m-1`}>
+              <Form.Text
+                className={`${
+                  emailResult.success ? 'text-success' : 'text-danger'
+                } m-1`}
+              >
                 {emailResult.message}
               </Form.Text>
             </Form.Group>
@@ -72,7 +87,9 @@ export default function signup() {
                 onChange={onChangePassword}
               />
               <Form.Text
-                className={`${passwordResult.success ? 'text-success' : 'text-danger'} m-1`}
+                className={`${
+                  passwordResult.success ? 'text-success' : 'text-danger'
+                } m-1`}
               >
                 {passwordResult.message}
               </Form.Text>
@@ -88,7 +105,9 @@ export default function signup() {
                 onChange={onChangePasswordCheck}
               />
               <Form.Text
-                className={`${repasswordResult.success ? 'text-success' : 'text-danger'} m-1`}
+                className={`${
+                  repasswordResult.success ? 'text-success' : 'text-danger'
+                } m-1`}
               >
                 {repasswordResult.message}
               </Form.Text>
@@ -104,7 +123,9 @@ export default function signup() {
                 onChange={onChangeNickname}
               />
               <Form.Text
-                className={`${nicknameResult.success ? 'text-success' : 'text-danger'} m-1`}
+                className={`${
+                  nicknameResult.success ? 'text-success' : 'text-danger'
+                } m-1`}
               >
                 {nicknameResult.message}
               </Form.Text>

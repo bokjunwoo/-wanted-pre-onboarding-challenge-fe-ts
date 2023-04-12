@@ -1,7 +1,7 @@
 import { ValidationResult } from '@/utils/sign';
 import { useCallback, useState } from 'react';
 
-export default (initialValue: string, validation: (value: string) => ValidationResult) => {
+export default (initialValue: string, validation: (value: string) => Promise<ValidationResult>) => {
   const [value, setValue] = useState(initialValue);
 
   const [result, setResult] = useState<ValidationResult>({
@@ -10,9 +10,10 @@ export default (initialValue: string, validation: (value: string) => ValidationR
   });
 
   const onChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
       setValue(e.target.value);
-      setResult(validation(e.target.value));
+      const validationResult = await validation(e.target.value);
+      setResult(validationResult);
     },
     [validation],
   );
