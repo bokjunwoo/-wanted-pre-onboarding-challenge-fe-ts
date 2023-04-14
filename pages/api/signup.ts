@@ -17,3 +17,16 @@ export const nickNameIsDuplicate = async (nickName: string) => {
   });
   return response.data.nameCheck;
 };
+
+export const localRegister = async (
+  email: string,
+  password: string,
+  nickName: string,
+) => {
+  const response = await apiClient({
+    method: 'post',
+    url: '/user/register',
+    data: { type: 'local', nickName, email, password },
+  });
+  return response;
+};
