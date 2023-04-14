@@ -3,10 +3,11 @@ import styled from 'styled-components';
 
 interface LocalLoginProps {
   text: string;
+  onSubmitForm: () => void;
 }
 
-export default function LocalButton({ text }: LocalLoginProps) {
-  return <Btn>{text}</Btn>;
+export default function LocalButton({ text, onSubmitForm }: LocalLoginProps) {
+  return <Btn onClick={onSubmitForm}>{text}</Btn>;
 }
 
 const Btn = styled.a`

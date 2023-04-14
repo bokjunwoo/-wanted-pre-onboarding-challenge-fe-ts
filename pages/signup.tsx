@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import LocalButton from '@/components/common/LocalButton';
 import { Card, Badge, Col, Form } from 'react-bootstrap';
 import Head from 'next/head';
@@ -11,8 +11,14 @@ import {
   ValidationResult,
 } from '@/utils/sign';
 import useInput from '@/components/hooks/useInput';
+import { localRegister } from './api/signup';
 
 export default function signup() {
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const passwordInputRef = useRef<HTMLInputElement>(null);
+  const repasswordInputRef = useRef<HTMLInputElement>(null);
+  const nicknameInputRef = useRef<HTMLInputElement>(null);
+
   const [email, onChangeEmail, emailResult] = useInput('', emailValidation);
   const [nickname, onChangeNickname, nicknameResult] = useInput(
     '',
@@ -36,6 +42,36 @@ export default function signup() {
     [password],
   );
 
+  const onSubmitForm = useCallback(async () => {
+    if (emailResult.success === false) {
+      if (emailInputRef.current !== null) {
+        emailInputRef.current.focus();
+      }
+      return;
+    }
+    if (passwordResult.success === false) {
+      if (passwordInputRef.current !== null) {
+        passwordInputRef.current.focus();
+      }
+      return;
+    }
+    if (repasswordResult.success === false) {
+      if (repasswordInputRef.current !== null) {
+        repasswordInputRef.current.focus();
+      }
+      return;
+    }
+    if (nicknameResult.success === false) {
+      if (nicknameInputRef.current !== null) {
+        nicknameInputRef.current.focus();
+      }
+      return;
+    }
+
+    const response = await localRegister(email, password, nickname)
+    console.log(response.data.msg)
+  }, [emailResult, passwordResult, repasswordResult, nicknameResult]);
+
   return (
     <>
       <Head>
@@ -58,13 +94,14 @@ export default function signup() {
             </Link>
           </div>
 
-          <Form>
+          <Form onSubmit={onSubmitForm}>
             <Form.Group controlId="email">
               <Form.Label>아이디</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="아이디를 입력해주세요"
                 className="p-3"
+                ref={emailInputRef}
                 value={email}
                 onChange={onChangeEmail}
               />
@@ -83,6 +120,7 @@ export default function signup() {
                 type="password"
                 placeholder="비밀번호를 입력해주세요"
                 className="p-3"
+                ref={passwordInputRef}
                 value={password}
                 onChange={onChangePassword}
               />
@@ -101,6 +139,7 @@ export default function signup() {
                 type="password"
                 placeholder="비밀번호를 입력해주세요"
                 className="p-3"
+                ref={repasswordInputRef}
                 value={repassword}
                 onChange={onChangePasswordCheck}
               />
@@ -119,6 +158,7 @@ export default function signup() {
                 type="text"
                 placeholder="닉네임을 입력해주세요"
                 className="p-3"
+                ref={nicknameInputRef}
                 value={nickname}
                 onChange={onChangeNickname}
               />
@@ -130,7 +170,7 @@ export default function signup() {
                 {nicknameResult.message}
               </Form.Text>
 
-              <LocalButton text="가입하기" />
+              <LocalButton text="가입하기" onSubmitForm={onSubmitForm} />
             </Form.Group>
           </Form>
         </Card>
