@@ -9,11 +9,11 @@ export const idIsDuplicate = async (email: string) => {
   return response.data.idCheck;
 };
 
-export const nickNameIsDuplicate = async (nickName: string) => {
+export const nickNameIsDuplicate = async (nickname: string) => {
   const response = await apiClient({
     method: 'post',
     url: '/user/register/namecheck',
-    data: { nickName },
+    data: { nickname },
   });
   return response.data.nameCheck;
 };
@@ -21,12 +21,12 @@ export const nickNameIsDuplicate = async (nickName: string) => {
 export const localRegister = async (
   email: string,
   password: string,
-  nickName: string,
+  nickname: string,
 ) => {
   const response = await apiClient({
     method: 'post',
     url: '/user/register',
-    data: { type: 'local', nickName, email, password },
+    data: { type: 'local', nickname, email, password },
   });
   return response;
 };
