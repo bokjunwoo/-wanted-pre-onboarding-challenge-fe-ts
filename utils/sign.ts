@@ -1,5 +1,5 @@
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from '@/constants/message';
-import { idIsDuplicate, nickNameIsDuplicate } from '@/pages/api/signup';
+import { idIsDuplicate, nickNameIsDuplicate } from '@/pages/api/sign';
 
 export type ValidationResult = {
   message: string;

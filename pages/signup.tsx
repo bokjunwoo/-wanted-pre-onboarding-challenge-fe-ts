@@ -11,7 +11,7 @@ import {
   ValidationResult,
 } from '@/utils/sign';
 import useInput from '@/components/hooks/useInput';
-import { localRegister } from './api/signup';
+import { localRegister } from './api/sign';
 import SignupSuccess from '@/components/modal/SignupSuccess';
 import { ISignupResult } from './api/api';
 
