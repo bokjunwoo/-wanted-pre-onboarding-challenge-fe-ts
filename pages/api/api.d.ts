@@ -1,3 +1,5 @@
+import exp from 'constants';
+
 export interface IItemInfo {
   _id: string;
   contentid: string;
@@ -39,4 +41,10 @@ export interface IReviewInfo {
 export interface IKoreaAPI {
   homepage: string;
   overview: string;
+}
+
+export interface ISignupResult {
+  status: number;
+  message: string;
+  duplicated: boolean;
 }

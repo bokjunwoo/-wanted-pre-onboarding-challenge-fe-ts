@@ -12,12 +12,21 @@ import {
 } from '@/utils/sign';
 import useInput from '@/components/hooks/useInput';
 import { localRegister } from './api/signup';
+import SignupSuccess from '@/components/modal/SignupSuccess';
+import { ISignupResult } from './api/api';
 
 export default function signup() {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const repasswordInputRef = useRef<HTMLInputElement>(null);
   const nicknameInputRef = useRef<HTMLInputElement>(null);
+
+  const [show, setShow] = useState(false);
+  const [signupResult, setSignupResult] = useState<ISignupResult>({
+    status: 0,
+    message: '',
+    duplicated: false,
+  });
 
   const [email, onChangeEmail, emailResult] = useInput('', emailValidation);
   const [nickname, onChangeNickname, nicknameResult] = useInput(
@@ -68,8 +77,15 @@ export default function signup() {
       return;
     }
 
-    const response = await localRegister(email, password, nickname)
-    console.log(response.data.msg)
+    const response = await localRegister(email, password, nickname);
+    const { data } = response;
+    const result = {
+      status: data.status,
+      message: data.message,
+      duplicated: data.duplicated,
+    };
+    setSignupResult(result);
+    setShow(true);
   }, [emailResult, passwordResult, repasswordResult, nicknameResult]);
 
   return (
@@ -175,6 +191,8 @@ export default function signup() {
           </Form>
         </Card>
       </Col>
+
+      <SignupSuccess show={show} setShow={setShow} result={signupResult} />
     </>
   );
 }
