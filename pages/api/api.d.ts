@@ -43,8 +43,8 @@ export interface IKoreaAPI {
   overview: string;
 }
 
-export interface ISignupResult {
-  status: number;
+export interface ISignResult {
+  type: 'signup' | 'login'
+  success: boolean;
   message: string;
-  duplicated: boolean;
 }
