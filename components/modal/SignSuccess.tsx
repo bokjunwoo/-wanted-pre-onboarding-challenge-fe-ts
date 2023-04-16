@@ -1,3 +1,4 @@
+import { ISignResult } from '@/pages/api/api';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
@@ -5,23 +6,18 @@ import { Button, Modal } from 'react-bootstrap';
 interface ISignupSuccess {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
-  result: {
-    status: number;
-    message: string;
-    duplicated: boolean;
-  };
+  result: ISignResult;
 }
 
-export default function SignSuccess({
-  show,
-  setShow,
-  result,
-}: ISignupSuccess) {
+export default function SignSuccess({ show, setShow, result }: ISignupSuccess) {
   const router = useRouter();
 
   const handleClose = () => {
     setShow(false);
-    result.status === 201 && router.push('/');
+    if (result.success) {
+      result.success === true && router.push('/');
+      result.success === true && router.push('/login');
+    }
   };
 
   return (

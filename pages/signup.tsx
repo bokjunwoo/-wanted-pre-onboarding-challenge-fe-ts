@@ -13,7 +13,7 @@ import {
 import useInput from '@/components/hooks/useInput';
 import { localRegister } from './api/sign';
 import SignSuccess from '@/components/modal/SignSuccess';
-import { ISignupResult } from './api/api';
+import { ISignResult } from './api/api';
 
 export default function signup() {
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -22,10 +22,10 @@ export default function signup() {
   const nicknameInputRef = useRef<HTMLInputElement>(null);
 
   const [show, setShow] = useState(false);
-  const [signupResult, setSignupResult] = useState<ISignupResult>({
-    status: 0,
+  const [signupResult, setSignupResult] = useState<ISignResult>({
+    type: 'signup',
+    success: false,
     message: '',
-    duplicated: false,
   });
 
   const [email, onChangeEmail, emailResult] = useInput('', emailValidation);
@@ -79,10 +79,10 @@ export default function signup() {
 
     const response = await localRegister(email, password, nickname);
     const { data } = response;
-    const result = {
-      status: data.status,
+    const result: ISignResult = {
+      type: data.type,
+      success: data.success,
       message: data.message,
-      duplicated: data.duplicated,
     };
     setSignupResult(result);
     setShow(true);
