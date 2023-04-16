@@ -26,7 +26,16 @@ export const localRegister = async (
   const response = await apiClient({
     method: 'post',
     url: '/user/register',
-    data: { type: 'local', nickname, email, password },
+    data: { type: 'local', email, password, nickname },
+  });
+  return response;
+};
+
+export const localLogin = async (email: string, password: string) => {
+  const response = await apiClient({
+    method: 'post',
+    url: '/user/login',
+    data: { email, password },
   });
   return response;
 };
