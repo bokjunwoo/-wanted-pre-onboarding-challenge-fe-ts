@@ -12,7 +12,7 @@ import {
 } from '@/utils/sign';
 import useInput from '@/components/hooks/useInput';
 import { localRegister } from './api/sign';
-import SignupSuccess from '@/components/modal/SignupSuccess';
+import SignSuccess from '@/components/modal/SignSuccess';
 import { ISignupResult } from './api/api';
 
 export default function signup() {
@@ -192,7 +192,7 @@ export default function signup() {
         </Card>
       </Col>
 
-      <SignupSuccess show={show} setShow={setShow} result={signupResult} />
+      <SignSuccess show={show} setShow={setShow} result={signupResult} />
     </>
   );
 }

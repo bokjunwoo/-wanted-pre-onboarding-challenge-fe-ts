@@ -12,7 +12,7 @@ interface ISignupSuccess {
   };
 }
 
-export default function SignupSuccess({
+export default function SignSuccess({
   show,
   setShow,
   result,
