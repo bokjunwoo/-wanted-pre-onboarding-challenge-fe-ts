@@ -5,7 +5,7 @@ import useInput from '../hooks/useInput';
 import PlanList from './PlanList';
 
 export default function PlanListCard() {
-  const searchHelper = (search: string) => {
+  const searchHelper = async (search: string) => {
     if(search.length === 0) return {message: '검색어를 입력해주세요', success: false}
     return {message: '', success: true}
   }
