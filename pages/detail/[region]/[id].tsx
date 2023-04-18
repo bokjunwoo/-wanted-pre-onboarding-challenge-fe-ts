@@ -5,12 +5,6 @@ import { useCallback, useState } from 'react';
 import { Title } from '@/components/submain/SubText';
 import DetailInformation from '@/components/detail/DetailInformation';
 import ReviewWrite from '@/components/detail/review/ReviewWrite';
-import {
-  useFetchDetail,
-  useFetchKoreaAPI,
-  useFetchReview,
-  useFetchRevieLike,
-} from '@/pages/api/useQuery';
 import ReviewContent from '@/components/detail/review/ReviewContent';
 import {
   getExtractUrl,
@@ -19,9 +13,8 @@ import {
 } from '@/utils/detailHelper';
 import { Cursor } from '@/styles/styled';
 import Head from 'next/head';
-import { DetailParamsType, IDetailParams } from './detail';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
-import { dehydrate, QueryClient } from '@tanstack/react-query';
+import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import {
   fetchDetail,
   fetchKoreaAPI,
@@ -29,17 +22,29 @@ import {
   fetchReviewLike,
 } from '@/pages/api/detail';
 import { useRouter } from 'next/router';
+import { GetStaticPropsContext } from 'next';
 
 export default function DetailId() {
   const router = useRouter();
   const { region, id } = router.query as { region: string; id: string };
   const nickName = 'thals0';
 
-  const { isLoading: detailLoading, data: detail } = useFetchDetail(region, id);
-  const { isLoading: reviewLoading, data: review } = useFetchReview(id);
-  const { isLoading: reviewLikeLoading, data: reviewLike } =
-    useFetchRevieLike(id);
-  const { isLoading: koreaAPILoading, data: koreaAPI } = useFetchKoreaAPI(id);
+  const { data: detail, isLoading: detailLoading } = useQuery({
+    queryKey: ['fetchDetail', region, id],
+    queryFn: () => fetchDetail(region, id),
+  });
+  const { data: review, isLoading: reviewLoading } = useQuery({
+    queryKey: ['fetchReview', id],
+    queryFn: () => fetchReview(id),
+  });
+  const { data: reviewLike, isLoading: reviewLikeLoading } = useQuery({
+    queryKey: ['fetchReviewLike', id],
+    queryFn: () => fetchReviewLike(id),
+  });
+  const { data: koreaAPI, isLoading: koreaAPILoading } = useQuery({
+    queryKey: ['fetchKoreaAPI', id],
+    queryFn: () => fetchKoreaAPI(id),
+  });
 
   const [moreInformation, setMoreInformation] = useState(false);
 
@@ -115,21 +120,32 @@ export default function DetailId() {
   );
 }
 
-export const getServerSideProps = async ({ params }: DetailParamsType) => {
-  const { region, id } = params;
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true,
+  };
+};
 
+export const getStaticProps = async (context: GetStaticPropsContext) => {
   const queryClient = new QueryClient();
 
-  await Promise.all([
-    queryClient.fetchQuery(['fetchDetail'], () => fetchDetail(region, id)),
-    queryClient.fetchQuery(['fetchReview'], () => fetchReview(id)),
-    queryClient.fetchQuery(['fetchReviewLike'], () => fetchReviewLike(id)),
-    queryClient.fetchQuery(['fetchKoreaAPI'], () => fetchKoreaAPI(id)),
-  ]);
+  const { region, id } = context.params as { region: string; id: string };
+
+  await queryClient.prefetchQuery(['fetchDetail', region, id], () =>
+    fetchDetail(region, id),
+  );
+  await queryClient.prefetchQuery(['fetchReview', id], () => fetchReview(id));
+  await queryClient.prefetchQuery(['fetchReviewLike', id], () =>
+    fetchReviewLike(id),
+  );
+  await queryClient.prefetchQuery(['fetchKoreaAPI', id], () =>
+    fetchKoreaAPI(id),
+  );
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   };
 };
