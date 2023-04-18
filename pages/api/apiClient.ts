@@ -9,7 +9,7 @@ import axios, {
 const host =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:4000'
-    : 'http://52.79.180.162:4000';
+    : 'https://api.triplog.shop';
 
 const instance = axios.create({
   baseURL: host,
