@@ -5,11 +5,11 @@ interface KakaoLoginProps {
   text: string;
 }
 
-export default function KakaoLogin({ text }: KakaoLoginProps) {
+export default function KakaoLoginButton({ text }: KakaoLoginProps) {
   return <Btn>{text}</Btn>;
 }
 
-const Btn = styled.a`
+const Btn = styled.div`
   display: block;
   width: inherit;
   height: 58px;
