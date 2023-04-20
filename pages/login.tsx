@@ -1,6 +1,6 @@
 import LocalButton from '@/components/common/LocalButton';
 import useInput from '@/components/hooks/useInput';
-import KakaoLogin from '@/components/kakao/KakaoLogin';
+import KakaoLoginButton from '@/components/kakao/KakaoLoginButton';
 import { emailValidation, passwordValidation } from '@/utils/sign';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -24,7 +24,7 @@ export default function login() {
   });
   const [show, setShow] = useState(false);
 
-  const onSubmitForm = useCallback(async () => {
+  const onSubmitFormLocal = useCallback(async () => {
     if (email === '') {
       emailInputRef.current?.focus();
       return;
@@ -68,7 +68,7 @@ export default function login() {
             </Link>
           </div>
 
-          <Form onSubmit={onSubmitForm}>
+          <Form onSubmit={onSubmitFormLocal}>
             <Form.Group controlId="email">
               <Form.Label>아이디</Form.Label>
               <Form.Control
@@ -102,16 +102,12 @@ export default function login() {
             {loginResult.success === false ? (
               <div className="text-danger">{loginResult.message}</div>
             ) : (
-              <SignSuccess
-                show={show}
-                setShow={setShow}
-                result={loginResult}
-              />
+              <SignSuccess show={show} setShow={setShow} result={loginResult} />
             )}
 
-            <LocalButton text="로그인" onSubmitForm={onSubmitForm} />
+            <LocalButton text="로그인" onSubmitForm={onSubmitFormLocal} />
 
-            <KakaoLogin text="카카오 로그인" />
+            <KakaoLoginButton text="카카오 로그인" />
           </Form>
         </Card>
       </Col>
