@@ -34,8 +34,17 @@ export const localRegister = async (
 export const localLogin = async (email: string, password: string) => {
   const response = await apiClient({
     method: 'post',
-    url: '/user/login',
+    url: '/user/local',
     data: { email, password },
+  });
+  return response;
+};
+
+export const kakaoLogin = async (id: number) => {
+  const response = await apiClient({
+    method: 'post',
+    url: '/user/kakao',
+    data: { id },
   });
   return response;
 };
