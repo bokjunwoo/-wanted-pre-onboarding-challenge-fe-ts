@@ -44,7 +44,23 @@ export interface IKoreaAPI {
 }
 
 export interface ISignResult {
-  type: 'signup' | 'login'
+  type: 'signup' | 'login';
   success: boolean;
   message: string;
+}
+
+export type TokenType = {
+  access_token: string;
+};
+
+export interface IKakaoLoginSuccess {
+  id: number;
+  connected_at: string;
+  kakao_account: {
+    email?: string;
+    email_needs_agreement: boolean;
+    has_email: boolean;
+    is_email_valid?: boolean;
+    is_email_verified?: boolean;
+  };
 }
