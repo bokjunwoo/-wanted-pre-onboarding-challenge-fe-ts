@@ -9,8 +9,9 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useState } from 'react';
+import Head from 'next/head';
 
 config.autoAddCss = false;
 
@@ -21,6 +22,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <Hydrate state={pageProps.dehydratedState}>
+        <Head>
+          <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+        </Head>
         <AppLayout>
           <Component {...pageProps} />
         </AppLayout>
