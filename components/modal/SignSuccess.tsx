@@ -1,4 +1,4 @@
-import { ISignResult } from '@/pages/api/api';
+import { ISignupResult, ILoginResult } from '@/pages/api/api';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
@@ -6,7 +6,7 @@ import { Button, Modal } from 'react-bootstrap';
 interface ISignupSuccess {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
-  result: ISignResult;
+  result: ISignupResult | ILoginResult;
 }
 
 export default function SignSuccess({ show, setShow, result }: ISignupSuccess) {

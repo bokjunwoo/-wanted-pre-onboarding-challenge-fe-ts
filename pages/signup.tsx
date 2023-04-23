@@ -13,7 +13,7 @@ import {
 import useInput from '@/components/hooks/useInput';
 import { localRegister } from './api/sign';
 import SignSuccess from '@/components/modal/SignSuccess';
-import { ISignResult } from './api/api';
+import { ISignupResult } from './api/api';
 
 export default function signup() {
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -22,7 +22,7 @@ export default function signup() {
   const nicknameInputRef = useRef<HTMLInputElement>(null);
 
   const [show, setShow] = useState(false);
-  const [signupResult, setSignupResult] = useState<ISignResult>({
+  const [signupResult, setSignupResult] = useState<ISignupResult>({
     type: 'signup',
     success: false,
     message: '',
@@ -79,7 +79,7 @@ export default function signup() {
 
     const response = await localRegister(email, password, nickname);
     const { data } = response;
-    const result: ISignResult = {
+    const result: ISignupResult = {
       type: data.type,
       success: data.success,
       message: data.message,

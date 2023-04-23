@@ -43,10 +43,17 @@ export interface IKoreaAPI {
   overview: string;
 }
 
-export interface ISignResult {
-  type: 'signup' | 'login';
+export interface ISignupResult {
+  type: 'signup';
   success: boolean;
   message: string;
+}
+
+export interface ILoginResult {
+  type: 'login';
+  success: boolean;
+  message: string;
+  nickname: string
 }
 
 export interface IKakaoLoginSuccess {

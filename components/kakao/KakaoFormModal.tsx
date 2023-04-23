@@ -4,7 +4,7 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import useInput from '../hooks/useInput';
 import { kakaoRegister } from '@/pages/api/sign';
 import SignSuccess from '../modal/SignSuccess';
-import { ISignResult } from '@/pages/api/api';
+import { ILoginResult } from '@/pages/api/api';
 
 interface IKakaoFormModal {
   show: boolean;
@@ -19,10 +19,11 @@ export default function KakaoFormModal({ show, setShow, id }: IKakaoFormModal) {
     nicknameValidation,
   );
   const [successShow, setSuccessShow] = useState(false);
-  const [result, setResult] = useState<ISignResult>({
+  const [result, setResult] = useState<ILoginResult>({
     type: 'login',
     success: false,
     message: '',
+    nickname: '',
   });
 
   const onSubmitForm = async () => {
@@ -35,10 +36,11 @@ export default function KakaoFormModal({ show, setShow, id }: IKakaoFormModal) {
 
     const response = await kakaoRegister(id, nickname);
     const { data } = response;
-    const result: ISignResult = {
+    const result: ILoginResult = {
       type: data.type,
       success: data.success,
       message: data.message,
+      nickname: data.nickname,
     };
     setResult(result);
     setShow(false);

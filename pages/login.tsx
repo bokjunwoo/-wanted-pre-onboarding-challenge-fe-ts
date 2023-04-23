@@ -7,7 +7,7 @@ import Link from 'next/link';
 import React, { useCallback, useRef, useState } from 'react';
 import { Card, Badge, Col, Form } from 'react-bootstrap';
 import styled from 'styled-components';
-import { ISignResult } from './api/api';
+import { ILoginResult } from './api/api';
 import { localLogin } from './api/sign';
 import SignSuccess from '@/components/modal/SignSuccess';
 
@@ -17,10 +17,11 @@ export default function login() {
 
   const [email, onChangeEmail] = useInput('', emailValidation);
   const [password, onChangePassword] = useInput('', passwordValidation);
-  const [loginResult, setLoginResult] = useState<ISignResult>({
+  const [loginResult, setLoginResult] = useState<ILoginResult>({
     type: 'login',
     success: false,
     message: '',
+    nickname: '',
   });
   const [show, setShow] = useState(false);
 
@@ -37,10 +38,11 @@ export default function login() {
 
     const response = await localLogin(email, password);
     const { data } = response;
-    const result: ISignResult = {
+    const result: ILoginResult = {
       type: data.type,
       success: data.success,
       message: data.message,
+      nickname: data.nickname,
     };
     setLoginResult(result);
     setShow(true);

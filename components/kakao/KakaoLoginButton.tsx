@@ -1,4 +1,4 @@
-import { IKakaoLoginSuccess, ISignResult } from '@/pages/api/api';
+import { IKakaoLoginSuccess, ISignupResult } from '@/pages/api/api';
 import { kakaoLogin } from '@/pages/api/sign';
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -12,7 +12,7 @@ interface KakaoLoginProps {
 export default function KakaoLoginButton({ text }: KakaoLoginProps) {
   const [show, setShow] = useState(false);
   const [kakaoId, setKakaoId] = useState(0);
-  const [result, setResult] = useState<ISignResult>({
+  const [result, setResult] = useState<ISignupResult>({
     type: 'signup',
     success: false,
     message: '',
@@ -36,7 +36,7 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
           success: async (res: IKakaoLoginSuccess) => {
             const response = await kakaoLogin(res.id);
             const { data } = response;
-            const result: ISignResult = {
+            const result: ISignupResult = {
               type: data.type,
               success: data.success,
               message: data.message,
@@ -46,7 +46,7 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
             setKakaoId(res.id);
           },
           fail: () => {
-            const result: ISignResult = {
+            const result: ISignupResult = {
               type: 'signup',
               success: false,
               message: '카카오 회원가입 도중에 문제가 발생했습니다.',
@@ -57,8 +57,8 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
         });
       },
       fail: () => {
-        const result: ISignResult = {
-          type: 'login',
+        const result: ISignupResult = {
+          type: 'signup',
           success: false,
           message: '카카오 로그인 도중에 문제가 발생했습니다.',
         };
