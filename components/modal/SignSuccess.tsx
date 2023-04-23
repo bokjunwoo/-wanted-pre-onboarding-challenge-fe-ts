@@ -15,8 +15,8 @@ export default function SignSuccess({ show, setShow, result }: ISignupSuccess) {
   const handleClose = () => {
     setShow(false);
     if (result.success) {
-      result.success === true && router.push('/');
-      result.success === true && router.push('/login');
+      result.type === 'login' && router.push('/');
+      result.type === 'signup' && router.push('/login');
     }
   };
 
