@@ -49,10 +49,6 @@ export interface ISignResult {
   message: string;
 }
 
-export type TokenType = {
-  access_token: string;
-};
-
 export interface IKakaoLoginSuccess {
   id: number;
   connected_at: string;

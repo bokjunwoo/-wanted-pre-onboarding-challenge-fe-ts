@@ -2,13 +2,21 @@ import { IKakaoLoginSuccess, ISignResult } from '@/pages/api/api';
 import { kakaoLogin } from '@/pages/api/sign';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import KakaoFormModal from './KakaoFormModal';
+import SignSuccess from '../modal/SignSuccess';
 
 interface KakaoLoginProps {
   text: string;
 }
 
 export default function KakaoLoginButton({ text }: KakaoLoginProps) {
-  const [result, setResult] = useState({});
+  const [show, setShow] = useState(false);
+  const [kakaoId, setKakaoId] = useState(0);
+  const [result, setResult] = useState<ISignResult>({
+    type: 'signup',
+    success: false,
+    message: '',
+  });
   const kakaoInit = () => {
     const kakao = (window as any).Kakao;
     if (!kakao.isInitialized()) {
@@ -26,7 +34,6 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
         kakao.API.request({
           url: '/v2/user/me',
           success: async (res: IKakaoLoginSuccess) => {
-            console.log('성공', res);
             const response = await kakaoLogin(res.id);
             const { data } = response;
             const result: ISignResult = {
@@ -35,14 +42,31 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
               message: data.message,
             };
             setResult(result);
+            setShow(result.success);
+            setKakaoId(res.id);
           },
-          fail: () => {},
+          fail: () => {
+            const result: ISignResult = {
+              type: 'signup',
+              success: false,
+              message: '카카오 회원가입 도중에 문제가 발생했습니다.',
+            };
+            setResult(result);
+            setShow(true);
+          },
         });
       },
-      fail: () => {},
+      fail: () => {
+        const result: ISignResult = {
+          type: 'login',
+          success: false,
+          message: '카카오 로그인 도중에 문제가 발생했습니다.',
+        };
+        setResult(result);
+        setShow(true);
+      },
     });
   };
-  console.log(result);
 
   const KakaoLogout = () => {
     const kakao = kakaoInit();
@@ -65,6 +89,17 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
     <>
       <Btn onClick={KakaoLoginButton}>{text}</Btn>
       <Btn onClick={KakaoLogout}>{text}아웃</Btn>
+
+      {result.success && (
+        <>
+          {result.message === '회원가입이 완료되었습니다.' && (
+            <KakaoFormModal show={show} setShow={setShow} id={kakaoId} />
+          )}
+          {result.message === '카카오 로그인이 성공했습니다.' && (
+            <SignSuccess show={show} setShow={setShow} result={result} />
+          )}
+        </>
+      )}
     </>
   );
 }
