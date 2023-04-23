@@ -25,8 +25,17 @@ export const localRegister = async (
 ) => {
   const response = await apiClient({
     method: 'post',
-    url: '/user/register',
+    url: '/user/localregister',
     data: { type: 'local', email, password, nickname },
+  });
+  return response;
+};
+
+export const kakaoRegister = async (id: number, nickname: string) => {
+  const response = await apiClient({
+    method: 'post',
+    url: '/user/kakaoregister',
+    data: { type: 'kakao', id, nickname },
   });
   return response;
 };
