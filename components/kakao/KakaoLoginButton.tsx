@@ -1,4 +1,8 @@
-import { IKakaoLoginSuccess, ISignupResult } from '@/pages/api/api';
+import {
+  IKakaoLoginSuccess,
+  ILoginResult,
+  ISignupResult,
+} from '@/pages/api/api';
 import { kakaoLogin } from '@/pages/api/sign';
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -12,11 +16,13 @@ interface KakaoLoginProps {
 export default function KakaoLoginButton({ text }: KakaoLoginProps) {
   const [show, setShow] = useState(false);
   const [kakaoId, setKakaoId] = useState(0);
-  const [result, setResult] = useState<ISignupResult>({
+  const [result, setResult] = useState<ISignupResult | ILoginResult>({
     type: 'signup',
     success: false,
     message: '',
   });
+
+  console.log(result);
   const kakaoInit = () => {
     const kakao = (window as any).Kakao;
     if (!kakao.isInitialized()) {
@@ -57,10 +63,11 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
         });
       },
       fail: () => {
-        const result: ISignupResult = {
-          type: 'signup',
+        const result: ILoginResult = {
+          type: 'login',
           success: false,
           message: '카카오 로그인 도중에 문제가 발생했습니다.',
+          nickname: '',
         };
         setResult(result);
         setShow(true);
@@ -92,10 +99,10 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
 
       {result.success && (
         <>
-          {result.message === '회원가입이 완료되었습니다.' && (
+          {result.type === 'signup' && (
             <KakaoFormModal show={show} setShow={setShow} id={kakaoId} />
           )}
-          {result.message === '카카오 로그인이 성공했습니다.' && (
+          {result.type === 'login' && (
             <SignSuccess show={show} setShow={setShow} result={result} />
           )}
         </>
