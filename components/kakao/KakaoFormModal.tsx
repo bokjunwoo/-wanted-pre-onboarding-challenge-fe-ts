@@ -5,6 +5,8 @@ import useInput from '../hooks/useInput';
 import { kakaoRegister } from '@/pages/api/sign';
 import SignSuccess from '../modal/SignSuccess';
 import { ILoginResult } from '@/pages/api/api';
+import { useSetRecoilState } from 'recoil';
+import { userNicknameState } from '@/atoms/userNicknameState';
 
 interface IKakaoFormModal {
   show: boolean;
@@ -13,6 +15,8 @@ interface IKakaoFormModal {
 }
 
 export default function KakaoFormModal({ show, setShow, id }: IKakaoFormModal) {
+  const setUserNickname = useSetRecoilState(userNicknameState);
+
   const nicknameInputRef = useRef<HTMLInputElement>(null);
   const [nickname, onChangeNickname, nicknameResult] = useInput(
     '',
@@ -43,6 +47,7 @@ export default function KakaoFormModal({ show, setShow, id }: IKakaoFormModal) {
       nickname: data.nickname,
     };
     setResult(result);
+    setUserNickname(result.nickname);
     setShow(false);
     setSuccessShow(result.success);
   };

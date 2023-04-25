@@ -8,12 +8,16 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import KakaoFormModal from './KakaoFormModal';
 import SignSuccess from '../modal/SignSuccess';
+import { userNicknameState } from '@/atoms/userNicknameState';
+import { useSetRecoilState } from 'recoil';
 
 interface KakaoLoginProps {
   text: string;
 }
 
 export default function KakaoLoginButton({ text }: KakaoLoginProps) {
+  const setUserNickname = useSetRecoilState(userNicknameState);
+
   const [show, setShow] = useState(false);
   const [kakaoId, setKakaoId] = useState(0);
   const [result, setResult] = useState<ISignupResult | ILoginResult>({
@@ -22,7 +26,6 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
     message: '',
   });
 
-  console.log(result);
   const kakaoInit = () => {
     const kakao = (window as any).Kakao;
     if (!kakao.isInitialized()) {
@@ -42,14 +45,23 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
           success: async (res: IKakaoLoginSuccess) => {
             const response = await kakaoLogin(res.id);
             const { data } = response;
-            const result: ISignupResult = {
+            const result: ISignupResult | ILoginResult = {
               type: data.type,
               success: data.success,
               message: data.message,
+              nickname: data.nickname,
             };
-            setResult(result);
-            setShow(result.success);
-            setKakaoId(res.id);
+            if (result.type === 'login') {
+              const loginResult = result as ILoginResult;
+              setResult(loginResult);
+              setShow(loginResult.success);
+              setUserNickname(loginResult.nickname);
+            } else {
+              const signupResult = result as ISignupResult;
+              setResult(signupResult);
+              setShow(signupResult.success);
+              setKakaoId(res.id);
+            }
           },
           fail: () => {
             const result: ISignupResult = {
@@ -95,7 +107,6 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
   return (
     <>
       <Btn onClick={KakaoLoginButton}>{text}</Btn>
-      <Btn onClick={KakaoLogout}>{text}아웃</Btn>
 
       {result.success && (
         <>

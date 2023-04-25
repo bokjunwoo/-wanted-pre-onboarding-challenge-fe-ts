@@ -10,8 +10,12 @@ import styled from 'styled-components';
 import { ILoginResult } from './api/api';
 import { localLogin } from './api/sign';
 import SignSuccess from '@/components/modal/SignSuccess';
+import { userNicknameState } from '@/atoms/userNicknameState';
+import { useSetRecoilState } from 'recoil';
 
 export default function login() {
+  const setUserNickname = useSetRecoilState(userNicknameState);
+  
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
@@ -45,6 +49,7 @@ export default function login() {
       nickname: data.nickname,
     };
     setLoginResult(result);
+    setUserNickname(result.nickname)
     setShow(true);
   }, [email, password]);
 
