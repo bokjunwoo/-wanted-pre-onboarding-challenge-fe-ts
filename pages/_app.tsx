@@ -12,6 +12,7 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useState } from 'react';
 import Head from 'next/head';
+import { RecoilRoot } from 'recoil';
 
 config.autoAddCss = false;
 
@@ -20,15 +21,17 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <Hydrate state={pageProps.dehydratedState}>
-        <Head>
-          <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-        </Head>
-        <AppLayout>
-          <Component {...pageProps} />
-        </AppLayout>
-      </Hydrate>
+      <RecoilRoot>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <Hydrate state={pageProps.dehydratedState}>
+          <Head>
+            <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+          </Head>
+          <AppLayout>
+            <Component {...pageProps} />
+          </AppLayout>
+        </Hydrate>
+      </RecoilRoot>
     </QueryClientProvider>
   );
 }
