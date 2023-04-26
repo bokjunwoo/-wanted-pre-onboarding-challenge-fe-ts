@@ -18,42 +18,38 @@ export const nickNameIsDuplicate = async (nickname: string) => {
   return response.data.nameCheck;
 };
 
-export const localRegister = async (
-  email: string,
-  password: string,
-  nickname: string,
-) => {
+export const localRegister = async (email: string, password: string, nickname: string) => {
   const response = await apiClient({
     method: 'post',
     url: '/user/localregister',
     data: { type: 'local', email, password, nickname },
   });
-  return response;
+  return response.data;
 };
 
-export const kakaoRegister = async (id: number, nickname: string) => {
+export const kakaoRegister = async (data: { id: number; nickname: string }) => {
   const response = await apiClient({
     method: 'post',
     url: '/user/kakaoregister',
-    data: { type: 'kakao', id, nickname },
+    data: { type: 'kakao', data },
   });
-  return response;
+  return response.data;
 };
 
-export const localLogin = async (email: string, password: string) => {
+export const localLogin = async (data: { email: string; password: string }) => {
   const response = await apiClient({
     method: 'post',
     url: '/user/local',
-    data: { email, password },
+    data: { data },
   });
-  return response;
+  return response.data;
 };
 
-export const kakaoLogin = async (id: number) => {
+export const kakaoLogin = async (data: { id: number }) => {
   const response = await apiClient({
     method: 'post',
     url: '/user/kakao',
-    data: { id },
+    data: { data },
   });
-  return response;
+  return response.data;
 };

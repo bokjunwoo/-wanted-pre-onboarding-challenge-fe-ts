@@ -53,7 +53,7 @@ export interface ILoginResult {
   type: 'login';
   success: boolean;
   message: string;
-  nickname: string
+  nickname: string;
 }
 
 export interface IKakaoLoginSuccess {
