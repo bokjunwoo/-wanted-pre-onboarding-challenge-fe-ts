@@ -16,12 +16,14 @@ import SignSuccess from '@/components/modal/SignSuccess';
 import { ISignupResult } from './api/api';
 
 export default function signup() {
+  const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
+
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const repasswordInputRef = useRef<HTMLInputElement>(null);
   const nicknameInputRef = useRef<HTMLInputElement>(null);
 
-  const [show, setShow] = useState(false);
   const [signupResult, setSignupResult] = useState<ISignupResult>({
     type: 'signup',
     success: false,
@@ -29,15 +31,9 @@ export default function signup() {
   });
 
   const [email, onChangeEmail, emailResult] = useInput('', emailValidation);
-  const [nickname, onChangeNickname, nicknameResult] = useInput(
-    '',
-    nicknameValidation,
-  );
+  const [nickname, onChangeNickname, nicknameResult] = useInput('', nicknameValidation);
 
-  const [password, onChangePassword, passwordResult] = useInput(
-    '',
-    passwordValidation,
-  );
+  const [password, onChangePassword, passwordResult] = useInput('', passwordValidation);
   const [repassword, setRepassword] = useState<string>('');
   const [repasswordResult, setRepasswordResult] = useState<ValidationResult>({
     message: '',
@@ -76,16 +72,13 @@ export default function signup() {
       }
       return;
     }
+    setLoading(true);
 
-    const response = await localRegister(email, password, nickname);
-    const { data } = response;
-    const result: ISignupResult = {
-      type: data.type,
-      success: data.success,
-      message: data.message,
-    };
-    setSignupResult(result);
-    setShow(true);
+    const response: ISignupResult = await localRegister(email, password, nickname);
+
+    setLoading(false);
+    setSignupResult(response);
+    setShow(response.success);
   }, [emailResult, passwordResult, repasswordResult, nicknameResult]);
 
   return (
@@ -99,12 +92,7 @@ export default function signup() {
           <div className="d-flex mb-5">
             <h4>TripLog</h4>
             <Link href="/login">
-              <Badge
-                bg="secondary"
-                text="light"
-                className="ms-2 p-1"
-                style={{ fontSize: '.3rem' }}
-              >
+              <Badge bg="secondary" text="light" className="ms-2 p-1" style={{ fontSize: '.3rem' }}>
                 이미 회원이라면?
               </Badge>
             </Link>
@@ -121,11 +109,7 @@ export default function signup() {
                 value={email}
                 onChange={onChangeEmail}
               />
-              <Form.Text
-                className={`${
-                  emailResult.success ? 'text-success' : 'text-danger'
-                } m-1`}
-              >
+              <Form.Text className={`${emailResult.success ? 'text-success' : 'text-danger'} m-1`}>
                 {emailResult.message}
               </Form.Text>
             </Form.Group>
@@ -141,9 +125,7 @@ export default function signup() {
                 onChange={onChangePassword}
               />
               <Form.Text
-                className={`${
-                  passwordResult.success ? 'text-success' : 'text-danger'
-                } m-1`}
+                className={`${passwordResult.success ? 'text-success' : 'text-danger'} m-1`}
               >
                 {passwordResult.message}
               </Form.Text>
@@ -160,9 +142,7 @@ export default function signup() {
                 onChange={onChangePasswordCheck}
               />
               <Form.Text
-                className={`${
-                  repasswordResult.success ? 'text-success' : 'text-danger'
-                } m-1`}
+                className={`${repasswordResult.success ? 'text-success' : 'text-danger'} m-1`}
               >
                 {repasswordResult.message}
               </Form.Text>
@@ -179,14 +159,12 @@ export default function signup() {
                 onChange={onChangeNickname}
               />
               <Form.Text
-                className={`${
-                  nicknameResult.success ? 'text-success' : 'text-danger'
-                } m-1`}
+                className={`${nicknameResult.success ? 'text-success' : 'text-danger'} m-1`}
               >
                 {nicknameResult.message}
               </Form.Text>
 
-              <LocalButton text="가입하기" onSubmitForm={onSubmitForm} />
+              <LocalButton text="가입하기" onSubmitForm={onSubmitForm} loading={loading} />
             </Form.Group>
           </Form>
         </Card>
