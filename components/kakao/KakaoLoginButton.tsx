@@ -1,29 +1,45 @@
-import {
-  IKakaoLoginSuccess,
-  ILoginResult,
-  ISignupResult,
-} from '@/pages/api/api';
+import { IKakaoLoginSuccess, ILoginResult, ISignupResult } from '@/pages/api/api';
 import { kakaoLogin } from '@/pages/api/sign';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import KakaoFormModal from './KakaoFormModal';
 import SignSuccess from '../modal/SignSuccess';
-import { userNicknameState } from '@/atoms/userNicknameState';
-import { useSetRecoilState } from 'recoil';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import ButtonSpinner from '../common/ButtonSpinner';
 
 interface KakaoLoginProps {
   text: string;
 }
 
 export default function KakaoLoginButton({ text }: KakaoLoginProps) {
-  const setUserNickname = useSetRecoilState(userNicknameState);
+  const queryClient = useQueryClient();
 
+  const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const [kakaoId, setKakaoId] = useState(0);
   const [result, setResult] = useState<ISignupResult | ILoginResult>({
     type: 'signup',
     success: false,
     message: '',
+  });
+
+  const mutation = useMutation<ILoginResult, AxiosError, { id: number }>(['user'], kakaoLogin, {
+    onMutate: () => {
+      setLoading(true);
+    },
+    onError: (error) => {
+      alert(error.response?.data);
+    },
+    onSuccess: (result) => {
+      queryClient.setQueryData(['user'], result.nickname);
+      setResult(result);
+      setShow(result.success);
+      localStorage.setItem('user', JSON.stringify(result.nickname));
+    },
+    onSettled: () => {
+      setLoading(false);
+    },
   });
 
   const kakaoInit = () => {
@@ -43,23 +59,12 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
         kakao.API.request({
           url: '/v2/user/me',
           success: async (res: IKakaoLoginSuccess) => {
-            const response = await kakaoLogin(res.id);
-            const { data } = response;
-            const result: ISignupResult | ILoginResult = {
-              type: data.type,
-              success: data.success,
-              message: data.message,
-              nickname: data.nickname,
-            };
-            if (result.type === 'login') {
-              const loginResult = result as ILoginResult;
-              setResult(loginResult);
-              setShow(loginResult.success);
-              setUserNickname(loginResult.nickname);
+            const response: ISignupResult | ILoginResult = await kakaoLogin({ id: res.id });
+            if (response.type === 'login') {
+              mutation.mutate({ id: res.id });
             } else {
-              const signupResult = result as ISignupResult;
-              setResult(signupResult);
-              setShow(signupResult.success);
+              setResult(response);
+              setShow(response.success);
               setKakaoId(res.id);
             }
           },
@@ -106,31 +111,31 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
   };
   return (
     <>
-      <Btn onClick={KakaoLoginButton}>{text}</Btn>
+      <Btn onClick={KakaoLoginButton} type="button" disabled={loading}>
+        {loading ? <ButtonSpinner /> : text}
+      </Btn>
 
       {result.success && (
         <>
           {result.type === 'signup' && (
             <KakaoFormModal show={show} setShow={setShow} id={kakaoId} />
           )}
-          {result.type === 'login' && (
-            <SignSuccess show={show} setShow={setShow} result={result} />
-          )}
+          {result.type === 'login' && <SignSuccess show={show} setShow={setShow} result={result} />}
         </>
       )}
     </>
   );
 }
 
-const Btn = styled.div`
+const Btn = styled.button`
   display: block;
-  width: inherit;
+  width: 100%;
   height: 58px;
+  border: none;
   border-radius: 5px;
   padding: 0.9rem;
   margin-top: 28px;
   text-align: center;
-  text-decoration: none;
   font-weight: 700;
   color: #333;
   background-color: #ffd503;
@@ -139,5 +144,9 @@ const Btn = styled.div`
   &:hover {
     color: #333;
     background: #d0ad00;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 `;

@@ -5,8 +5,9 @@ import useInput from '../hooks/useInput';
 import { kakaoRegister } from '@/pages/api/sign';
 import SignSuccess from '../modal/SignSuccess';
 import { ILoginResult } from '@/pages/api/api';
-import { useSetRecoilState } from 'recoil';
-import { userNicknameState } from '@/atoms/userNicknameState';
+import ButtonSpinner from '../common/ButtonSpinner';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 interface IKakaoFormModal {
   show: boolean;
@@ -15,13 +16,12 @@ interface IKakaoFormModal {
 }
 
 export default function KakaoFormModal({ show, setShow, id }: IKakaoFormModal) {
-  const setUserNickname = useSetRecoilState(userNicknameState);
+  const queryClient = useQueryClient();
 
   const nicknameInputRef = useRef<HTMLInputElement>(null);
-  const [nickname, onChangeNickname, nicknameResult] = useInput(
-    '',
-    nicknameValidation,
-  );
+
+  const [loading, setLoading] = useState(false);
+  const [nickname, onChangeNickname, nicknameResult] = useInput('', nicknameValidation);
   const [successShow, setSuccessShow] = useState(false);
   const [result, setResult] = useState<ILoginResult>({
     type: 'login',
@@ -29,6 +29,28 @@ export default function KakaoFormModal({ show, setShow, id }: IKakaoFormModal) {
     message: '',
     nickname: '',
   });
+
+  const mutation = useMutation<ILoginResult, AxiosError, { id: number; nickname: string }>(
+    ['user'],
+    kakaoRegister,
+    {
+      onMutate: () => {
+        setLoading(true);
+      },
+      onError: (error) => {
+        alert(error.response?.data);
+      },
+      onSuccess: (result) => {
+        queryClient.setQueryData(['user'], result.nickname);
+        setShow(false);
+        setResult(result);
+        setSuccessShow(result.success);
+      },
+      onSettled: () => {
+        setLoading(false);
+      },
+    },
+  );
 
   const onSubmitForm = async () => {
     if (nicknameResult.success === false) {
@@ -38,35 +60,15 @@ export default function KakaoFormModal({ show, setShow, id }: IKakaoFormModal) {
       return;
     }
 
-    const response = await kakaoRegister(id, nickname);
-    const { data } = response;
-    const result: ILoginResult = {
-      type: data.type,
-      success: data.success,
-      message: data.message,
-      nickname: data.nickname,
-    };
-    setResult(result);
-    setUserNickname(result.nickname);
-    setShow(false);
-    setSuccessShow(result.success);
+    mutation.mutate({ id, nickname });
   };
 
   return (
     <>
-      <Modal
-        size="sm"
-        show={show}
-        aria-labelledby="example-modal-sizes-title-sm"
-        centered
-      >
+      <Modal size="sm" show={show} aria-labelledby="example-modal-sizes-title-sm" centered>
         <Modal.Header>
           <Modal.Title id="example-modal-sizes-title-sm">
-            <img
-              src="/images/Logo.png"
-              style={{ width: '30px' }}
-              alt="로고"
-            ></img>
+            <img src="/images/Logo.png" style={{ width: '30px' }} alt="로고"></img>
             TripLog
           </Modal.Title>
         </Modal.Header>
@@ -82,28 +84,20 @@ export default function KakaoFormModal({ show, setShow, id }: IKakaoFormModal) {
               value={nickname}
               onChange={onChangeNickname}
             />
-            <Form.Text
-              className={`${
-                nicknameResult.success ? 'text-success' : 'text-danger'
-              } m-1`}
-            >
+            <Form.Text className={`${nicknameResult.success ? 'text-success' : 'text-danger'} m-1`}>
               {nicknameResult.message}
             </Form.Text>
           </Form>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="primary" type="submit" onClick={onSubmitForm}>
-            확인
+          <Button variant="primary" type="submit" onClick={onSubmitForm} disabled={loading}>
+            {loading ? <ButtonSpinner /> : '확인'}
           </Button>
         </Modal.Footer>
       </Modal>
 
-      <SignSuccess
-        show={successShow}
-        setShow={setSuccessShow}
-        result={result}
-      />
+      <SignSuccess show={successShow} setShow={setSuccessShow} result={result} />
     </>
   );
 }
