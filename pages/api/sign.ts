@@ -40,8 +40,9 @@ export const localLogin = async (data: { email: string; password: string }) => {
   const response = await apiClient({
     method: 'post',
     url: '/user/local',
-    data: { data },
+    data: data,
   });
+  console.log(response);
   return response.data;
 };
 
