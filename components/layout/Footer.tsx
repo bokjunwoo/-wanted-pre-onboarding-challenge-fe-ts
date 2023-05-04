@@ -17,19 +17,19 @@ export default function Footer() {
             style={{ fontSize: '1.2rem' }}
           >
             <li className="me-3">
-              <Link href="" style={{ color: '#198754' }}>
-                <FontAwesomeIcon icon={faGoogle} />
-              </Link>
-            </li>
-            <li className="me-3">
-              <Link href="https://url.kr/ka3rnf" style={{ color: '#198754' }}>
+              <Link
+                href="https://www.notion.so/15c63069944b4d26afb7ad780d9a03a5"
+                style={{ color: '#198754' }}
+                target="_blank"
+              >
                 <FontAwesomeIcon icon={faN} />
               </Link>
             </li>
             <li className="me-3">
               <Link
-                href="https://github.com/TripLog-project/TripLog"
+                href="https://github.com/bokjunwoo/TripLog-Next.js-refactoring"
                 style={{ color: '#198754' }}
+                target='_blank'
               >
                 <FontAwesomeIcon icon={faGithub} />
               </Link>
