@@ -31,27 +31,26 @@ export default function login() {
     nickname: '',
   });
 
-  const mutation = useMutation<ILoginResult, AxiosError, { email: string; password: string }>(
-    ['user'],
-    localLogin,
-    {
-      onMutate: () => {
-        setLoading(true);
-      },
-      onError: (error) => {
-        alert(error.response?.data);
-        console.log(error);
-      },
-      onSuccess: (result) => {
-        queryClient.setQueryData(['user'], result.nickname);
-        setLoginResult(result);
-        setShow(result.success);
-      },
-      onSettled: () => {
-        setLoading(false);
-      },
+  const mutation = useMutation<
+    ILoginResult,
+    AxiosError,
+    { email: string; password: string }
+  >(['user'], localLogin, {
+    onMutate: () => {
+      setLoading(true);
     },
-  );
+    onError: (error) => {
+      alert(error.response?.data);
+    },
+    onSuccess: (result) => {
+      queryClient.setQueryData(['user'], result.nickname);
+      setLoginResult(result);
+      setShow(result.success);
+    },
+    onSettled: () => {
+      setLoading(false);
+    },
+  });
 
   const onSubmitFormLocal = useCallback(async () => {
     if (email === '') {
@@ -77,7 +76,12 @@ export default function login() {
           <div className="d-flex mb-5">
             <h4>TripLog</h4>
             <Link href="/signup">
-              <Badge bg="secondary" text="light" className="ms-2 p-1" style={{ fontSize: '.3rem' }}>
+              <Badge
+                bg="secondary"
+                text="light"
+                className="ms-2 p-1"
+                style={{ fontSize: '.3rem' }}
+              >
                 아직 회원이 아니라면?
               </Badge>
             </Link>
@@ -94,7 +98,9 @@ export default function login() {
                 value={email}
                 onChange={onChangeEmail}
               />
-              <VisibilityHidden className="text-muted">visibilityHidden</VisibilityHidden>
+              <VisibilityHidden className="text-muted">
+                visibilityHidden
+              </VisibilityHidden>
             </Form.Group>
 
             <Form.Group controlId="password">
@@ -107,7 +113,9 @@ export default function login() {
                 value={password}
                 onChange={onChangePassword}
               />
-              <VisibilityHidden className="text-muted">visibilityHidden</VisibilityHidden>
+              <VisibilityHidden className="text-muted">
+                visibilityHidden
+              </VisibilityHidden>
             </Form.Group>
 
             {loginResult.success === false ? (
@@ -116,7 +124,11 @@ export default function login() {
               <SignSuccess show={show} setShow={setShow} result={loginResult} />
             )}
 
-            <LocalButton text="로그인" onSubmitForm={onSubmitFormLocal} loading={loading} />
+            <LocalButton
+              text="로그인"
+              onSubmitForm={onSubmitFormLocal}
+              loading={loading}
+            />
 
             <KakaoLoginButton text="카카오 로그인" />
           </Form>
