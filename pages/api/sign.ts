@@ -1,3 +1,4 @@
+import axios from 'axios';
 import apiClient from './apiClient';
 
 export const idIsDuplicate = async (email: string) => {
@@ -18,7 +19,11 @@ export const nickNameIsDuplicate = async (nickname: string) => {
   return response.data.nameCheck;
 };
 
-export const localRegister = async (email: string, password: string, nickname: string) => {
+export const localRegister = async (
+  email: string,
+  password: string,
+  nickname: string,
+) => {
   const response = await apiClient({
     method: 'post',
     url: '/user/localregister',
@@ -42,7 +47,6 @@ export const localLogin = async (data: { email: string; password: string }) => {
     url: '/user/local',
     data: data,
   });
-  console.log(response);
   return response.data;
 };
 
@@ -51,6 +55,13 @@ export const kakaoLogin = async (data: { id: number }) => {
     method: 'post',
     url: '/user/kakao',
     data: { data },
+  });
+  return response.data;
+};
+
+export const userInfo = async () => {
+  const response = await axios.get('http://localhost:4000/user', {
+    withCredentials: true,
   });
   return response.data;
 };
