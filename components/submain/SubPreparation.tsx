@@ -1,6 +1,9 @@
-import Link from 'next/link';
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import LoginRequired from '../modal/LoginRequired';
+import { userInfo } from '@/pages/api/sign';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import { Preparation } from '@/styles/styled';
 
 interface ContentProps {
   content: string;
@@ -8,25 +11,35 @@ interface ContentProps {
 }
 
 export default function SubPreparation({ content, region }: ContentProps) {
+  const router = useRouter();
+
+  const { data: user } = useQuery(['user'], userInfo);
+
+  const [show, setShow] = useState(false);
+
+  const handleClick = () => {
+    if (user) {
+      if (region) {
+        router.push(`/${content}/${region}/테스트/1`);
+      } else {
+        router.push(`/${content}/테스트`);
+      }
+    } else {
+      setShow(true);
+    }
+  };
+
   return (
-    <Preparation>
-      {region ? (
-        <Link href={`/${content}/${region}/테스트/1`}>
+    <>
+      <Preparation onClick={handleClick}>
+        {region ? (
           <img src={`/images/submain/${content}.png`} alt={content} />
-        </Link>
-      ) : (
-        <Link href={`/${content}/테스트`}>
+        ) : (
           <img src={`/images/submain/${content}.png`} alt={content} />
-        </Link>
-      )}
-    </Preparation>
+        )}
+      </Preparation>
+
+      <LoginRequired show={show} setShow={setShow} />
+    </>
   );
 }
-
-const Preparation = styled.div`
-  margin: 0 auto;
-  img {
-    display: block;
-    max-width: 100%;
-  }
-`;

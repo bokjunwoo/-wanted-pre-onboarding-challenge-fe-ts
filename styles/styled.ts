@@ -91,3 +91,12 @@ export const PaginationWrapper = styled.div`
     color: #198754;
   }
 `;
+
+export const Preparation = styled.div`
+  margin: 0 auto;
+  cursor: pointer;
+  img {
+    display: block;
+    max-width: 100%;
+  }
+`;
