@@ -1,9 +1,18 @@
 import Link from 'next/link';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import {
+  faUser,
+  faMagnifyingGlass,
+  faRightFromBracket,
+  faHouse,
+} from '@fortawesome/free-solid-svg-icons';
+import { userInfo } from '@/pages/api/sign';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Header() {
+  const { data: user } = useQuery(['user'], userInfo);
+
   return (
     <>
       <Navbar expand="lg" className="my-1">
@@ -68,11 +77,26 @@ export default function Header() {
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </Navbar.Brand>
 
-          <Link href="/login">
-            <Navbar.Brand>
-              <FontAwesomeIcon icon={faUser} />
-            </Navbar.Brand>
-          </Link>
+          {user ? (
+            <div>
+              <Link href="/logout">
+                <Navbar.Brand>
+                  <FontAwesomeIcon icon={faHouse} />
+                </Navbar.Brand>
+              </Link>
+              <Link href="/logout">
+                <Navbar.Brand>
+                  <FontAwesomeIcon icon={faRightFromBracket} />
+                </Navbar.Brand>
+              </Link>
+            </div>
+          ) : (
+            <Link href="/login">
+              <Navbar.Brand>
+                <FontAwesomeIcon icon={faUser} />
+              </Navbar.Brand>
+            </Link>
+          )}
         </Container>
       </Navbar>
       <hr className="clearfix w-100 m-0" />
