@@ -1,7 +1,9 @@
 import ChecklistAccordion from '@/components/checklist/ChecklistAccordion';
+import { QueryClient, dehydrate } from '@tanstack/react-query';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import React from 'react';
+import { userChecklistItem } from '../api/checklist';
+import { userInfo } from '@/pages/api/sign';
+import { useQuery } from '@tanstack/react-query';
 
 type ChecklistItem = {
   id: number;
@@ -50,19 +52,23 @@ const checklist: Checklist[] = [
   },
 ];
 
-
 export default function CkecklistUserId() {
-  const router = useRouter();
-  const { userId } = router.query;
+  const { data: user } = useQuery(['user'], userInfo);
+
+  const { data: checklisted, isLoading } = useQuery({
+    queryKey: ['checklist'],
+    queryFn: () => userChecklistItem(),
+  });
+  console.log(checklisted);
 
   return (
     <>
       <Head>
-        <title>{`${userId}님의 - 체크리스트`}</title>
+        <title>{`${user}님의 - 체크리스트`}</title>
       </Head>
 
       <h1 className="fw-bold lh-base mt-5 mb-5">
-        <span style={{ color: '#198754' }}>{userId}</span>
+        <span style={{ color: '#198754' }}>{user}</span>
         <span> 님의 </span>
         <br></br>
         여행 체크리스트 📝
@@ -72,3 +78,22 @@ export default function CkecklistUserId() {
     </>
   );
 }
+
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true,
+  };
+};
+
+export const getStaticProps = async () => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(['checklist'], () => userChecklistItem());
+
+  return {
+    props: {
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
+  };
+};
