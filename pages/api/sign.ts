@@ -54,7 +54,7 @@ export const kakaoLogin = async (data: { id: number }) => {
   const response = await apiClient({
     method: 'post',
     url: '/user/kakao',
-    data: { data },
+    data,
   });
   return response.data;
 };
