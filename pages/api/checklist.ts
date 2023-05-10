@@ -5,3 +5,12 @@ export const userChecklistItem = async () => {
   const response = await axios.post('http://localhost:4000/checklist');
   return response.data;
 };
+
+export const checklistAdd = async (data: { title: string; item: string, user: string }) => {
+  const response = await apiClient({
+    method: 'post',
+    url: 'checklist/add',
+    data,
+  });
+  return response.data;
+};
