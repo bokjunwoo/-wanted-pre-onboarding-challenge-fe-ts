@@ -1,7 +1,7 @@
 import { nicknameValidation } from '@/utils/sign';
 import React, { useRef, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
-import useInput from '../hooks/useInput';
+import useSignInput from '../hooks/useSignInput';
 import { kakaoRegister } from '@/pages/api/sign';
 import SignSuccess from '../modal/SignSuccess';
 import { ILoginResult } from '@/pages/api/api';
@@ -21,7 +21,10 @@ export default function KakaoFormModal({ show, setShow, id }: IKakaoFormModal) {
   const nicknameInputRef = useRef<HTMLInputElement>(null);
 
   const [loading, setLoading] = useState(false);
-  const [nickname, onChangeNickname, nicknameResult] = useInput('', nicknameValidation);
+  const [nickname, onChangeNickname, nicknameResult] = useSignInput(
+    '',
+    nicknameValidation,
+  );
   const [successShow, setSuccessShow] = useState(false);
   const [result, setResult] = useState<ILoginResult>({
     type: 'login',
@@ -30,27 +33,27 @@ export default function KakaoFormModal({ show, setShow, id }: IKakaoFormModal) {
     nickname: '',
   });
 
-  const mutation = useMutation<ILoginResult, AxiosError, { id: number; nickname: string }>(
-    ['user'],
-    kakaoRegister,
-    {
-      onMutate: () => {
-        setLoading(true);
-      },
-      onError: (error) => {
-        alert(error.response?.data);
-      },
-      onSuccess: (result) => {
-        queryClient.setQueryData(['user'], result.nickname);
-        setShow(false);
-        setResult(result);
-        setSuccessShow(result.success);
-      },
-      onSettled: () => {
-        setLoading(false);
-      },
+  const mutation = useMutation<
+    ILoginResult,
+    AxiosError,
+    { id: number; nickname: string }
+  >(['user'], kakaoRegister, {
+    onMutate: () => {
+      setLoading(true);
     },
-  );
+    onError: (error) => {
+      alert(error.response?.data);
+    },
+    onSuccess: (result) => {
+      queryClient.setQueryData(['user'], result.nickname);
+      setShow(false);
+      setResult(result);
+      setSuccessShow(result.success);
+    },
+    onSettled: () => {
+      setLoading(false);
+    },
+  });
 
   const onSubmitForm = async () => {
     if (nicknameResult.success === false) {
@@ -65,10 +68,19 @@ export default function KakaoFormModal({ show, setShow, id }: IKakaoFormModal) {
 
   return (
     <>
-      <Modal size="sm" show={show} aria-labelledby="example-modal-sizes-title-sm" centered>
+      <Modal
+        size="sm"
+        show={show}
+        aria-labelledby="example-modal-sizes-title-sm"
+        centered
+      >
         <Modal.Header>
           <Modal.Title id="example-modal-sizes-title-sm">
-            <img src="/images/Logo.png" style={{ width: '30px' }} alt="로고"></img>
+            <img
+              src="/images/Logo.png"
+              style={{ width: '30px' }}
+              alt="로고"
+            ></img>
             TripLog
           </Modal.Title>
         </Modal.Header>
@@ -84,20 +96,33 @@ export default function KakaoFormModal({ show, setShow, id }: IKakaoFormModal) {
               value={nickname}
               onChange={onChangeNickname}
             />
-            <Form.Text className={`${nicknameResult.success ? 'text-success' : 'text-danger'} m-1`}>
+            <Form.Text
+              className={`${
+                nicknameResult.success ? 'text-success' : 'text-danger'
+              } m-1`}
+            >
               {nicknameResult.message}
             </Form.Text>
           </Form>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="primary" type="submit" onClick={onSubmitForm} disabled={loading}>
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={onSubmitForm}
+            disabled={loading}
+          >
             {loading ? <ButtonSpinner /> : '확인'}
           </Button>
         </Modal.Footer>
       </Modal>
 
-      <SignSuccess show={successShow} setShow={setSuccessShow} result={result} />
+      <SignSuccess
+        show={successShow}
+        setShow={setSuccessShow}
+        result={result}
+      />
     </>
   );
 }

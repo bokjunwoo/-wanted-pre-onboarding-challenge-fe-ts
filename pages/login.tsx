@@ -1,5 +1,5 @@
 import LocalButton from '@/components/common/LocalButton';
-import useInput from '@/components/hooks/useInput';
+import useSignInput from '@/components/hooks/useSignInput';
 import KakaoLoginButton from '@/components/kakao/KakaoLoginButton';
 import { emailValidation, passwordValidation } from '@/utils/sign';
 import Head from 'next/head';
@@ -22,8 +22,8 @@ export default function login() {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
-  const [email, onChangeEmail] = useInput('', emailValidation);
-  const [password, onChangePassword] = useInput('', passwordValidation);
+  const [email, onChangeEmail] = useSignInput('', emailValidation);
+  const [password, onChangePassword] = useSignInput('', passwordValidation);
   const [loginResult, setLoginResult] = useState<ILoginResult>({
     type: 'login',
     success: false,
