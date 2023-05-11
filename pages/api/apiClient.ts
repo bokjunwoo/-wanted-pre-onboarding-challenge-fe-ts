@@ -19,6 +19,7 @@ const instance = axios.create({
   },
 });
 
+axios.defaults.withCredentials = true
 instance.defaults.withCredentials = true;
 
 const logOnDev = (message: string) => {
