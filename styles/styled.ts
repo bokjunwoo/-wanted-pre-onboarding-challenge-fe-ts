@@ -100,3 +100,21 @@ export const Preparation = styled.div`
     max-width: 100%;
   }
 `;
+
+export const AccordionCustom = styled.div`
+.accordion-button:not(.collapsed) {
+  color: #ffffff;
+  background-color: #198754;
+  box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+}
+.accordion-button:focus,
+.accordion-button:active {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+input[type='checkbox']:checked {
+  background: #198754;
+  border-color: #198754;
+}
+`;
