@@ -3,7 +3,7 @@ import { Accordion, Button, InputGroup, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Checklist, ChecklistContent } from '@/pages/checklist/[userId]';
-import { AccordionCustom } from '@/styles/styled';
+import { AccordionCustom, Cursor } from '@/styles/styled';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { checklistAdd } from '@/pages/api/checklist';
 import { userInfo } from '@/pages/api/sign';
@@ -29,7 +29,7 @@ export default function ChecklistAccordion({
         {checklist.map((v, i) => {
           const [text, onChangeText, setText] = useInput('');
 
-          const mutationChecked = useMutation(['checklist'], checklistAdd, {
+          const mutationAdd = useMutation(['checklist'], checklistAdd, {
             onMutate({ title }) {
               if (!user) return;
               queryClient.setQueryData<Checklist>(['checklist'], (data) => {
@@ -62,9 +62,9 @@ export default function ChecklistAccordion({
           const onSubmitItem = useCallback(
             (title: string, item: string) => {
               if (text.length === 0) return alert('글 작성필요');
-              mutationChecked.mutate({ title, item, user });
+              mutationAdd.mutate({ title, item, user });
             },
-            [text, mutationChecked, user],
+            [text, mutationAdd, user],
           );
 
           return (
@@ -89,7 +89,9 @@ export default function ChecklistAccordion({
                           <Form.Check.Label>{v.item}</Form.Check.Label>
                         </div>
 
-                        <FontAwesomeIcon icon={faTrash} />
+                        <Cursor>
+                          <FontAwesomeIcon icon={faTrash} />
+                        </Cursor>
                       </Form.Check>
                     );
                   })}
