@@ -14,3 +14,12 @@ export const checklistAdd = async (data: { title: string; item: string, user: st
   });
   return response.data;
 };
+
+export const checklistDelete = async (data: { title: string; item: string, user: string }) => {
+  const response = await apiClient({
+    method: 'delete',
+    url: 'checklist/delete',
+    data,
+  });
+  return response.data;
+};
