@@ -15,6 +15,7 @@ export type ChecklistItem = {
 export type ChecklistContent = {
   title: string;
   items: ChecklistItem[];
+  index: number;
 };
 
 type ChecklistItems = {
