@@ -1,4 +1,4 @@
-import { checklistDelete } from '@/pages/api/checklist';
+import { checklistCkecked, checklistDelete } from '@/pages/api/checklist';
 import { userInfo } from '@/pages/api/sign';
 import {
   Checklist,
@@ -51,23 +51,33 @@ export default function ChecklistAccordionItem({
     },
     onSettled() {
       queryClient.refetchQueries(['checklist']);
-    }
+    },
   });
 
   const onSubmitDelete = (item: string) => {
     mutationDelete.mutate({ title, item, user });
   };
+
+  const mutationCheck = useMutation(['checklist'], checklistCkecked, {
+    onSettled() {
+      queryClient.refetchQueries(['checklist']);
+    },
+  });
+
+  const onSubmitChecked = (item: string, checked: boolean) => {
+    mutationCheck.mutate({ title, item, checked, user });
+  };
+
   return (
-    <Form.Check
-      type="checkbox"
-      className="d-flex justify-content-between"
-      onChange={() => {}}
-    >
+    <Form.Check type="checkbox" className="d-flex justify-content-between">
       <div>
         <Form.Check.Input
           type="checkbox"
           className="me-2"
           defaultChecked={checked}
+          onChange={() => {
+            onSubmitChecked(item, !checked);
+          }}
         />
         <Form.Check.Label>{item}</Form.Check.Label>
       </div>
