@@ -29,18 +29,24 @@ export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
         </Row>
         <hr className="solid"></hr>
       </div>
-      {ledger.map((v) => {
-        return (
-          <Row className="text-start mb-2" key={v.id}>
-            <Col className="col-3">{v.date.slice(5, 10)}</Col>
-            <Col className="col-4">{v.title}</Col>
-            <Col className="col-3">{v.price}원</Col>
-            <Col className="col-2 text-center" style={{ cursor: 'pointer' }}>
-              <FontAwesomeIcon icon={faTrash} />
-            </Col>
-          </Row>
-        );
-      })}
+      {ledger.length === 0 ? (
+        <Row>
+          <Col className="text-center">작성된 금액이 없습니다.</Col>
+        </Row>
+      ) : (
+        ledger.map((v) => {
+          return (
+            <Row className="text-start mb-2" key={v.id}>
+              <Col className="col-3">{v.date.slice(5, 10)}</Col>
+              <Col className="col-4">{v.title}</Col>
+              <Col className="col-3">{v.price}원</Col>
+              <Col className="col-2 text-center" style={{ cursor: 'pointer' }}>
+                <FontAwesomeIcon icon={faTrash} />
+              </Col>
+            </Row>
+          );
+        })
+      )}
 
       <hr className="dashed" style={{ borderTop: 'dashed' }}></hr>
 
