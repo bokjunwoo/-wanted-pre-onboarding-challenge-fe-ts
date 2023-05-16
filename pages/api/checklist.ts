@@ -6,7 +6,11 @@ export const userChecklistItem = async () => {
   return response.data;
 };
 
-export const checklistAdd = async (data: { title: string; item: string, user: string }) => {
+export const checklistAdd = async (data: {
+  title: string;
+  item: string;
+  user: string;
+}) => {
   const response = await apiClient({
     method: 'post',
     url: 'checklist/add',
@@ -15,10 +19,28 @@ export const checklistAdd = async (data: { title: string; item: string, user: st
   return response.data;
 };
 
-export const checklistDelete = async (data: { title: string; item: string, user: string }) => {
+export const checklistDelete = async (data: {
+  title: string;
+  item: string;
+  user: string;
+}) => {
   const response = await apiClient({
     method: 'delete',
     url: 'checklist/delete',
+    data,
+  });
+  return response.data;
+};
+
+export const checklistCkecked = async (data: {
+  title: string;
+  item: string;
+  checked: boolean;
+  user: string;
+}) => {
+  const response = await apiClient({
+    method: 'patch',
+    url: 'checklist/checked',
     data,
   });
   return response.data;
