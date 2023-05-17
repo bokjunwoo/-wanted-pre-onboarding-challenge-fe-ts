@@ -2,12 +2,43 @@ import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { LedgerItem } from '@/pages/ledger/[userId]';
+import { Ledger, LedgerItem } from '@/pages/ledger/[userId]';
+import { Cursor } from '@/styles/styled';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { userInfo } from '@/pages/api/sign';
+import { ledgerDelete } from '@/pages/api/ledger';
 
 export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
+  const queryClient = useQueryClient();
+
+  const { data: user } = useQuery(['user'], userInfo);
+
+  const mutationDelete = useMutation(['ledger'], ledgerDelete, {
+    onMutate({id}) {
+      if (!user) return;
+      queryClient.setQueryData<Ledger>(['ledger'], (data) => {
+        const newData = data?.chargeList || [];
+        const updatedData = newData.filter((value) => value.id !== id);
+
+        return {
+          _id: '',
+          nickname: '',
+          chargeList: updatedData,
+        };
+      });
+    },
+    onSettled() {
+      queryClient.refetchQueries(['ledger']);
+    },
+  });
+
+  const onSubmitDelete = (id: string) => {
+    mutationDelete.mutate({ user, id });
+  };
+
   return (
     <div
-      className="p-5 rounded border mt-4"
+      className="p-4 rounded border mt-4"
       style={{ backgroundColor: '#fafafa' }}
     >
       <div>
@@ -25,7 +56,7 @@ export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
           <Col className="fw-bold col-3 fs-5">Day</Col>
           <Col className="fw-bold col-4 fs-5">ITEM</Col>
           <Col className="fw-bold col-3 fs-5">Price</Col>
-          <Col className="fw-bold col-2 fs-5">Del</Col>
+          <Col className="fw-bold col-2 fs-5 text-end">Del</Col>
         </Row>
         <hr className="solid"></hr>
       </div>
@@ -40,8 +71,14 @@ export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
               <Col className="col-3">{v.date.slice(5, 10)}</Col>
               <Col className="col-4">{v.title}</Col>
               <Col className="col-3">{v.price}원</Col>
-              <Col className="col-2 text-center" style={{ cursor: 'pointer' }}>
-                <FontAwesomeIcon icon={faTrash} />
+              <Col className="col-2 text-end">
+                <Cursor
+                  onClick={() => {
+                    onSubmitDelete(v.id);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </Cursor>
               </Col>
             </Row>
           );
