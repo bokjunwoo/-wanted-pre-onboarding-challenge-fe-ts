@@ -10,13 +10,13 @@ import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 
 export type LedgerItem = {
-  id: number;
+  id: string;
   date: string;
   title: string;
-  price: number;
+  price: string;
 };
 
-type Ledger = {
+export type Ledger = {
   nickname: string;
   chargeList: LedgerItem[];
 };
