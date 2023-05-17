@@ -19,3 +19,12 @@ export const ledgerAdd = async (data: {
   });
   return response.data;
 };
+
+export const ledgerDelete = async (data: { user: string; id: string }) => {
+  const response = await apiClient({
+    method: 'delete',
+    url: 'charge/delete',
+    data,
+  });
+  return response.data;
+};
