@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -6,15 +6,19 @@ import { Ledger, LedgerItem } from '@/pages/ledger/[userId]';
 import { Cursor } from '@/styles/styled';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { userInfo } from '@/pages/api/sign';
-import { ledgerDelete } from '@/pages/api/ledger';
+import { ledgerDelete, ledgerDeleteAll } from '@/pages/api/ledger';
+import CheckModal from '../modal/CheckModal';
+import { AxiosError } from 'axios';
 
 export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
   const queryClient = useQueryClient();
 
   const { data: user } = useQuery(['user'], userInfo);
 
+  const [show, setShow] = useState(false);
+
   const mutationDelete = useMutation(['ledger'], ledgerDelete, {
-    onMutate({id}) {
+    onMutate({ id }) {
       if (!user) return;
       queryClient.setQueryData<Ledger>(['ledger'], (data) => {
         const newData = data?.chargeList || [];
@@ -34,6 +38,24 @@ export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
 
   const onSubmitDelete = (id: string) => {
     mutationDelete.mutate({ user, id });
+  };
+
+  const mutationDeleteAll = useMutation<
+    Ledger,
+    AxiosError,
+    { user: string },
+    void
+  >(['ledger'], ledgerDeleteAll, {
+    onSuccess() {
+      setShow(false);
+    },
+    onSettled() {
+      queryClient.refetchQueries(['ledger']);
+    },
+  });
+
+  const onSubmitDeleteAll = () => {
+    setShow(true);
   };
 
   return (
@@ -105,8 +127,23 @@ export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
       <hr className="dashed" style={{ borderTop: 'dashed' }}></hr>
 
       <Col className="text-end">
-        <Button variant="success">초기화</Button>
+        {ledger.length === 0 ? (
+          <Button variant="success" type="button" disabled={true}>
+            초기화
+          </Button>
+        ) : (
+          <Button variant="success" type="button" onClick={onSubmitDeleteAll}>
+            초기화
+          </Button>
+        )}
       </Col>
+
+      <CheckModal
+        show={show}
+        setShow={setShow}
+        success={mutationDeleteAll}
+        user={user}
+      />
     </div>
   );
 }
