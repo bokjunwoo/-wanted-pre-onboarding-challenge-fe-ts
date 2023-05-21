@@ -20,6 +20,11 @@ const instance = axios.create({
 });
 
 axios.defaults.withCredentials = true
+if (process.env.NODE_ENV === 'development') {
+  axios.defaults.baseURL = 'http://localhost:4000';
+} else {
+  axios.defaults.baseURL = 'https://api.triplog.shop';
+}
 instance.defaults.withCredentials = true;
 
 const logOnDev = (message: string) => {

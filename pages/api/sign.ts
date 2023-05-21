@@ -60,14 +60,14 @@ export const kakaoLogin = async (data: { id: number }) => {
 };
 
 export const userInfo = async () => {
-  const response = await axios.get('http://localhost:4000/user', {
+  const response = await axios.get('/user', {
     withCredentials: true,
   });
   return response.data;
 };
 
 export const userlogout =async () => {
-  const response = await axios.post('http://localhost:4000/user/logout', {
+  const response = await axios.post('/user/logout', {
     withCredentials: true,
   });
   return response.data;

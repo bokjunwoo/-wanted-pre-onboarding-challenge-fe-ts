@@ -2,7 +2,7 @@ import axios from 'axios';
 import apiClient from './apiClient';
 
 export const userLedgerItem = async () => {
-  const response = await axios.post('http://localhost:4000/charge');
+  const response = await axios.post('/charge');
   return response.data;
 };
 
