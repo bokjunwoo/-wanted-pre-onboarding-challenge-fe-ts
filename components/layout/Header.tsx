@@ -5,13 +5,38 @@ import {
   faUser,
   faMagnifyingGlass,
   faRightFromBracket,
-  faHouse,
 } from '@fortawesome/free-solid-svg-icons';
-import { userInfo } from '@/pages/api/sign';
-import { useQuery } from '@tanstack/react-query';
+import { userInfo, userlogout } from '@/pages/api/sign';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { Cursor } from '@/styles/styled';
+import { useCallback, useState } from 'react';
+import { ILogoutResult } from '@/pages/api/api';
+import SignSuccess from '../modal/SignSuccess';
 
 export default function Header() {
+  const queryClient = useQueryClient();
+
+  const [show, setShow] = useState(false);
+  const [logoutResult, setLogoutResult] = useState<ILogoutResult>({
+    type: 'logout',
+    success: false,
+    message: '',
+  });
+
   const { data: user } = useQuery(['user'], userInfo);
+
+  const mutationLogout = useMutation<ILogoutResult, AxiosError>(userlogout, {
+    onSuccess: (result) => {
+      setShow(true);
+      setLogoutResult(result);
+      queryClient.setQueryData(['user'], null);
+    },
+  });
+
+  const onLogOut = useCallback(() => {
+    mutationLogout.mutate();
+  }, [mutationLogout]);
 
   return (
     <>
@@ -79,16 +104,16 @@ export default function Header() {
 
           {user ? (
             <div>
-              <Link href="/logout">
+              <Link href={`/mypage/${user}`}>
                 <Navbar.Brand>
-                  <FontAwesomeIcon icon={faHouse} />
+                  <FontAwesomeIcon icon={faUser} />
                 </Navbar.Brand>
               </Link>
-              <Link href="/logout">
+              <Cursor onClick={onLogOut}>
                 <Navbar.Brand>
                   <FontAwesomeIcon icon={faRightFromBracket} />
                 </Navbar.Brand>
-              </Link>
+              </Cursor>
             </div>
           ) : (
             <Link href="/login">
@@ -100,6 +125,8 @@ export default function Header() {
         </Container>
       </Navbar>
       <hr className="clearfix w-100 m-0" />
+
+      <SignSuccess show={show} setShow={setShow} result={logoutResult} />
     </>
   );
 }
