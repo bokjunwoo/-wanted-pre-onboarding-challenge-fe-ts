@@ -1,4 +1,4 @@
-import { ISignupResult, ILoginResult } from '@/pages/api/api';
+import { ISignupResult, ILoginResult, ILogoutResult } from '@/pages/api/api';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
@@ -6,7 +6,7 @@ import { Button, Modal } from 'react-bootstrap';
 interface ISignupSuccess {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
-  result: ISignupResult | ILoginResult;
+  result: ISignupResult | ILoginResult | ILogoutResult;
 }
 
 export default function SignSuccess({ show, setShow, result }: ISignupSuccess) {
@@ -17,6 +17,9 @@ export default function SignSuccess({ show, setShow, result }: ISignupSuccess) {
     if (result.success) {
       result.type === 'login' && router.push('/');
       result.type === 'signup' && router.push('/login');
+      result.type === 'logout' && router.replace('/');
+    } else {
+      router.replace(router.pathname);
     }
   };
 
@@ -40,8 +43,8 @@ export default function SignSuccess({ show, setShow, result }: ISignupSuccess) {
 
       <Modal.Body>{result.message}</Modal.Body>
 
-      <Modal.Footer>
-        <Button variant="primary" onClick={handleClose}>
+      <Modal.Footer className='p-1'>
+        <Button variant="primary" onClick={handleClose} size='sm'>
           확인
         </Button>
       </Modal.Footer>
