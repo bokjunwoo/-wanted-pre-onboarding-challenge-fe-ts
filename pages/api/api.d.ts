@@ -67,3 +67,9 @@ export interface IKakaoLoginSuccess {
     is_email_verified?: boolean;
   };
 }
+
+export interface ILogoutResult {
+  type: 'logout';
+  success: boolean;
+  message: string;
+}

@@ -65,3 +65,10 @@ export const userInfo = async () => {
   });
   return response.data;
 };
+
+export const userlogout =async () => {
+  const response = await axios.post('http://localhost:4000/user/logout', {
+    withCredentials: true,
+  });
+  return response.data;
+}
