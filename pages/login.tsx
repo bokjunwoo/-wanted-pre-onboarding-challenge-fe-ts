@@ -45,7 +45,7 @@ export default function login() {
     onSuccess: (result) => {
       queryClient.setQueryData(['user'], result.nickname);
       setLoginResult(result);
-      setShow(result.success);
+      setShow(true);
     },
     onSettled: () => {
       setLoading(false);

@@ -34,8 +34,7 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
     onSuccess: (result) => {
       queryClient.setQueryData(['user'], result.nickname);
       setResult(result);
-      setShow(result.success);
-      localStorage.setItem('user', JSON.stringify(result.nickname));
+      setShow(true);
     },
     onSettled: () => {
       setLoading(false);
