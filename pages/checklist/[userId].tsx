@@ -57,26 +57,3 @@ export default function CkecklistUserId() {
     </>
   );
 }
-
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext,
-) => {
-  const cookie = context.req ? context.req.headers.cookie : '';
-  axios.defaults.headers.Cookie = '';
-  if (context.req && cookie) {
-    axios.defaults.headers.Cookie = cookie;
-  }
-  const data = await userInfo();
-
-  if (!data) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
-  return {
-    props: {},
-  };
-};
