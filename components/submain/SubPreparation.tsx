@@ -22,7 +22,7 @@ export default function SubPreparation({ content, region }: ContentProps) {
       if (region) {
         router.push(`/${content}/${region}/테스트/1`);
       } else {
-        router.push(`/${content}/${user}`);
+        router.push(`/${content}`);
       }
     } else {
       setShow(true);
