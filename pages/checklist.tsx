@@ -29,14 +29,14 @@ export type Checklist = {
 };
 
 export default function CkecklistUserId({ data: user }: any) {
-  const { data: checklist, isLoading } = useQuery<Checklist, AxiosError>({
-    queryKey: ['checklist'],
-    queryFn: () => userChecklistItem(),
-  });
+  // const { data: checklist, isLoading } = useQuery<Checklist, AxiosError>({
+  //   queryKey: ['checklist'],
+  //   queryFn: () => userChecklistItem(),
+  // });
 
-  const checklistContent = checklist?.checklist.content || [];
+  // const checklistContent = checklist?.checklist.content || [];
 
-  if (isLoading) return <LoadingSpinner />;
+  // if (isLoading) return <LoadingSpinner />;
 
   return (
     <>
@@ -51,12 +51,20 @@ export default function CkecklistUserId({ data: user }: any) {
         여행 체크리스트 📝
       </h1>
 
-      <ChecklistAccordion checklist={checklistContent} />
+      {/* <ChecklistAccordion checklist={checklistContent} /> */}
     </>
   );
 }
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
+  const cookie = context.req ? context.req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  if (context.req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
+
   const data = await userInfo();
 
   if (!data) {
