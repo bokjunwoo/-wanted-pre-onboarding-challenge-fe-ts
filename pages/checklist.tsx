@@ -28,7 +28,7 @@ export type Checklist = {
   checklist: ChecklistItems;
 };
 
-export default function CkecklistUserId({ data: user }) {
+export default function CkecklistUserId({ data: user }: any) {
   const { data: checklist, isLoading } = useQuery<Checklist, AxiosError>({
     queryKey: ['checklist'],
     queryFn: () => userChecklistItem(),
