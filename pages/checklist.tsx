@@ -1,13 +1,11 @@
-import dynamic from "next/dynamic";
-
+import ChecklistAccordion from '@/components/checklist/ChecklistAccordion';
 import Head from 'next/head';
 import { userChecklistItem } from './api/checklist';
 import { userInfo } from '@/pages/api/sign';
 import { useQuery } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import axios, { AxiosError } from 'axios';
-const ChecklistAccordion = dynamic(import('@/components/checklist/ChecklistAccordion'))
-const LoadingSpinner = dynamic(import('@/components/common/LoadingSpinner'))
+import LoadingSpinner from '@/components/common/LoadingSpinner';
 
 export type ChecklistItem = {
   item: string;
@@ -30,9 +28,7 @@ export type Checklist = {
   checklist: ChecklistItems;
 };
 
-export default function CkecklistUserId() {
-  const { data: user } = useQuery(['user'], userInfo);
-
+export default function CkecklistUserId({ data: user }) {
   const { data: checklist, isLoading } = useQuery<Checklist, AxiosError>({
     queryKey: ['checklist'],
     queryFn: () => userChecklistItem(),
@@ -41,8 +37,6 @@ export default function CkecklistUserId() {
   const checklistContent = checklist?.checklist.content || [];
 
   if (isLoading) return <LoadingSpinner />;
-
-  if(checklistContent.length === 0) return '데이터 없음'
 
   return (
     <>
@@ -81,6 +75,6 @@ export const getServerSideProps = async (
     };
   }
   return {
-    props: {},
+    props: { data },
   };
 };
