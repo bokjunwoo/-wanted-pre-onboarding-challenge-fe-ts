@@ -42,6 +42,8 @@ export default function CkecklistUserId() {
 
   if (isLoading) return <LoadingSpinner />;
 
+  if(checklistContent.length === 0) return '데이터 없음'
+
   return (
     <>
       <Head>
