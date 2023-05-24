@@ -1,11 +1,13 @@
-import ChecklistAccordion from '@/components/checklist/ChecklistAccordion';
+import dynamic from "next/dynamic";
+
 import Head from 'next/head';
 import { userChecklistItem } from './api/checklist';
 import { userInfo } from '@/pages/api/sign';
 import { useQuery } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import axios, { AxiosError } from 'axios';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
+const ChecklistAccordion = dynamic(import('@/components/checklist/ChecklistAccordion'))
+const LoadingSpinner = dynamic(import('@/components/common/LoadingSpinner'))
 
 export type ChecklistItem = {
   item: string;
