@@ -30,7 +30,7 @@ export interface IReviewInfo {
   writeTime: string;
   contentid: string;
   title: string;
-  nickName: string;
+  nickname: string;
   userImage: string;
   content: string;
   star: number;
