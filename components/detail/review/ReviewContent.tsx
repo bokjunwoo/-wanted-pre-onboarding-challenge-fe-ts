@@ -4,10 +4,14 @@ import { ListGroup, Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import ReviewWrite from './ReviewWrite';
 import moment from 'moment';
+import { userInfo } from '@/pages/api/sign';
+import { useQuery } from '@tanstack/react-query';
 
 moment.locale('ko');
 
 export default function ReviewContent({ review }: { review: IReviewInfo }) {
+  const { data: user } = useQuery(['user'], userInfo);
+
   const [edit, setEdit] = useState<boolean>(false);
   const onClickEdit = useCallback(() => {
     setEdit((prev) => !prev);
@@ -28,7 +32,7 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
           </div>
 
           <div className="ms-2">
-            <span>{review.nickName}</span>
+            <span>{review.nickname}</span>
             <br />
             {stars.map((star, i) => (
               <span key={i} style={{ color: star === 0 ? 'gray' : '#ffd400' }}>
@@ -41,32 +45,34 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
           </div>
         </div>
 
-        <div className="d-flex align-items-center">
-          {edit ? (
-            <Button variant="outline-success" size="sm" onClick={onClickEdit}>
-              확인
-            </Button>
-          ) : (
-            <Button variant="outline-success" size="sm" onClick={onClickEdit}>
-              수정
-            </Button>
-          )}
+        {review.nickname === user ? (
+          <div className="d-flex align-items-center">
+            {edit ? (
+              <Button variant="outline-success" size="sm" onClick={onClickEdit}>
+                확인
+              </Button>
+            ) : (
+              <Button variant="outline-success" size="sm" onClick={onClickEdit}>
+                수정
+              </Button>
+            )}
 
-          {edit ? (
-            <Button
-              variant="outline-danger"
-              className="ms-2"
-              size="sm"
-              onClick={onClickEdit}
-            >
-              취소
-            </Button>
-          ) : (
-            <Button variant="outline-danger" className="ms-2" size="sm">
-              삭제
-            </Button>
-          )}
-        </div>
+            {edit ? (
+              <Button
+                variant="outline-danger"
+                className="ms-2"
+                size="sm"
+                onClick={onClickEdit}
+              >
+                취소
+              </Button>
+            ) : (
+              <Button variant="outline-danger" className="ms-2" size="sm">
+                삭제
+              </Button>
+            )}
+          </div>
+        ) : null}
       </div>
 
       <div>
