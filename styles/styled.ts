@@ -102,19 +102,40 @@ export const Preparation = styled.div`
 `;
 
 export const AccordionCustom = styled.div`
-.accordion-button:not(.collapsed) {
-  color: #ffffff;
-  background-color: #198754;
-  box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
-}
-.accordion-button:focus,
-.accordion-button:active {
-  outline: none !important;
-  box-shadow: none !important;
-  -webkit-box-shadow: none !important;
-}
-input[type='checkbox']:checked {
-  background: #198754;
-  border-color: #198754;
-}
+  .accordion-button:not(.collapsed) {
+    color: #ffffff;
+    background-color: #198754;
+    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+  }
+  .accordion-button:focus,
+  .accordion-button:active {
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+  }
+  input[type='checkbox']:checked {
+    background: #198754;
+    border-color: #198754;
+  }
+`;
+
+export const Stars = styled.div`
+  display: flex;
+
+  & svg {
+    color: gray;
+    cursor: pointer;
+  }
+
+  :hover svg {
+    color: #ffd400;
+  }
+
+  & svg:hover ~ svg {
+    color: gray;
+  }
+
+  .yellowStar {
+    color: #ffd400;
+  }
 `;
