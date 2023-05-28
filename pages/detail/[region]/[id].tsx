@@ -82,7 +82,7 @@ export default function DetailId() {
             </Col>
           </Row>
 
-          <div className="mt-5 mb-4">
+          <div className="mt-5">
             <Title>
               <span>상세정보</span>
               <Cursor onClick={onClickMoreInformation}>
@@ -98,12 +98,12 @@ export default function DetailId() {
             ) : null}
           </div>
 
-          <div className="mt-5 mb-4">
+          <div className="mt-3">
+            <ReviewWrite minRows={3} />
+
             <Title>
               <span>리뷰 {review?.length}개</span>
             </Title>
-
-            <ReviewWrite minRows={3} />
 
             <ListGroup variant="flush" className="mt-4">
               {review?.length === 0
