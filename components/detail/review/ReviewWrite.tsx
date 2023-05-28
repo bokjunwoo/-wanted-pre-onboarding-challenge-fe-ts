@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import TextareaAutosize from 'react-textarea-autosize';
 
 interface ReviewWriteProps {
@@ -39,6 +39,11 @@ export default function ReviewWrite({
           onChange={onChangeText}
         />
         <label htmlFor="floatingTextarea">내용</label>
+      </div>
+      <div className="d-flex justify-content-end">
+        <Button size="sm" className="mt-2" variant="outline-primary">
+          등록
+        </Button>
       </div>
     </Form>
   );
