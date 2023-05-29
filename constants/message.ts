@@ -5,7 +5,9 @@ export const ERROR_MESSAGE = {
   REPASSWORD_CHECK_ERROR: '비밀번호가 일치하지 않습니다.',
   REPASSWORD_LEGNTH_ZERO: '비밀번호가 입력되지 않았습니다.',
   ID_DUPLICATE: '이미 사용중인 아이디 입니다.',
-  NICKNAME_DUPLICATE: '이미 사용중인 닉네임 입니다'
+  NICKNAME_DUPLICATE: '이미 사용중인 닉네임 입니다',
+  NO_STAR_RATING: '별점이 입력되지 않았습니다.',
+  NO_REVIEW_WRITE: '리뷰가 입력되지 않았습니다'
 };
 
 export const SUCCESS_MESSAGE = {
