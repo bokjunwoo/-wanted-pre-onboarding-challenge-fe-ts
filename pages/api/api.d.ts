@@ -33,7 +33,7 @@ export interface IReviewInfo {
   userImage: string;
   content: string;
   star: number;
-  time: string;
+  time: Date;
 }
 
 export interface IReviewEdit {
