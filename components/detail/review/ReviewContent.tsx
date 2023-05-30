@@ -2,10 +2,10 @@ import { IReviewInfo } from '@/pages/api/api';
 import React, { useCallback, useState } from 'react';
 import { ListGroup, Button } from 'react-bootstrap';
 import styled from 'styled-components';
-import ReviewWrite from './ReviewWrite';
 import moment from 'moment';
 import { userInfo } from '@/pages/api/sign';
 import { useQuery } from '@tanstack/react-query';
+import ReviewEdit from './ReviewEdit';
 
 moment.locale('ko');
 
@@ -40,7 +40,7 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
               </span>
             ))}
             <span className="text-muted ms-1">
-              {moment(review.writeTime).format('YYYY.MM.DD')}
+              {moment(review.time).format('YYYY.MM.DD')}
             </span>
           </div>
         </div>
@@ -77,7 +77,7 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
 
       <div>
         {edit ? (
-          <ReviewWrite value={review.content} autoFocus={true} />
+          <ReviewEdit value={review.content} autoFocus={true} _id={review._id} setEdit={setEdit}/>
         ) : (
           <span>{review.content}</span>
         )}
