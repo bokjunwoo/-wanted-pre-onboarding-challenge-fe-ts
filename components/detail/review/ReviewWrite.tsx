@@ -1,5 +1,5 @@
 import useInput from '@/components/hooks/useInput';
-import { IReviewInfo } from '@/pages/api/api';
+import { IReviewAdd, IReviewInfo } from '@/pages/api/api';
 import { reviewAdd } from '@/pages/api/review';
 import { userInfo } from '@/pages/api/sign';
 import { Stars } from '@/styles/styled';
@@ -11,6 +11,7 @@ import { Button, Form } from 'react-bootstrap';
 import TextareaAutosize from 'react-textarea-autosize';
 import AlretModal from '@/components/modal/AlertModal';
 import { ERROR_MESSAGE } from '@/constants/message';
+import { useRouter } from 'next/router';
 
 interface ReviewWriteProps {
   value?: string;
@@ -27,6 +28,9 @@ export default function ReviewWrite({
 }: ReviewWriteProps) {
   const queryClient = useQueryClient();
 
+  const router = useRouter();
+  const { region, id } = router.query as { region: string; id: string };
+
   const { data: user } = useQuery(['user'], userInfo);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -40,6 +44,8 @@ export default function ReviewWrite({
   ]);
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState('');
+
+  const star = starclicked.filter(Boolean).length;
 
   const handleStarClick = (index: number) => {
     let clickStates = [...starclicked];
@@ -56,24 +62,38 @@ export default function ReviewWrite({
     }
   }, []);
 
-  const mutationAdd = useMutation(['review'], reviewAdd, {
+  const mutationAdd = useMutation(['fetchReview'], reviewAdd, {
     onMutate() {
       if (!user) return;
-      // queryClient.setQueryData<IReviewInfo>(['review'], (data) => {
 
-      // });
+      queryClient.setQueryData<IReviewInfo[]>(['fetchReview'], (data) => {
+        const newRevie = data || [];
+
+        newRevie.push({
+          _id: '0',
+          contentid: region,
+          title: '',
+          nickname: user,
+          userImage: '',
+          content: text,
+          star,
+          time: new Date(),
+        });
+
+        return newRevie;
+      });
     },
+
     onSuccess() {
       setText('');
-    },
-    onSettled() {
-      queryClient.refetchQueries(['review']);
+      setStarClicked([false, false, false, false, false]);
+      queryClient.refetchQueries(['fetchReview']);
     },
   });
 
-  const onSubmitReview = useCallback(
-    (user: string, text: string) => {
-      const star = starclicked.filter(Boolean).length;
+  const onSubmitReviewAdd = useCallback(
+    (data: IReviewAdd) => {
+      const { user, text, star, region, id } = data;
       if (star === 0) {
         setShow(true);
         setMessage(ERROR_MESSAGE.NO_STAR_RATING);
@@ -84,7 +104,7 @@ export default function ReviewWrite({
         setMessage(ERROR_MESSAGE.NO_REVIEW_WRITE);
         return;
       }
-      mutationAdd.mutate({ user, text });
+      mutationAdd.mutate({ user, text, star, region, id });
     },
     [starclicked],
   );
@@ -118,6 +138,7 @@ export default function ReviewWrite({
           />
           <label htmlFor="floatingTextarea">내용</label>
         </div>
+
         <div className="d-flex justify-content-end">
           <Button
             size="sm"
@@ -125,7 +146,7 @@ export default function ReviewWrite({
             variant="outline-primary"
             type="button"
             onClick={() => {
-              onSubmitReview(user, text);
+              onSubmitReviewAdd({ user, text, star, region, id });
             }}
           >
             등록
