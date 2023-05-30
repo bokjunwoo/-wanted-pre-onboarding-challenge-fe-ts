@@ -27,15 +27,21 @@ export interface IListInfo {
 
 export interface IReviewInfo {
   _id: string;
-  writeTime: string;
   contentid: string;
   title: string;
   nickname: string;
   userImage: string;
   content: string;
   star: number;
-  dateFull: string;
-  image: string;
+  time: string;
+}
+
+export interface IReviewAdd {
+  user: string;
+  text: string;
+  star: number;
+  region: string;
+  id: string;
 }
 
 export interface IKoreaAPI {
