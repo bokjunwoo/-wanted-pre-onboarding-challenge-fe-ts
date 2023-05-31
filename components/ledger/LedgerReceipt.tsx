@@ -1,7 +1,11 @@
 import React, { useCallback, useState } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faTrash,
+  faArrowUp,
+  faArrowDown,
+} from '@fortawesome/free-solid-svg-icons';
 import { Ledger, LedgerItem } from '@/pages/ledger/[userId]';
 import { Cursor } from '@/styles/styled';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -16,6 +20,19 @@ export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
   const { data: user } = useQuery(['user'], userInfo);
 
   const [show, setShow] = useState(false);
+  const [person, setPerson] = useState(1);
+
+  const increasePerson = () => {
+    if (person < 10) {
+      setPerson(person + 1);
+    }
+  };
+
+  const decreasePerson = () => {
+    if (person > 1) {
+      setPerson(person - 1);
+    }
+  };
 
   const mutationDelete = useMutation(['ledger'], ledgerDelete, {
     onMutate({ id }) {
@@ -59,6 +76,11 @@ export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
     setShow(true);
   }, []);
 
+  const totalPrice = ledger.reduce((total, item) => total + item.price, 0);
+  const perAmount = totalPrice / person;
+  const formattedAmount =
+    perAmount % 1 === 0 ? perAmount.toFixed(0) : perAmount.toFixed(1);
+
   return (
     <div
       className="p-4 rounded border mt-4"
@@ -93,7 +115,7 @@ export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
             <Row className="text-start mb-2" key={v.id}>
               <Col className="col-3">{v.date.slice(5, 10)}</Col>
               <Col className="col-4">{v.title}</Col>
-              <Col className="col-3">{v.price}원</Col>
+              <Col className="col-3">{v.price.toLocaleString()}원</Col>
               <Col className="col-2 text-end">
                 <Cursor
                   onClick={() => {
@@ -117,12 +139,30 @@ export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
 
       <Row className="fs-6 mb-2">
         <Col>총 합계</Col>
-        <Col className="text-end">0원</Col>
+        <Col className="text-end text-primary">
+          {totalPrice.toLocaleString()}원
+        </Col>
       </Row>
 
       <Row className="fs-6 mb-2">
-        <Col>인원수 1명</Col>
-        <Col className="text-end">0원</Col>
+        <Col>
+          <div style={{ display: 'inline-block', width: '80px' }}>
+            인원수 {person}명
+          </div>{' '}
+          <FontAwesomeIcon
+            icon={faArrowUp}
+            onClick={increasePerson}
+            className="bg-warning me-1 ps-1 pe-1"
+          />{' '}
+          <FontAwesomeIcon
+            icon={faArrowDown}
+            onClick={decreasePerson}
+            className="bg-warning ps-1 pe-1"
+          />
+        </Col>
+        <Col className="text-end text-danger">
+          {formattedAmount.toLocaleString()}원
+        </Col>
       </Row>
 
       <hr className="dashed" style={{ borderTop: 'dashed' }}></hr>
