@@ -13,7 +13,7 @@ export type LedgerItem = {
   id: string;
   date: string;
   title: string;
-  price: string;
+  price: number;
 };
 
 export type Ledger = {
@@ -28,7 +28,6 @@ export default function LedgerUserId() {
     queryKey: ['ledger'],
     queryFn: () => userLedgerItem(),
   });
-  console.log(ledger);
 
   const ledgerContent = ledger?.chargeList || [];
 
