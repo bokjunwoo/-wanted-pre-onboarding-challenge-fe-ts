@@ -10,7 +10,7 @@ export const ledgerAdd = async (data: {
   user: string;
   date: string;
   title: string;
-  price: string;
+  price: number;
 }) => {
   const response = await apiClient({
     method: 'post',

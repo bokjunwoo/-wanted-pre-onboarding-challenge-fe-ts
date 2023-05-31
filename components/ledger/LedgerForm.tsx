@@ -12,8 +12,15 @@ export default function LedgerForm() {
   const { data: user } = useQuery(['user'], userInfo);
 
   const [text, onChangeText, setText] = useInput('');
-  const [price, onChangePrice, setPrice] = useInput('');
+  const [price, setPrice] = useState(0);
   const [selectedDate, setSelectedDate] = useState('');
+
+  const onChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const parsedValue = parseInt(value, 10); // 문자열을 숫자로 변환
+
+    setPrice(parsedValue);
+  };
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedDate(e.target.value);
@@ -39,7 +46,7 @@ export default function LedgerForm() {
     },
     onSuccess() {
       setText('');
-      setPrice('');
+      setPrice(0);
       setSelectedDate('');
     },
     onSettled() {
@@ -47,9 +54,9 @@ export default function LedgerForm() {
     },
   });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await mutationAdd.mutateAsync({
+    mutationAdd.mutate({
       user,
       date: selectedDate,
       title: text,
