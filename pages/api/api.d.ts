@@ -36,6 +36,13 @@ export interface IReviewInfo {
   time: Date;
 }
 
+export interface IReviewDelete {
+  _id: string;
+  user: string;
+  region: string;
+  time: Date;
+}
+
 export interface IReviewEdit {
   _id: string;
   user: string;
