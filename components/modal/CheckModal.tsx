@@ -1,30 +1,28 @@
-import { Ledger } from '@/pages/ledger/[userId]';
-import { UseMutationResult } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 interface ICheckModal {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
-  success: UseMutationResult<
-    Ledger,
-    AxiosError<unknown, any>,
-    {
-      user: string;
-    },
-    void
-  >;
-  user: string;
+  message1: string;
+  message2?: string;
+  onSubmit: () => void;
 }
 
-export default function CheckModal({ show, setShow, success, user }: ICheckModal) {
+export default function CheckModal({
+  show,
+  setShow,
+  message1,
+  message2,
+  onSubmit,
+}: ICheckModal) {
   const handleClose = () => {
     setShow(false);
   };
 
   const handleSuccess = () => {
-    success.mutate({ user });
+    onSubmit();
+    setShow(false);
   };
 
   return (
@@ -46,9 +44,9 @@ export default function CheckModal({ show, setShow, success, user }: ICheckModal
       </Modal.Header>
 
       <Modal.Body>
-        데이터를 전체 삭제합니다
+        {message1}
         <br />
-        삭제된 데이터는 복구되지 않습니다.
+        {message2}
       </Modal.Body>
 
       <Modal.Footer>
