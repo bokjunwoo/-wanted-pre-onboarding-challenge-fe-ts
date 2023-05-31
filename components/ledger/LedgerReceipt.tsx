@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -46,17 +46,18 @@ export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
     { user: string },
     void
   >(['ledger'], ledgerDeleteAll, {
-    onSuccess() {
-      setShow(false);
-    },
     onSettled() {
       queryClient.refetchQueries(['ledger']);
     },
   });
 
   const onSubmitDeleteAll = () => {
-    setShow(true);
+    mutationDeleteAll.mutate({ user });
   };
+
+  const modalHandler = useCallback(() => {
+    setShow(true);
+  }, []);
 
   return (
     <div
@@ -132,7 +133,7 @@ export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
             초기화
           </Button>
         ) : (
-          <Button variant="success" type="button" onClick={onSubmitDeleteAll}>
+          <Button variant="success" type="button" onClick={modalHandler}>
             초기화
           </Button>
         )}
@@ -141,8 +142,9 @@ export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
       <CheckModal
         show={show}
         setShow={setShow}
-        success={mutationDeleteAll}
-        user={user}
+        message1="데이터를 전체 삭제합니다"
+        message2="삭제된 데이터는 복구되지 않습니다."
+        onSubmit={onSubmitDeleteAll}
       />
     </div>
   );
