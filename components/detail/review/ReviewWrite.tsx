@@ -48,7 +48,7 @@ export default function ReviewWrite({
   const star = starclicked.filter(Boolean).length;
 
   const handleStarClick = (index: number) => {
-    let clickStates = [...starclicked];
+    const clickStates = [...starclicked];
     for (let i = 0; i < 5; i++) {
       clickStates[i] = i <= index ? true : false;
     }
@@ -60,7 +60,7 @@ export default function ReviewWrite({
       textareaRef.current.focus();
       textareaRef.current.setSelectionRange(value.length, value.length);
     }
-  }, []);
+  }, [autoFocus, value]);
 
   const mutationAdd = useMutation(['fetchReview'], reviewAdd, {
     onMutate() {
@@ -106,7 +106,7 @@ export default function ReviewWrite({
       }
       mutationAdd.mutate({ user, text, star, region, id });
     },
-    [starclicked],
+    [mutationAdd],
   );
 
   return (

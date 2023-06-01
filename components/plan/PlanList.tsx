@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, CloseButton, ListGroup } from 'react-bootstrap';
+import { CloseButton, ListGroup } from 'react-bootstrap';
 import { UserIamge } from '../detail/review/ReviewContent';
 
 export default function PlanList() {
@@ -19,8 +19,8 @@ export default function PlanList() {
           </div>
         </div>
 
-        <div className='d-flex align-items-center'>
-          <CloseButton/>
+        <div className="d-flex align-items-center">
+          <CloseButton />
         </div>
       </div>
     </ListGroup.Item>

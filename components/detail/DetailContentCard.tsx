@@ -39,7 +39,7 @@ export default function DetailContentCard({
             {homepageUrl === '' ? (
               '등록된 홈페이지가 없습니다'
             ) : (
-              <a href={homepageUrl} target="_blank" className="text-muted">
+              <a href={homepageUrl} target="_blank" rel="noopener noreferrer">
                 이동하기
               </a>
             )}

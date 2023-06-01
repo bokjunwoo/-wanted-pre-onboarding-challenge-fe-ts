@@ -14,7 +14,7 @@ interface ReviewEditProps {
   autoFocus?: boolean;
   minRows?: number;
   _id: string;
-  setEdit: any;
+  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function ReviewEdit({
@@ -22,7 +22,7 @@ export default function ReviewEdit({
   autoFocus,
   minRows,
   _id,
-  setEdit
+  setEdit,
 }: ReviewEditProps) {
   const queryClient = useQueryClient();
 
@@ -38,7 +38,7 @@ export default function ReviewEdit({
       textareaRef.current.focus();
       textareaRef.current.setSelectionRange(value.length, value.length);
     }
-  }, []);
+  }, [autoFocus, value]);
 
   const mutationEdit = useMutation(['review'], reviewEdit, {
     onMutate() {
@@ -49,22 +49,25 @@ export default function ReviewEdit({
     },
     onSuccess() {
       setText('');
-      setEdit(false)
+      setEdit(false);
     },
     onSettled() {
       queryClient.refetchQueries(['review']);
     },
   });
 
-  const onSubmitReviewEdit = useCallback((data: IReviewEdit) => {
-    const { _id, user, text } = data;
-    if (text.length === 0) {
-      setShow(true);
-      setMessage(ERROR_MESSAGE.NO_REVIEW_WRITE);
-      return;
-    }
-    mutationEdit.mutate({ _id, user, text });
-  }, []);
+  const onSubmitReviewEdit = useCallback(
+    (data: IReviewEdit) => {
+      const { _id, user, text } = data;
+      if (text.length === 0) {
+        setShow(true);
+        setMessage(ERROR_MESSAGE.NO_REVIEW_WRITE);
+        return;
+      }
+      mutationEdit.mutate({ _id, user, text });
+    },
+    [mutationEdit],
+  );
 
   return (
     <>

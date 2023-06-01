@@ -9,7 +9,10 @@ type PlanCalendarModalProps = {
   onHide: () => void;
 };
 
-export default function PlanCalendarModal({ show, onHide }: PlanCalendarModalProps) {
+export default function PlanCalendarModal({
+  show,
+  onHide,
+}: PlanCalendarModalProps) {
   const [value, onChange] = useState<Date[]>([new Date()]);
 
   // 모달창이 닫힐 때 value 상태값을 초기화
@@ -27,7 +30,7 @@ export default function PlanCalendarModal({ show, onHide }: PlanCalendarModalPro
       const days = duration.hours() > 0 ? duration.days() + 1 : duration.days(); // 일수 계산
       console.log(`${nights}박 ${days}일`);
     } else {
-      console.log('1일')
+      console.log('1일');
     }
   };
 
@@ -64,8 +67,12 @@ export default function PlanCalendarModal({ show, onHide }: PlanCalendarModalPro
         ></Calendar>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant='secondary' onClick={handleClose}>닫기</Button>
-        <Button variant='success' onClick={handleSelect}>선택완료</Button>
+        <Button variant="secondary" onClick={handleClose}>
+          닫기
+        </Button>
+        <Button variant="success" onClick={handleSelect}>
+          선택완료
+        </Button>
       </Modal.Footer>
     </Modal>
   );

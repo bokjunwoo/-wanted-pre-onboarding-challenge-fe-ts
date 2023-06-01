@@ -66,9 +66,9 @@ export const userInfo = async () => {
   return response.data;
 };
 
-export const userlogout =async () => {
+export const userlogout = async () => {
   const response = await axios.post('/user/logout', {
     withCredentials: true,
   });
   return response.data;
-}
+};

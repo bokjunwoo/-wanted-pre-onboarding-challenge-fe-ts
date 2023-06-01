@@ -8,7 +8,11 @@ interface LocalLoginProps {
   loading: boolean;
 }
 
-export default function LocalButton({ text, onSubmitForm, loading }: LocalLoginProps) {
+export default function LocalButton({
+  text,
+  onSubmitForm,
+  loading,
+}: LocalLoginProps) {
   return (
     <Btn onClick={onSubmitForm} type="button" disabled={loading}>
       {loading ? <ButtonSpinner /> : text}

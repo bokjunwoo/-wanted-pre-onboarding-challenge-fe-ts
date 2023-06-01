@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     kakao: any;
   }
 }
@@ -52,7 +53,7 @@ export default function KakaoMap({ width, height, mapy, mapx }: KakaoMapSize) {
         position: new window.kakao.maps.LatLng(mapy, mapx),
       });
     }
-  }, [kakaoLoaded]);
+  }, [kakaoLoaded, mapx, mapy]);
 
   return (
     <>

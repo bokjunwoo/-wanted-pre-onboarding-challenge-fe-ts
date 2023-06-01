@@ -1,4 +1,8 @@
-import { IKakaoLoginSuccess, ILoginResult, ISignupResult } from '@/pages/api/api';
+import {
+  IKakaoLoginSuccess,
+  ILoginResult,
+  ISignupResult,
+} from '@/pages/api/api';
 import { kakaoLogin } from '@/pages/api/sign';
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -24,24 +28,29 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
     message: '',
   });
 
-  const mutation = useMutation<ILoginResult, AxiosError, { id: number }>(['user'], kakaoLogin, {
-    onMutate: () => {
-      setLoading(true);
+  const mutation = useMutation<ILoginResult, AxiosError, { id: number }>(
+    ['user'],
+    kakaoLogin,
+    {
+      onMutate: () => {
+        setLoading(true);
+      },
+      onError: (error) => {
+        alert(error.response?.data);
+      },
+      onSuccess: (result) => {
+        queryClient.setQueryData(['user'], result.nickname);
+        setResult(result);
+        setShow(true);
+      },
+      onSettled: () => {
+        setLoading(false);
+      },
     },
-    onError: (error) => {
-      alert(error.response?.data);
-    },
-    onSuccess: (result) => {
-      queryClient.setQueryData(['user'], result.nickname);
-      setResult(result);
-      setShow(true);
-    },
-    onSettled: () => {
-      setLoading(false);
-    },
-  });
+  );
 
   const kakaoInit = () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const kakao = (window as any).Kakao;
     if (!kakao.isInitialized()) {
       kakao.init('e79b288ebffab6c35ea1c3d7624e2f3a');
@@ -58,7 +67,9 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
         kakao.API.request({
           url: '/v2/user/me',
           success: async (res: IKakaoLoginSuccess) => {
-            const response: ISignupResult | ILoginResult = await kakaoLogin({ id: res.id });
+            const response: ISignupResult | ILoginResult = await kakaoLogin({
+              id: res.id,
+            });
             if (response.type === 'login') {
               mutation.mutate({ id: res.id });
             } else {
@@ -91,23 +102,6 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
     });
   };
 
-  const KakaoLogout = () => {
-    const kakao = kakaoInit();
-
-    console.log(kakao.Auth.getAccessToken()); // 카카오 접근 토큰 확인 (로그인 후 해당 토큰을 이용하여 추가 기능 수행 가능)
-
-    // 카카오 로그인 링크 해제
-    kakao.API.request({
-      url: '/v1/user/unlink',
-      success: (res: any) => {
-        // 로그인 성공할 경우 정보 확인 후 / 페이지로 push
-        console.log(res);
-      },
-      fail: (error: any) => {
-        console.log(error);
-      },
-    });
-  };
   return (
     <>
       <Btn onClick={KakaoLoginButton} type="button" disabled={loading}>
@@ -119,7 +113,9 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
           {result.type === 'signup' && (
             <KakaoFormModal show={show} setShow={setShow} id={kakaoId} />
           )}
-          {result.type === 'login' && <SignSuccess show={show} setShow={setShow} result={result} />}
+          {result.type === 'login' && (
+            <SignSuccess show={show} setShow={setShow} result={result} />
+          )}
         </>
       )}
     </>

@@ -5,13 +5,13 @@ import PlanKakaoMap from '../kakao/PlanKakaoMap';
 
 type PlanMapProps = {
   region: string;
-}
+};
 
 export default function PlanMap({ region }: PlanMapProps) {
   return (
     <MapContainer>
       <Card.Body className="p-0">
-        <PlanKakaoMap width="100%" height="100%" region={region}/>
+        <PlanKakaoMap width="100%" height="100%" region={region} />
       </Card.Body>
     </MapContainer>
   );

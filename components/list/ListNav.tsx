@@ -19,7 +19,7 @@ export default function ListNav({ region, type, margin }: SubNavProps) {
         router.push(`/list/${region}/${type}?page=1`);
       }
     },
-    [router],
+    [router, region],
   );
 
   useEffect(() => {

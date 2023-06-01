@@ -19,7 +19,7 @@ const instance = axios.create({
   },
 });
 
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true;
 if (process.env.NODE_ENV === 'development') {
   axios.defaults.baseURL = 'http://localhost:4000';
 } else {

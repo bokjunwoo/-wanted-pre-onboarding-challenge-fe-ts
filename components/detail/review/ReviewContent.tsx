@@ -51,7 +51,7 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
 
   const onSubmitReviewDelete = useCallback(() => {
     mutationDelete.mutate({ _id: review._id, user, region, time: review.time });
-  }, []);
+  }, [region, mutationDelete, review._id, review.time, user]);
 
   return (
     <>

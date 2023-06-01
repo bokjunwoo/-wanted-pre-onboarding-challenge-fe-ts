@@ -27,4 +27,3 @@ export const reviewDelete = async (data: IReviewDelete) => {
   });
   return response.data;
 };
-

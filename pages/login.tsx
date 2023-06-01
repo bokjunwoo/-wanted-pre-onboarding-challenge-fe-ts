@@ -13,7 +13,7 @@ import SignSuccess from '@/components/modal/SignSuccess';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
-export default function login() {
+export default function Login() {
   const queryClient = useQueryClient();
 
   const [show, setShow] = useState(false);
@@ -63,7 +63,7 @@ export default function login() {
       return;
     }
     mutation.mutate({ email, password });
-  }, [email, password]);
+  }, [email, password, mutation]);
 
   return (
     <>

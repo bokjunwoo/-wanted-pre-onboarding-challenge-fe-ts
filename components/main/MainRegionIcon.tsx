@@ -6,9 +6,12 @@ import { Row, Col } from 'react-bootstrap';
 export default function MainRegionIcon() {
   const router = useRouter();
 
-  const handleClick = useCallback((region: string) => {
-    router.push(`submain/${region}`);
-  }, []);
+  const handleClick = useCallback(
+    (region: string) => {
+      router.push(`submain/${region}`);
+    },
+    [router],
+  );
 
   return (
     <Row

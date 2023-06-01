@@ -2,17 +2,12 @@ import { Row, Col, Card } from 'react-bootstrap';
 import { mainCardData } from '@/data/region';
 
 export default function MainCard() {
-
   return (
     <Row xs={1} md={2} lg={4} className="g-4 mt-3 mb-5">
       {mainCardData.map((data) => (
         <Col key={data.id}>
           <Card style={{ border: 'none' }}>
-            <Card.Img
-              variant="top"
-              src={data.image}
-              className="p-0"
-            />
+            <Card.Img variant="top" src={data.image} className="p-0" />
             <Card.ImgOverlay className="p-0">
               <Card.Body className="p-0">
                 <Card.Text

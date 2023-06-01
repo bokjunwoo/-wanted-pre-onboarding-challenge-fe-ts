@@ -21,6 +21,7 @@ const regionCoordinates: CoordsIndexSignature = {
 
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     kakao: any;
   }
 }
@@ -71,7 +72,7 @@ export default function PlanKakaoMap({ width, height, region }: KakaoMapSize) {
       //   position: new window.kakao.maps.LatLng(coordinates[0].mapY, coordinates[0].mapX),
       // });
     }
-  }, [kakaoLoaded]);
+  }, [kakaoLoaded, region]);
 
   return (
     <>

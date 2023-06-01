@@ -43,8 +43,8 @@ export default function SignSuccess({ show, setShow, result }: ISignupSuccess) {
 
       <Modal.Body>{result.message}</Modal.Body>
 
-      <Modal.Footer className='p-1'>
-        <Button variant="primary" onClick={handleClose} size='sm'>
+      <Modal.Footer className="p-1">
+        <Button variant="primary" onClick={handleClose} size="sm">
           확인
         </Button>
       </Modal.Footer>

@@ -15,7 +15,7 @@ import { localRegister } from './api/sign';
 import SignSuccess from '@/components/modal/SignSuccess';
 import { ISignupResult } from './api/api';
 
-export default function signup() {
+export default function Signup() {
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
 
@@ -89,7 +89,15 @@ export default function signup() {
     setLoading(false);
     setSignupResult(response);
     setShow(response.success);
-  }, [emailResult, passwordResult, repasswordResult, nicknameResult]);
+  }, [
+    emailResult,
+    passwordResult,
+    repasswordResult,
+    nicknameResult,
+    email,
+    nickname,
+    password,
+  ]);
 
   return (
     <>

@@ -1,5 +1,3 @@
-import exp from 'constants';
-
 export interface IItemInfo {
   _id: string;
   contentid: string;

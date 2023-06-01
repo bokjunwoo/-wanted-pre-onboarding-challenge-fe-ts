@@ -8,7 +8,7 @@ interface SubTextProps {
   subText: string;
 }
 
-export default function SubText({mainText, icon, subText}: SubTextProps) {
+export default function SubText({ mainText, icon, subText }: SubTextProps) {
   return (
     <Row>
       <Col className="mt-5 mb-4">

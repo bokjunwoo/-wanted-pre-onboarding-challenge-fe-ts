@@ -29,7 +29,7 @@ export const ledgerDelete = async (data: { user: string; id: string }) => {
   return response.data;
 };
 
-export const ledgerDeleteAll = async (data: { user: string; }) => {
+export const ledgerDeleteAll = async (data: { user: string }) => {
   const response = await apiClient({
     method: 'delete',
     url: 'charge/deleteall',

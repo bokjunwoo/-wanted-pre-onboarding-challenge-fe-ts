@@ -1,7 +1,10 @@
 import { ValidationResult } from '@/utils/sign';
 import { useCallback, useState } from 'react';
 
-export default (initialValue: string, validation: (value: string) => Promise<ValidationResult>) => {
+export default (
+  initialValue: string,
+  validation: (value: string) => Promise<ValidationResult>,
+) => {
   const [value, setValue] = useState(initialValue);
 
   const [result, setResult] = useState<ValidationResult>({

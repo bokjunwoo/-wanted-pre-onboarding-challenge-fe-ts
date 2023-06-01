@@ -604,5 +604,5 @@ export const regionContents = {
   jeju: {
     stay: jejuFood,
     tour: jejuTour,
-  }
+  },
 };

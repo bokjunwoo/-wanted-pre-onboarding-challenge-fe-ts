@@ -1,4 +1,8 @@
-import { ITEMS_COUNT_PER_PAGE, PAGE_RANGE_DISPLAY, TOTAL_ITEMS_COUNT_NULL } from '@/constants/units';
+import {
+  ITEMS_COUNT_PER_PAGE,
+  PAGE_RANGE_DISPLAY,
+  TOTAL_ITEMS_COUNT_NULL,
+} from '@/constants/units';
 import { PaginationWrapper } from '@/styles/styled';
 import Pagination from 'react-js-pagination';
 

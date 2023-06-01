@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faN } from '@fortawesome/free-solid-svg-icons';
 
 export default function Footer() {
@@ -29,7 +29,7 @@ export default function Footer() {
               <Link
                 href="https://github.com/bokjunwoo/TripLog-Next.js-refactoring"
                 style={{ color: '#198754' }}
-                target='_blank'
+                target="_blank"
               >
                 <FontAwesomeIcon icon={faGithub} />
               </Link>
