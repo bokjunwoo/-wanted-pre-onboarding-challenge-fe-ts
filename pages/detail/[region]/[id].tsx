@@ -23,11 +23,13 @@ import {
 } from '@/pages/api/detail';
 import { useRouter } from 'next/router';
 import { GetStaticPropsContext } from 'next';
+import { userInfo } from '@/pages/api/sign';
 
 export default function DetailId() {
   const router = useRouter();
   const { region, id } = router.query as { region: string; id: string };
-  const nickName = 'thals0';
+
+  const { data: user } = useQuery(['user'], userInfo);
 
   const { data: detail, isLoading: detailLoading } = useQuery({
     queryKey: ['fetchDetail', region, id],
@@ -54,7 +56,7 @@ export default function DetailId() {
 
   const averageStar = getAverageStar(review);
   const homepageUrl = getExtractUrl(koreaAPI?.homepage);
-  const likeClickUser = getLikeClickUser(reviewLike, nickName);
+  const likeClickUser = getLikeClickUser(reviewLike, user);
 
   if (detailLoading || reviewLoading || reviewLikeLoading || koreaAPILoading) {
     return <LoadingSpinner />;
