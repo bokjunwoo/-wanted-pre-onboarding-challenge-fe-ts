@@ -1,5 +1,11 @@
 import apiClient from './apiClient';
-import { IItemInfo, IKoreaAPI, IReviewInfo } from './api';
+import {
+  IDetailLike,
+  IDetailLikeInc,
+  IItemInfo,
+  IKoreaAPI,
+  IReviewInfo,
+} from './api';
 
 export const fetchDetail = async (
   region: string,
@@ -22,7 +28,7 @@ export const fetchReview = async (id: string): Promise<IReviewInfo[]> => {
   return response.data;
 };
 
-export const fetchReviewLike = async (id: string): Promise<string[]> => {
+export const fetchDetailLike = async (id: string): Promise<IDetailLike> => {
   const response = await apiClient({
     method: 'get',
     url: `/detail/${id}`,
@@ -36,6 +42,15 @@ export const fetchKoreaAPI = async (id: string): Promise<IKoreaAPI> => {
     method: 'post',
     url: `/detail/${id}`,
     params: { id },
+  });
+  return response.data;
+};
+
+export const detailLike = async (data: IDetailLikeInc) => {
+  const response = await apiClient({
+    method: 'post',
+    url: '/like/plus',
+    data,
   });
   return response.data;
 };

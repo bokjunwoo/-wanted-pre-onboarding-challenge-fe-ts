@@ -90,3 +90,14 @@ export interface ILogoutResult {
   success: boolean;
   message: string;
 }
+
+export interface IDetailLike {
+  like: number;
+  likeuser: string[];
+}
+
+export interface IDetailLikeInc {
+  id: string;
+  region: string;
+  user: string;
+}
