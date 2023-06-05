@@ -20,10 +20,10 @@ export const getAverageStar = (star: IStarInfo[] | undefined) => {
 
 export const getLikeClickUser = (
   reviewLike: string[] | undefined,
-  nickName: string,
+  nickname: string,
 ) => {
   if (!reviewLike) {
     return '🤍';
   }
-  return reviewLike.includes(nickName) ? '❤️' : '🤍';
+  return reviewLike.includes(nickname) ? '❤️' : '🤍';
 };

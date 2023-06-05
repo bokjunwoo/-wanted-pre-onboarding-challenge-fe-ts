@@ -19,7 +19,7 @@ import {
   fetchDetail,
   fetchKoreaAPI,
   fetchReview,
-  fetchReviewLike,
+  fetchDetailLike,
 } from '@/pages/api/detail';
 import { useRouter } from 'next/router';
 import { GetStaticPropsContext } from 'next';
@@ -39,9 +39,9 @@ export default function DetailId() {
     queryKey: ['fetchReview', id],
     queryFn: () => fetchReview(id),
   });
-  const { data: reviewLike, isLoading: reviewLikeLoading } = useQuery({
-    queryKey: ['fetchReviewLike', id],
-    queryFn: () => fetchReviewLike(id),
+  const { data: detailLike, isLoading: reviewLikeLoading } = useQuery({
+    queryKey: ['fetchDetailLike', id],
+    queryFn: () => fetchDetailLike(id),
   });
   const { data: koreaAPI, isLoading: koreaAPILoading } = useQuery({
     queryKey: ['fetchKoreaAPI', id],
@@ -64,7 +64,7 @@ export default function DetailId() {
 
   const averageStar = getAverageStar(review);
   const homepageUrl = getExtractUrl(koreaAPI?.homepage);
-  const likeClickUser = getLikeClickUser(reviewLike, user);
+  const likeClickUser = getLikeClickUser(detailLike?.likeuser, user);
 
   if (detailLoading || reviewLoading || reviewLikeLoading || koreaAPILoading) {
     return <LoadingSpinner />;
@@ -82,7 +82,7 @@ export default function DetailId() {
             <Col>
               <DetailImageCard
                 image={detail.firstimage1}
-                like={detail.like}
+                like={detailLike?.like || 0}
                 star={averageStar}
                 likeClickUser={likeClickUser}
                 onButtonClick={handleButtonClick}
@@ -147,8 +147,8 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     fetchDetail(region, id),
   );
   await queryClient.prefetchQuery(['fetchReview', id], () => fetchReview(id));
-  await queryClient.prefetchQuery(['fetchReviewLike', id], () =>
-    fetchReviewLike(id),
+  await queryClient.prefetchQuery(['fetchDetailLike', id], () =>
+    fetchDetailLike(id),
   );
   await queryClient.prefetchQuery(['fetchKoreaAPI', id], () =>
     fetchKoreaAPI(id),
