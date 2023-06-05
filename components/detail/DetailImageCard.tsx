@@ -1,12 +1,17 @@
+import { IDetailLike } from '@/pages/api/api';
+import { detailLike } from '@/pages/api/detail';
+import { userInfo } from '@/pages/api/sign';
 import { Cursor } from '@/styles/styled';
-import React from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import React, { useCallback } from 'react';
 import { Card } from 'react-bootstrap';
 
 interface IDetailImageCardProps {
   image: string;
   like: number;
   star: string;
-  likeClickUser: string;
+  likeClickUser: '🤍' | '❤️';
   onButtonClick: () => void;
 }
 
@@ -17,6 +22,40 @@ export default function DetailImageCard({
   likeClickUser,
   onButtonClick,
 }: IDetailImageCardProps) {
+  const queryClient = useQueryClient();
+
+  const router = useRouter();
+  const { region, id } = router.query as { region: string; id: string };
+
+  const { data: user } = useQuery(['user'], userInfo);
+
+  const mutationLike = useMutation(['fetchDetailLike', id], detailLike, {
+    onMutate() {
+      if (!user) return;
+
+      queryClient.setQueryData<IDetailLike>(['fetchDetailLike', id], (data) => {
+        const newLike = data?.like || 0;
+        const newLikeuser = data?.likeuser || [];
+
+        const updateLike = newLike + 1;
+        const updateLikeUser = [...newLikeuser, user];
+
+        return {
+          like: updateLike,
+          likeuser: updateLikeUser,
+        };
+      });
+    },
+
+    onSuccess() {
+      queryClient.refetchQueries(['fetchDetailLike']);
+    },
+  });
+
+  const onSubmitLike = useCallback(() => {
+    mutationLike.mutate({ id, region, user });
+  }, [mutationLike, id, region, user]);
+
   return (
     <Card style={{ height: '500px' }}>
       <Card.Img
@@ -27,7 +66,7 @@ export default function DetailImageCard({
       />
       <Card.Body className="d-flex justify-content-center align-items-center text-center pt-2 pb-2 fs-6">
         <div className="col-3">
-          <Cursor>{likeClickUser}</Cursor>
+          <Cursor onClick={onSubmitLike}>{likeClickUser}</Cursor>
           <div>{like}</div>
         </div>
 
