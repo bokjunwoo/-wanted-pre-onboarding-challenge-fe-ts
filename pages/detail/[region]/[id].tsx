@@ -1,7 +1,7 @@
 import DetailContentCard from '@/components/detail/DetailContentCard';
 import DetailImageCard from '@/components/detail/DetailImageCard';
 import { Col, ListGroup, Row } from 'react-bootstrap';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Title } from '@/components/submain/SubText';
 import DetailInformation from '@/components/detail/DetailInformation';
 import ReviewWrite from '@/components/detail/review/ReviewWrite';
@@ -54,6 +54,14 @@ export default function DetailId() {
     setMoreInformation((prev) => !prev);
   }, []);
 
+  const titleRef = useRef<HTMLDivElement>(null);
+
+  const handleButtonClick = () => {
+    if (titleRef.current) {
+      titleRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const averageStar = getAverageStar(review);
   const homepageUrl = getExtractUrl(koreaAPI?.homepage);
   const likeClickUser = getLikeClickUser(reviewLike, user);
@@ -77,6 +85,7 @@ export default function DetailId() {
                 like={detail.like}
                 star={averageStar}
                 likeClickUser={likeClickUser}
+                onButtonClick={handleButtonClick}
               />
             </Col>
             <Col>
@@ -103,7 +112,7 @@ export default function DetailId() {
           <div className="mt-3">
             <ReviewWrite minRows={3} />
 
-            <Title>
+            <Title ref={titleRef}>
               <span>리뷰 {review?.length}개</span>
             </Title>
 

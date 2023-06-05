@@ -7,6 +7,7 @@ interface IDetailImageCardProps {
   like: number;
   star: string;
   likeClickUser: string;
+  onButtonClick: () => void;
 }
 
 export default function DetailImageCard({
@@ -14,6 +15,7 @@ export default function DetailImageCard({
   like,
   star,
   likeClickUser,
+  onButtonClick,
 }: IDetailImageCardProps) {
   return (
     <Card style={{ height: '500px' }}>
@@ -30,7 +32,7 @@ export default function DetailImageCard({
         </div>
 
         <div className="col-3">
-          <Cursor>⭐</Cursor>
+          <Cursor onClick={onButtonClick}>⭐</Cursor>
           <div>{star}</div>
         </div>
 
