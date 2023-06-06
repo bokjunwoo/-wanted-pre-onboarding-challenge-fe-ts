@@ -54,3 +54,12 @@ export const detailLike = async (data: IDetailLikeInc) => {
   });
   return response.data;
 };
+
+export const detailUnlike = async (data: IDetailLikeInc) => {
+  const response = await apiClient({
+    method: 'post',
+    url: '/like/minus',
+    data,
+  });
+  return response.data;
+};
