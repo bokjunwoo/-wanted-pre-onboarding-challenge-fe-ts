@@ -16,6 +16,16 @@ interface KakaoLoginProps {
   text: string;
 }
 
+export const kakaoInit = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const kakao = (window as any).Kakao;
+  if (!kakao.isInitialized()) {
+    kakao.init('e79b288ebffab6c35ea1c3d7624e2f3a');
+  }
+
+  return kakao;
+};
+
 export default function KakaoLoginButton({ text }: KakaoLoginProps) {
   const queryClient = useQueryClient();
 
@@ -48,16 +58,6 @@ export default function KakaoLoginButton({ text }: KakaoLoginProps) {
       },
     },
   );
-
-  const kakaoInit = () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const kakao = (window as any).Kakao;
-    if (!kakao.isInitialized()) {
-      kakao.init('e79b288ebffab6c35ea1c3d7624e2f3a');
-    }
-
-    return kakao;
-  };
 
   const KakaoLoginButton = async () => {
     const kakao = kakaoInit();
