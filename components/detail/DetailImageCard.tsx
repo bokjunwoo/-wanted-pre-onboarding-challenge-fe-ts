@@ -4,7 +4,7 @@ import { userInfo } from '@/pages/api/sign';
 import { Cursor } from '@/styles/styled';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import KakaoShare from '../kakao/KakaoShare';
 
@@ -29,6 +29,27 @@ export default function DetailImageCard({
 
   const router = useRouter();
   const { region, id } = router.query as { region: string; id: string };
+
+  const [url, setUrl] = useState('');
+
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    setUrl(currentUrl);
+  }, []);
+
+  const handleClick = () => {
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        alert('성공');
+      })
+      .catch((error) => {
+        console.error(
+          'An error occurred while copying to the clipboard:',
+          error,
+        );
+      });
+  };
 
   const { data: user } = useQuery(['user'], userInfo);
 
@@ -119,7 +140,7 @@ export default function DetailImageCard({
         </div>
 
         <div className="col-3">
-          <Cursor>🛠️</Cursor>
+          <Cursor onClick={handleClick}>📎</Cursor>
           <div>URL 복사</div>
         </div>
       </Card.Body>

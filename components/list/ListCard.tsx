@@ -1,11 +1,11 @@
-import { IItemInfo } from '@/pages/api/api';
+import { IDetailInfo } from '@/pages/api/api';
 import { getAverageStar } from '@/utils/detailHelper';
 import Link from 'next/link';
 import React from 'react';
 import { Col, Card } from 'react-bootstrap';
 
 interface IListCardProps {
-  data: IItemInfo;
+  data: IDetailInfo;
   region: string;
 }
 
