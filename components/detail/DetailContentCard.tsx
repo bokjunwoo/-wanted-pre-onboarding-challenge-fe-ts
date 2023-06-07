@@ -1,4 +1,4 @@
-import { IItemInfo } from '@/pages/api/api';
+import { IDetailInfo } from '@/pages/api/api';
 import { Container } from '@/styles/styled';
 import React from 'react';
 import { Row, Card } from 'react-bootstrap';
@@ -8,7 +8,7 @@ export default function DetailContentCard({
   detail,
   homepageUrl,
 }: {
-  detail: IItemInfo;
+  detail: IDetailInfo;
   homepageUrl: string;
 }) {
   return (
