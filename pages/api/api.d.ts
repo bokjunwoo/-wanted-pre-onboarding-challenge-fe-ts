@@ -1,4 +1,4 @@
-export interface IItemInfo {
+export interface IDetailInfo {
   _id: string;
   contentid: string;
   type: string;

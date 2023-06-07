@@ -2,7 +2,7 @@ import apiClient from './apiClient';
 import {
   IDetailLike,
   IDetailLikeInc,
-  IItemInfo,
+  IDetailInfo,
   IKoreaAPI,
   IReviewInfo,
 } from './api';
@@ -10,7 +10,7 @@ import {
 export const fetchDetail = async (
   region: string,
   id: string,
-): Promise<IItemInfo> => {
+): Promise<IDetailInfo> => {
   const response = await apiClient({
     method: 'get',
     url: `/detail/${region}/${id}`,
