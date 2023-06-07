@@ -1,4 +1,4 @@
-import { IDetailLike } from '@/pages/api/api';
+import { IDetailInfo, IDetailLike } from '@/pages/api/api';
 import { detailLike, detailUnlike } from '@/pages/api/detail';
 import { userInfo } from '@/pages/api/sign';
 import { Cursor } from '@/styles/styled';
@@ -6,19 +6,22 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
 import { Card } from 'react-bootstrap';
+import KakaoShare from '../kakao/KakaoShare';
 
 interface IDetailImageCardProps {
-  image: string;
+  detail: IDetailInfo;
   like: number;
   star: string;
+  review: number;
   likeClickUser: '🤍' | '❤️';
   onButtonClick: () => void;
 }
 
 export default function DetailImageCard({
-  image,
+  detail,
   like,
   star,
+  review,
   likeClickUser,
   onButtonClick,
 }: IDetailImageCardProps) {
@@ -87,7 +90,11 @@ export default function DetailImageCard({
     <Card style={{ height: '500px' }}>
       <Card.Img
         variant="top"
-        src={image === '' ? '/images/defaultImage.png' : image}
+        src={
+          detail.firstimage1 === ''
+            ? '/images/defaultImage.png'
+            : detail.firstimage1
+        }
         height="420px"
         className="fluid border"
       />
@@ -107,7 +114,7 @@ export default function DetailImageCard({
         </div>
 
         <div className="col-3">
-          <Cursor>🛠️</Cursor>
+          <KakaoShare detail={detail} like={like} review={review} />
           <div>카카오 공유</div>
         </div>
 

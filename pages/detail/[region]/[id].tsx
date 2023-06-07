@@ -81,9 +81,10 @@ export default function DetailId() {
           <Row xs={1} md={1} lg={2} className="mt-5">
             <Col>
               <DetailImageCard
-                image={detail.firstimage1}
+                detail={detail}
                 like={detailLike?.like || 0}
                 star={averageStar}
+                review={review?.length || 0}
                 likeClickUser={likeClickUser}
                 onButtonClick={handleButtonClick}
               />
