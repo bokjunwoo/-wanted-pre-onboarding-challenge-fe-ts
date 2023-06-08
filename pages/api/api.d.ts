@@ -19,7 +19,7 @@ export interface IDetailInfo {
 }
 
 export interface IListInfo {
-  data: IItemInfo[];
+  data: IDetailInfo[];
   total: number;
 }
 
