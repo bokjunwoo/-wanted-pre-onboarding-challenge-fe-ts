@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { kakaoInit } from './KakaoLoginButton';
 import { IDetailInfo } from '@/pages/api/api';
 import { Cursor } from '@/styles/styled';
-import { useRouter } from 'next/router';
 
 interface KakaoShareProps {
   detail: IDetailInfo;
@@ -11,8 +10,12 @@ interface KakaoShareProps {
 }
 
 export default function KakaoShare({ detail, like, review }: KakaoShareProps) {
-  const router = useRouter();
-  const currentUrl = router.asPath;
+  const [url, setUrl] = useState('');
+
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    setUrl(currentUrl);
+  }, []);
 
   const shareKakao = () => {
     const kakao = kakaoInit();
@@ -24,8 +27,8 @@ export default function KakaoShare({ detail, like, review }: KakaoShareProps) {
         description: detail.addr1,
         imageUrl: detail.firstimage1,
         link: {
-          mobileWebUrl: currentUrl,
-          webUrl: currentUrl,
+          mobileWebUrl: url,
+          webUrl: url,
         },
       },
       social: {
@@ -36,15 +39,15 @@ export default function KakaoShare({ detail, like, review }: KakaoShareProps) {
         {
           title: '홈페이지 가기',
           link: {
-            mobileWebUrl: 'http://3.35.13.65:3000/',
-            webUrl: 'http://3.35.13.65:3000/',
+            mobileWebUrl: 'https://triplog.shop',
+            webUrl: 'https://triplog.shop',
           },
         },
         {
           title: '자세히 보기',
           link: {
-            mobileWebUrl: currentUrl,
-            webUrl: currentUrl,
+            mobileWebUrl: url,
+            webUrl: url,
           },
         },
       ],
