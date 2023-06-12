@@ -16,7 +16,7 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
   const queryClient = useQueryClient();
 
   const router = useRouter();
-  const { region } = router.query as { region: string };
+  const { region, id } = router.query as { region: string; id: string };
 
   const { data: user } = useQuery(['user'], userInfo);
 
@@ -32,16 +32,16 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
     stars[i] = 1;
   }
 
-  const mutationDelete = useMutation(['fetchReview'], reviewDelete, {
+  const mutationDelete = useMutation(['fetchReview', id], reviewDelete, {
     onMutate(review) {
       if (!user) return;
-      queryClient.setQueryData<IReviewInfo[]>(['fetchReview'], (data) => {
+      queryClient.setQueryData<IReviewInfo[]>(['fetchReview', id], (data) => {
         const updatedData = data?.filter((data) => data._id !== review._id);
         return updatedData;
       });
     },
     onSuccess() {
-      queryClient.refetchQueries(['fetchReview']);
+      queryClient.refetchQueries(['fetchReview', id]);
     },
   });
 
