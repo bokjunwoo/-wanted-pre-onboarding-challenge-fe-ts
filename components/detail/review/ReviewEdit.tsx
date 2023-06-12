@@ -1,5 +1,5 @@
 import useInput from '@/components/hooks/useInput';
-import { IReviewEdit } from '@/pages/api/api';
+import { IReviewEdit, IReviewInfo } from '@/pages/api/api';
 import { reviewEdit } from '@/pages/api/review';
 import { userInfo } from '@/pages/api/sign';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -8,6 +8,7 @@ import { Button, Form } from 'react-bootstrap';
 import TextareaAutosize from 'react-textarea-autosize';
 import AlretModal from '@/components/modal/AlertModal';
 import { ERROR_MESSAGE } from '@/constants/message';
+import { useRouter } from 'next/router';
 
 interface ReviewEditProps {
   value?: string;
@@ -26,6 +27,9 @@ export default function ReviewEdit({
 }: ReviewEditProps) {
   const queryClient = useQueryClient();
 
+  const router = useRouter();
+  const { id } = router.query as { id: string };
+
   const { data: user } = useQuery(['user'], userInfo);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -40,19 +44,30 @@ export default function ReviewEdit({
     }
   }, [autoFocus, value]);
 
-  const mutationEdit = useMutation(['review'], reviewEdit, {
+  const mutationEdit = useMutation(['fetchReview', id], reviewEdit, {
     onMutate() {
       if (!user) return;
-      // queryClient.setQueryData<IReviewInfo>(['review'], (data) => {
+      queryClient.setQueryData<IReviewInfo[]>(['fetchReview', id], (data) => {
+        if (data) {
+          const updatedData = data.map((review) => {
+            if (review._id === _id) {
+              return {
+                ...review,
+                content: text,
+              };
+            }
+            return review;
+          });
 
-      // });
+          return updatedData;
+        }
+        return data;
+      });
     },
     onSuccess() {
       setText('');
       setEdit(false);
-    },
-    onSettled() {
-      queryClient.refetchQueries(['review']);
+      queryClient.refetchQueries(['fetchReview', id]);
     },
   });
 
