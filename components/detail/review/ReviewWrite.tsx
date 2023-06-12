@@ -1,5 +1,5 @@
 import useInput from '@/components/hooks/useInput';
-import { IReviewAdd, IReviewInfo } from '@/pages/api/api';
+import { IReviewInfo } from '@/pages/api/api';
 import { reviewAdd } from '@/pages/api/review';
 import { userInfo } from '@/pages/api/sign';
 import { Stars } from '@/styles/styled';
@@ -62,14 +62,14 @@ export default function ReviewWrite({
     }
   }, [autoFocus, value]);
 
-  const mutationAdd = useMutation(['fetchReview'], reviewAdd, {
+  const mutationAdd = useMutation(['fetchReview', id], reviewAdd, {
     onMutate() {
       if (!user) return;
 
-      queryClient.setQueryData<IReviewInfo[]>(['fetchReview'], (data) => {
-        const newRevie = data || [];
+      queryClient.setQueryData<IReviewInfo[]>(['fetchReview', id], (data) => {
+        const newReview = data ? [...data] : [];
 
-        newRevie.push({
+        newReview.unshift({
           _id: '0',
           contentid: region,
           title: '',
@@ -80,34 +80,30 @@ export default function ReviewWrite({
           time: new Date(),
         });
 
-        return newRevie;
+        return newReview;
       });
     },
 
     onSuccess() {
       setText('');
       setStarClicked([false, false, false, false, false]);
-      queryClient.refetchQueries(['fetchReview']);
+      queryClient.refetchQueries(['fetchReview', id]);
     },
   });
 
-  const onSubmitReviewAdd = useCallback(
-    (data: IReviewAdd) => {
-      const { user, text, star, region, id } = data;
-      if (star === 0) {
-        setShow(true);
-        setMessage(ERROR_MESSAGE.NO_STAR_RATING);
-        return;
-      }
-      if (text.length === 0) {
-        setShow(true);
-        setMessage(ERROR_MESSAGE.NO_REVIEW_WRITE);
-        return;
-      }
-      mutationAdd.mutate({ user, text, star, region, id });
-    },
-    [mutationAdd],
-  );
+  const onSubmitReviewAdd = useCallback(() => {
+    if (star === 0) {
+      setShow(true);
+      setMessage(ERROR_MESSAGE.NO_STAR_RATING);
+      return;
+    }
+    if (text.length === 0) {
+      setShow(true);
+      setMessage(ERROR_MESSAGE.NO_REVIEW_WRITE);
+      return;
+    }
+    mutationAdd.mutate({ user, text, star, region, id });
+  }, [mutationAdd, id, region, star, text, user]);
 
   return (
     <>
@@ -145,9 +141,7 @@ export default function ReviewWrite({
             className="mt-2 mb-4"
             variant="outline-primary"
             type="button"
-            onClick={() => {
-              onSubmitReviewAdd({ user, text, star, region, id });
-            }}
+            onClick={onSubmitReviewAdd}
           >
             등록
           </Button>
