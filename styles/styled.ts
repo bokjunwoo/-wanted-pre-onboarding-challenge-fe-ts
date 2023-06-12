@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Card } from 'react-bootstrap';
+import { Card, ToastContainer } from 'react-bootstrap';
 
 export const Container = styled(Card)`
   height: 450px;
@@ -138,4 +138,11 @@ export const Stars = styled.div`
   .yellowStar {
     color: #ffd400;
   }
+`;
+
+export const CenterToast = styled(ToastContainer)`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
