@@ -9,6 +9,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import AlretModal from '@/components/modal/AlertModal';
 import { ERROR_MESSAGE } from '@/constants/message';
 import { useRouter } from 'next/router';
+import IsLoginToast from '@/components/toast/IsLoginToast';
 
 interface ReviewEditProps {
   value?: string;
@@ -36,6 +37,7 @@ export default function ReviewEdit({
   const [text, onChangeText, setText] = useInput(value as string);
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState('');
+  const [isLogin, setIsLogin] = useState(false);
 
   const onClickEdit = useCallback(() => {
     setEdit((prev) => !prev);
@@ -50,7 +52,6 @@ export default function ReviewEdit({
 
   const mutationEdit = useMutation(['fetchReview', id], reviewEdit, {
     onMutate() {
-      if (!user) return;
       queryClient.setQueryData<IReviewInfo[]>(['fetchReview', id], (data) => {
         if (data) {
           const updatedData = data.map((review) => {
@@ -76,6 +77,10 @@ export default function ReviewEdit({
   });
 
   const onSubmitReviewEdit = useCallback(() => {
+    if (!user) {
+      setIsLogin(true);
+      return;
+    }
     if (text.length === 0) {
       setShow(true);
       setMessage(ERROR_MESSAGE.NO_REVIEW_WRITE);
@@ -121,6 +126,13 @@ export default function ReviewEdit({
       </Form>
 
       <AlretModal show={show} setShow={setShow} message={message} />
+
+      <IsLoginToast
+        variant="danger"
+        show={isLogin}
+        setShow={setIsLogin}
+        message="로그인이 필요한 기능입니다."
+      />
     </>
   );
 }

@@ -9,6 +9,7 @@ import ReviewEdit from './ReviewEdit';
 import { reviewDelete } from '@/pages/api/review';
 import { useRouter } from 'next/router';
 import CheckModal from '@/components/modal/CheckModal';
+import IsLoginToast from '@/components/toast/IsLoginToast';
 
 moment.locale('ko');
 
@@ -22,6 +23,8 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
 
   const [show, setShow] = useState(false);
   const [edit, setEdit] = useState<boolean>(false);
+  const [isLogin, setIsLogin] = useState(false);
+
   const onClickEdit = useCallback(() => {
     setEdit((prev) => !prev);
   }, []);
@@ -34,7 +37,6 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
 
   const mutationDelete = useMutation(['fetchReview', id], reviewDelete, {
     onMutate(review) {
-      if (!user) return;
       queryClient.setQueryData<IReviewInfo[]>(['fetchReview', id], (data) => {
         const updatedData = data?.filter((data) => data._id !== review._id);
         return updatedData;
@@ -50,6 +52,10 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
   }, []);
 
   const onSubmitReviewDelete = useCallback(() => {
+    if (!user) {
+      setIsLogin(true);
+      return;
+    }
     mutationDelete.mutate({ _id: review._id, user, region, time: review.time });
   }, [region, mutationDelete, review._id, review.time, user]);
 
@@ -115,6 +121,13 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
         setShow={setShow}
         message1="리뷰를 삭제 하실건가요?"
         onSubmit={onSubmitReviewDelete}
+      />
+
+      <IsLoginToast
+        variant="danger"
+        show={isLogin}
+        setShow={setIsLogin}
+        message="로그인이 필요한 기능입니다."
       />
     </>
   );
