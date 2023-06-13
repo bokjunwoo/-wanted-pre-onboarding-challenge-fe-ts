@@ -33,6 +33,9 @@ export default function DetailImageCard({
 
   const [url, setUrl] = useState('');
   const [isLogin, setIsLogin] = useState(false);
+  const [clipboardClick, setClipboardClick] = useState(false);
+  const [clipboardColor, setClipboardColor] = useState('');
+  const [clipboardMessage, setClipboardMessage] = useState('');
 
   useEffect(() => {
     const currentUrl = window.location.href;
@@ -43,13 +46,14 @@ export default function DetailImageCard({
     navigator.clipboard
       .writeText(url)
       .then(() => {
-        alert('성공');
+        setClipboardColor('primary');
+        setClipboardMessage('URL이 클립보드에 복사되었습니다.');
+        setClipboardClick(true);
       })
-      .catch((error) => {
-        console.error(
-          'An error occurred while copying to the clipboard:',
-          error,
-        );
+      .catch(() => {
+        setClipboardColor('danger');
+        setClipboardMessage('오류가 발생했습니다. 다시 한번 시도해 주세요.');
+        setClipboardClick(true);
       });
   };
 
@@ -158,6 +162,13 @@ export default function DetailImageCard({
         show={isLogin}
         setShow={setIsLogin}
         message="로그인이 필요한 기능입니다."
+      />
+
+      <ToastMessage
+        variant={clipboardColor}
+        show={clipboardClick}
+        setShow={setClipboardClick}
+        message={clipboardMessage}
       />
     </>
   );
