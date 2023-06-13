@@ -9,7 +9,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import AlretModal from '@/components/modal/AlertModal';
 import { ERROR_MESSAGE } from '@/constants/message';
 import { useRouter } from 'next/router';
-import IsLoginToast from '@/components/toast/IsLoginToast';
+import ToastMessage from '@/components/toast/ToastMessage';
 
 interface ReviewEditProps {
   value?: string;
@@ -127,7 +127,7 @@ export default function ReviewEdit({
 
       <AlretModal show={show} setShow={setShow} message={message} />
 
-      <IsLoginToast
+      <ToastMessage
         variant="danger"
         show={isLogin}
         setShow={setIsLogin}

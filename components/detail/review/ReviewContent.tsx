@@ -9,7 +9,7 @@ import ReviewEdit from './ReviewEdit';
 import { reviewDelete } from '@/pages/api/review';
 import { useRouter } from 'next/router';
 import CheckModal from '@/components/modal/CheckModal';
-import IsLoginToast from '@/components/toast/IsLoginToast';
+import ToastMessage from '@/components/toast/ToastMessage';
 
 moment.locale('ko');
 
@@ -123,7 +123,7 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
         onSubmit={onSubmitReviewDelete}
       />
 
-      <IsLoginToast
+      <ToastMessage
         variant="danger"
         show={isLogin}
         setShow={setIsLogin}

@@ -11,7 +11,7 @@ interface IIsLoginToast {
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function IsLoginToast({
+export default function ToastMessage({
   message,
   variant,
   show,

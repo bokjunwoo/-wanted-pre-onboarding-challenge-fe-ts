@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import KakaoShare from '../kakao/KakaoShare';
-import IsLoginToast from '../toast/IsLoginToast';
+import ToastMessage from '../toast/ToastMessage';
 
 interface IDetailImageCardProps {
   detail: IDetailInfo;
@@ -153,7 +153,7 @@ export default function DetailImageCard({
         </Card.Body>
       </Card>
 
-      <IsLoginToast
+      <ToastMessage
         variant="danger"
         show={isLogin}
         setShow={setIsLogin}
