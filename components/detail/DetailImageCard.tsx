@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import KakaoShare from '../kakao/KakaoShare';
+import IsLoginToast from '../toast/IsLoginToast';
 
 interface IDetailImageCardProps {
   detail: IDetailInfo;
@@ -31,6 +32,7 @@ export default function DetailImageCard({
   const { region, id } = router.query as { region: string; id: string };
 
   const [url, setUrl] = useState('');
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
     const currentUrl = window.location.href;
@@ -55,8 +57,6 @@ export default function DetailImageCard({
 
   const mutationLike = useMutation(['fetchDetailLike', id], detailLike, {
     onMutate() {
-      if (!user) return;
-
       queryClient.setQueryData<IDetailLike>(['fetchDetailLike', id], (data) => {
         const newLike = data?.like || 0;
         const newLikeuser = data?.likeuser || [];
@@ -78,8 +78,6 @@ export default function DetailImageCard({
 
   const mutationUnlike = useMutation(['fetchDetailLike', id], detailUnlike, {
     onMutate() {
-      if (!user) return;
-
       queryClient.setQueryData<IDetailLike>(['fetchDetailLike', id], (data) => {
         const newLike = data?.like || 0;
         const newLikeuser = data?.likeuser || [];
@@ -100,50 +98,67 @@ export default function DetailImageCard({
   });
 
   const onSubmitLike = useCallback(() => {
+    if (!user) {
+      setIsLogin(true);
+      return;
+    }
     mutationLike.mutate({ id, region, user });
   }, [mutationLike, id, region, user]);
 
   const onSubmitUnlike = useCallback(() => {
+    if (!user) {
+      setIsLogin(true);
+      return;
+    }
     mutationUnlike.mutate({ id, region, user });
   }, [mutationUnlike, id, region, user]);
 
   return (
-    <Card style={{ height: '500px' }}>
-      <Card.Img
-        variant="top"
-        src={
-          detail.firstimage1 === ''
-            ? '/images/defaultImage.png'
-            : detail.firstimage1
-        }
-        height="420px"
-        className="fluid border"
+    <>
+      <Card style={{ height: '500px' }}>
+        <Card.Img
+          variant="top"
+          src={
+            detail.firstimage1 === ''
+              ? '/images/defaultImage.png'
+              : detail.firstimage1
+          }
+          height="420px"
+          className="fluid border"
+        />
+        <Card.Body className="d-flex justify-content-center align-items-center text-center pt-2 pb-2 fs-6">
+          <div className="col-3">
+            {likeClickUser === '🤍' ? (
+              <Cursor onClick={onSubmitLike}>{likeClickUser}</Cursor>
+            ) : (
+              <Cursor onClick={onSubmitUnlike}>{likeClickUser}</Cursor>
+            )}
+            <div>{like}</div>
+          </div>
+
+          <div className="col-3">
+            <Cursor onClick={onButtonClick}>⭐</Cursor>
+            <div>{star}</div>
+          </div>
+
+          <div className="col-3">
+            <KakaoShare detail={detail} like={like} review={review} />
+            <div>카카오 공유</div>
+          </div>
+
+          <div className="col-3">
+            <Cursor onClick={handleClick}>📎</Cursor>
+            <div>URL 복사</div>
+          </div>
+        </Card.Body>
+      </Card>
+
+      <IsLoginToast
+        variant="danger"
+        show={isLogin}
+        setShow={setIsLogin}
+        message="로그인이 필요한 기능입니다."
       />
-      <Card.Body className="d-flex justify-content-center align-items-center text-center pt-2 pb-2 fs-6">
-        <div className="col-3">
-          {likeClickUser === '🤍' ? (
-            <Cursor onClick={onSubmitLike}>{likeClickUser}</Cursor>
-          ) : (
-            <Cursor onClick={onSubmitUnlike}>{likeClickUser}</Cursor>
-          )}
-          <div>{like}</div>
-        </div>
-
-        <div className="col-3">
-          <Cursor onClick={onButtonClick}>⭐</Cursor>
-          <div>{star}</div>
-        </div>
-
-        <div className="col-3">
-          <KakaoShare detail={detail} like={like} review={review} />
-          <div>카카오 공유</div>
-        </div>
-
-        <div className="col-3">
-          <Cursor onClick={handleClick}>📎</Cursor>
-          <div>URL 복사</div>
-        </div>
-      </Card.Body>
-    </Card>
+    </>
   );
 }
