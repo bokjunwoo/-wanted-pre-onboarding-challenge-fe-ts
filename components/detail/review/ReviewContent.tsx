@@ -79,45 +79,19 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
             </div>
           </div>
 
-          {review.nickname === user ? (
+          {review.nickname === user && !edit ? (
             <div className="d-flex align-items-center">
-              {edit ? (
-                <Button
-                  variant="outline-success"
-                  size="sm"
-                  onClick={onClickEdit}
-                >
-                  확인
-                </Button>
-              ) : (
-                <Button
-                  variant="outline-success"
-                  size="sm"
-                  onClick={onClickEdit}
-                >
-                  수정
-                </Button>
-              )}
-
-              {edit ? (
-                <Button
-                  variant="outline-danger"
-                  className="ms-2"
-                  size="sm"
-                  onClick={onClickEdit}
-                >
-                  취소
-                </Button>
-              ) : (
-                <Button
-                  variant="outline-danger"
-                  className="ms-2"
-                  size="sm"
-                  onClick={modalHandler}
-                >
-                  삭제
-                </Button>
-              )}
+              <Button variant="outline-success" size="sm" onClick={onClickEdit}>
+                수정
+              </Button>
+              <Button
+                variant="outline-danger"
+                className="ms-2"
+                size="sm"
+                onClick={modalHandler}
+              >
+                삭제
+              </Button>
             </div>
           ) : null}
         </div>

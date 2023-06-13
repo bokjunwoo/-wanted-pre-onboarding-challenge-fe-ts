@@ -1,5 +1,5 @@
 import useInput from '@/components/hooks/useInput';
-import { IReviewEdit, IReviewInfo } from '@/pages/api/api';
+import { IReviewInfo } from '@/pages/api/api';
 import { reviewEdit } from '@/pages/api/review';
 import { userInfo } from '@/pages/api/sign';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -37,6 +37,10 @@ export default function ReviewEdit({
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState('');
 
+  const onClickEdit = useCallback(() => {
+    setEdit((prev) => !prev);
+  }, [setEdit]);
+
   useEffect(() => {
     if (autoFocus && textareaRef.current && value) {
       textareaRef.current.focus();
@@ -71,18 +75,14 @@ export default function ReviewEdit({
     },
   });
 
-  const onSubmitReviewEdit = useCallback(
-    (data: IReviewEdit) => {
-      const { _id, user, text } = data;
-      if (text.length === 0) {
-        setShow(true);
-        setMessage(ERROR_MESSAGE.NO_REVIEW_WRITE);
-        return;
-      }
-      mutationEdit.mutate({ _id, user, text });
-    },
-    [mutationEdit],
-  );
+  const onSubmitReviewEdit = useCallback(() => {
+    if (text.length === 0) {
+      setShow(true);
+      setMessage(ERROR_MESSAGE.NO_REVIEW_WRITE);
+      return;
+    }
+    mutationEdit.mutate({ _id, user, text });
+  }, [mutationEdit, _id, user, text]);
 
   return (
     <>
@@ -101,13 +101,19 @@ export default function ReviewEdit({
 
         <div className="d-flex justify-content-end">
           <Button
-            size="sm"
+            variant="outline-danger"
             className="mt-2 mb-4"
+            size="sm"
+            onClick={onClickEdit}
+          >
+            취소
+          </Button>
+          <Button
+            size="sm"
+            className="mt-2 mb-4 ms-2"
             variant="outline-primary"
             type="button"
-            onClick={() => {
-              onSubmitReviewEdit({ _id, user, text });
-            }}
+            onClick={onSubmitReviewEdit}
           >
             수정
           </Button>
