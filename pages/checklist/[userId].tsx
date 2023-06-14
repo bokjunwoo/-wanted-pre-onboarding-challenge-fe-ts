@@ -29,16 +29,19 @@ export type Checklist = {
 };
 
 export default function CkecklistUserId() {
-  const { data: user } = useQuery(['user'], userInfo);
+  const { data: user, isLoading: userLoading } = useQuery(['user'], userInfo);
 
-  const { data: checklist, isLoading } = useQuery<Checklist, AxiosError>({
+  const { data: checklist, isLoading: ledgerLoading } = useQuery<
+    Checklist,
+    AxiosError
+  >({
     queryKey: ['checklist'],
     queryFn: () => userChecklistItem(),
   });
 
   const checklistContent = checklist?.checklist.content || [];
 
-  if (isLoading) return <LoadingSpinner />;
+  if (userLoading || ledgerLoading) return <LoadingSpinner />;
 
   return (
     <>
@@ -57,3 +60,26 @@ export default function CkecklistUserId() {
     </>
   );
 }
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
+  const cookie = context.req ? context.req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  if (context.req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
+  const data = await userInfo();
+
+  if (!data) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+};

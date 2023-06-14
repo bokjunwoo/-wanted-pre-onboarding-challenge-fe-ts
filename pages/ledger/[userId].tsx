@@ -22,16 +22,19 @@ export type Ledger = {
 };
 
 export default function LedgerUserId() {
-  const { data: user } = useQuery(['user'], userInfo);
+  const { data: user, isLoading: userLoading } = useQuery(['user'], userInfo);
 
-  const { data: ledger, isLoading } = useQuery<Ledger, AxiosError>({
+  const { data: ledger, isLoading: ledgerLoading } = useQuery<
+    Ledger,
+    AxiosError
+  >({
     queryKey: ['ledger'],
     queryFn: () => userLedgerItem(),
   });
 
   const ledgerContent = ledger?.chargeList || [];
 
-  if (isLoading) return <LoadingSpinner />;
+  if (userLoading || ledgerLoading) return <LoadingSpinner />;
 
   return (
     <>
