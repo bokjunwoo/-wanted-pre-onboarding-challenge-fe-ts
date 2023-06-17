@@ -5,6 +5,7 @@ import { Button, InputGroup, Form, Col } from 'react-bootstrap';
 import useInput from '../hooks/useInput';
 import { ledgerAdd } from '@/pages/api/ledger';
 import { Ledger } from '@/pages/ledger/[userId]';
+import ToastMessage from '../toast/ToastMessage';
 
 export default function LedgerForm() {
   const queryClient = useQueryClient();
@@ -14,6 +15,8 @@ export default function LedgerForm() {
   const [text, onChangeText, setText] = useInput('');
   const [price, setPrice] = useState(0);
   const [selectedDate, setSelectedDate] = useState('');
+  const [toast, setToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   const onChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -56,6 +59,16 @@ export default function LedgerForm() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (text.length === 0) {
+      setToastMessage('내용을 입력해 주세요.');
+      setToast(true);
+      return;
+    }
+    if (price === 0) {
+      setToastMessage('금액을 입력해 주세요.');
+      setToast(true);
+      return;
+    }
     mutationAdd.mutate({
       user,
       date: selectedDate,
@@ -65,49 +78,53 @@ export default function LedgerForm() {
   };
 
   return (
-    <Form className="mb-4" onSubmit={handleSubmit}>
-      <div>
-        <span className="fw-bold fs-5">날짜</span>
-        <InputGroup className="mt-2 mb-4">
-          <Form.Control
-            type="date"
-            required
-            value={selectedDate}
-            onChange={handleDateChange}
-          />
-        </InputGroup>
-      </div>
+    <>
+      <Form className="mb-4" onSubmit={handleSubmit}>
+        <div>
+          <span className="fw-bold fs-5">날짜</span>
+          <InputGroup className="mt-2 mb-4">
+            <Form.Control
+              type="date"
+              required
+              value={selectedDate}
+              onChange={handleDateChange}
+            />
+          </InputGroup>
+        </div>
 
-      <div>
-        <span className="fw-bold fs-5">내용</span>
-        <InputGroup className="mt-2 mb-4">
-          <Form.Control
-            type="text"
-            required
-            value={text}
-            onChange={onChangeText}
-          />
-        </InputGroup>
-      </div>
+        <div>
+          <span className="fw-bold fs-5">내용</span>
+          <InputGroup className="mt-2 mb-4">
+            <Form.Control type="text" value={text} onChange={onChangeText} />
+          </InputGroup>
+        </div>
 
-      <div>
-        <span className="fw-bold fs-5">금액</span>
-        <InputGroup className="mt-2 mb-4">
-          <Form.Control
-            type="number"
-            placeholder="숫자만 입력됩니다."
-            required
-            value={price}
-            onChange={onChangePrice}
-          />
-        </InputGroup>
-      </div>
+        <div>
+          <span className="fw-bold fs-5">금액</span>
+          <InputGroup className="mt-2 mb-4">
+            <Form.Control
+              type="number"
+              placeholder="숫자만 입력됩니다."
+              required
+              value={price}
+              onChange={onChangePrice}
+            />
+          </InputGroup>
+        </div>
 
-      <Col className="text-end">
-        <Button variant="success" className="text-end" type="submit">
-          등록
-        </Button>
-      </Col>
-    </Form>
+        <Col className="text-end">
+          <Button variant="success" className="text-end" type="submit">
+            등록
+          </Button>
+        </Col>
+      </Form>
+
+      <ToastMessage
+        message={toastMessage}
+        show={toast}
+        setShow={setToast}
+        variant="danger"
+      />
+    </>
   );
 }
