@@ -146,3 +146,18 @@ export const CenterToast = styled(ToastContainer)`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
+
+export const TabContainer = styled.div`
+  .nav-pills .nav-link {
+    color: #198754;
+  }
+  .nav-pills .nav-link.active {
+    color: #fff;
+    background-color: #198754;
+  }
+`;
+
+export const UserImage = styled.img`
+  width: 12rem;
+  height: 12rem;
+`;
