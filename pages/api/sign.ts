@@ -60,9 +60,12 @@ export const kakaoLogin = async (data: { id: number }) => {
 };
 
 export const userInfo = async () => {
-  const response = await axios.get('/user', {
-    withCredentials: true,
-  });
+  const response = await axios.get('/user');
+  return response.data;
+};
+
+export const userImageInfo = async () => {
+  const response = await axios.get('/user/image');
   return response.data;
 };
 
