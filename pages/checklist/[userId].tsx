@@ -1,47 +1,20 @@
 import ChecklistAccordion from '@/components/checklist/ChecklistAccordion';
 import Head from 'next/head';
-import { userChecklistItem } from '../api/checklist';
 import { userInfo } from '@/pages/api/sign';
 import { useQuery } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
-
-export type ChecklistItem = {
-  item: string;
-  checked: boolean;
-};
-
-export type ChecklistContent = {
-  title: string;
-  items: ChecklistItem[];
-  index: number;
-};
-
-type ChecklistItems = {
-  content: ChecklistContent[];
-};
-
-export type Checklist = {
-  _id: string;
-  nickname: string;
-  checklist: ChecklistItems;
-};
+import { useChecklistData } from '@/usequery/useChecklist';
 
 export default function CkecklistUserId() {
   const { data: user, isLoading: userLoading } = useQuery(['user'], userInfo);
 
-  const { data: checklist, isLoading: ledgerLoading } = useQuery<
-    Checklist,
-    AxiosError
-  >({
-    queryKey: ['checklist'],
-    queryFn: () => userChecklistItem(),
-  });
+  const { checklist, checklistLoading } = useChecklistData();
 
-  const checklistContent = checklist?.checklist.content || [];
+  const checklistContent = checklist?.content || [];
 
-  if (userLoading || ledgerLoading) return <LoadingSpinner />;
+  if (userLoading || checklistLoading) return <LoadingSpinner />;
 
   return (
     <>
