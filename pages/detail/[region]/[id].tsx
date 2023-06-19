@@ -24,6 +24,12 @@ import {
 import { useRouter } from 'next/router';
 import { GetStaticPropsContext } from 'next';
 import { userInfo } from '@/pages/api/sign';
+import {
+  useFetchDetail,
+  useFetchReview,
+  useFetchDetailLike,
+  useFetchKoreaAPI,
+} from '@/usequery/useDetail';
 
 export default function DetailId() {
   const router = useRouter();
@@ -31,22 +37,11 @@ export default function DetailId() {
 
   const { data: user } = useQuery(['user'], userInfo);
 
-  const { data: detail, isLoading: detailLoading } = useQuery({
-    queryKey: ['fetchDetail', region, id],
-    queryFn: () => fetchDetail(region, id),
-  });
-  const { data: review, isLoading: reviewLoading } = useQuery({
-    queryKey: ['fetchReview', id],
-    queryFn: () => fetchReview(id),
-  });
-  const { data: detailLike, isLoading: reviewLikeLoading } = useQuery({
-    queryKey: ['fetchDetailLike', id],
-    queryFn: () => fetchDetailLike(id),
-  });
-  const { data: koreaAPI, isLoading: koreaAPILoading } = useQuery({
-    queryKey: ['fetchKoreaAPI', id],
-    queryFn: () => fetchKoreaAPI(id),
-  });
+  const { data: detail, isLoading: detailLoading } = useFetchDetail(region, id);
+  const { data: review, isLoading: reviewLoading } = useFetchReview(id);
+  const { data: detailLike, isLoading: reviewLikeLoading } =
+    useFetchDetailLike(id);
+  const { data: koreaAPI, isLoading: koreaAPILoading } = useFetchKoreaAPI(id);
 
   const [moreInformation, setMoreInformation] = useState(false);
 
