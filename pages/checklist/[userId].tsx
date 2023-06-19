@@ -6,6 +6,7 @@ import { GetServerSidePropsContext } from 'next';
 import axios from 'axios';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { useChecklistData } from '@/usequery/useChecklist';
+import UserInfo from '@/components/common/UserInfo';
 
 export default function CkecklistUserId() {
   const { data: user, isLoading: userLoading } = useQuery(['user'], userInfo);
@@ -22,12 +23,7 @@ export default function CkecklistUserId() {
         <title>{`${user}님의 - 체크리스트`}</title>
       </Head>
 
-      <h1 className="fw-bold lh-base mt-5 mb-5">
-        <span style={{ color: '#198754' }}>{user}</span>
-        <span> 님의 </span>
-        <br></br>
-        여행 체크리스트 📝
-      </h1>
+      <UserInfo user={user} message="여행 체크리스트 📝" />
 
       <ChecklistAccordion checklist={checklistContent} />
     </>

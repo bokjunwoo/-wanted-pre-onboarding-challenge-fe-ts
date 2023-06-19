@@ -8,6 +8,7 @@ import { userInfo } from '../api/sign';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { useLedgerData } from '@/usequery/useLedger';
+import UserInfo from '@/components/common/UserInfo';
 
 export default function LedgerUserId() {
   const { data: user, isLoading: userLoading } = useQuery(['user'], userInfo);
@@ -27,12 +28,7 @@ export default function LedgerUserId() {
       <Row xs={1} sm={1} md={1} lg={2}>
         <Col>
           <div>
-            <h1 className="fw-bold lh-base mt-5 mb-4">
-              <span style={{ color: '#198754' }}>{user}</span>
-              <span> 님의</span>
-              <br></br>
-              <span>정산 내역 💶</span>
-            </h1>
+            <UserInfo user={user} message="정산 내역 💶" />
           </div>
 
           <div>
