@@ -4,13 +4,14 @@ import Head from 'next/head';
 import { Row } from 'react-bootstrap';
 import React, { useCallback } from 'react';
 import { regionNames, typesNames } from '@/data/region';
-import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
+import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { fetchList } from '@/pages/api/list';
 import { useRouter } from 'next/router';
 import { GetStaticPropsContext } from 'next';
 import { useSearchParams } from 'next/navigation';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import PaginatedItems from '@/components/common/PaginatedItems';
+import { useList } from '@/usequery/useList';
 
 export default function Type() {
   const searchParams = useSearchParams();
@@ -23,10 +24,7 @@ export default function Type() {
     type: string;
   };
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['fetchList', region, type, page],
-    queryFn: () => fetchList(region, type, page),
-  });
+  const { data: list, isLoading: listLoading } = useList(region, type, page);
 
   const createQueryString = useCallback(
     (name: string, value: string | number) => {
@@ -42,7 +40,7 @@ export default function Type() {
     router.push('?' + createQueryString('page', pageNumber));
   };
 
-  if (isLoading) return <LoadingSpinner />;
+  if (listLoading) return <LoadingSpinner />;
 
   return (
     <>
@@ -55,14 +53,14 @@ export default function Type() {
       <CommonNav region={region} type={type} margin="mt-5" />
 
       <Row xs={1} sm={2} md={2} lg={3} className="mt-2">
-        {data?.data.map((data) => {
+        {list?.data.map((data) => {
           return <ListCard key={data._id} data={data} region={region} />;
         })}
       </Row>
 
       <PaginatedItems
         page={page}
-        total={data?.total}
+        total={list?.total}
         handlePageChange={handlePageChange}
       />
     </>
