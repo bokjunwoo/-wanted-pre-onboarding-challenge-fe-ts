@@ -1,36 +1,18 @@
 import LedgerForm from '@/components/ledger/LedgerForm';
 import LedgerReceipt from '@/components/ledger/LedgerReceipt';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import { Row, Col } from 'react-bootstrap';
 import { userInfo } from '../api/sign';
-import { userLedgerItem } from '../api/ledger';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
-
-export type LedgerItem = {
-  id: string;
-  date: string;
-  title: string;
-  price: number;
-};
-
-export type Ledger = {
-  nickname: string;
-  chargeList: LedgerItem[];
-};
+import { useLedgerData } from '@/usequery/useLedger';
 
 export default function LedgerUserId() {
   const { data: user, isLoading: userLoading } = useQuery(['user'], userInfo);
 
-  const { data: ledger, isLoading: ledgerLoading } = useQuery<
-    Ledger,
-    AxiosError
-  >({
-    queryKey: ['ledger'],
-    queryFn: () => userLedgerItem(),
-  });
+  const { ledger, ledgerLoading } = useLedgerData();
 
   const ledgerContent = ledger?.chargeList || [];
 
