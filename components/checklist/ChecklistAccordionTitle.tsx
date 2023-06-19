@@ -1,5 +1,4 @@
 import { checklistAdd } from '@/pages/api/checklist';
-import { Checklist, ChecklistContent } from '@/pages/checklist/[userId]';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useState } from 'react';
 import { Accordion, Form, InputGroup, Button } from 'react-bootstrap';
@@ -7,6 +6,7 @@ import useInput from '../hooks/useInput';
 import { userInfo } from '@/pages/api/sign';
 import ChecklistAccordionItem from './ChecklistAccordionItem';
 import ToastMessage from '../toast/ToastMessage';
+import { ChecklistContent, Checklist } from '@/usequery/useChecklist';
 
 export default function ChecklistAccordionTitle({
   title,

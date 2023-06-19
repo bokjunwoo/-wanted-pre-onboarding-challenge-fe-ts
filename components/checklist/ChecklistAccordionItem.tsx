@@ -1,11 +1,11 @@
 import { checklistCkecked, checklistDelete } from '@/pages/api/checklist';
 import { userInfo } from '@/pages/api/sign';
+import { Cursor } from '@/styles/styled';
 import {
   Checklist,
   ChecklistContent,
   ChecklistItem,
-} from '@/pages/checklist/[userId]';
-import { Cursor } from '@/styles/styled';
+} from '@/usequery/useChecklist';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

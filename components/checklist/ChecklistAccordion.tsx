@@ -1,8 +1,8 @@
 import React from 'react';
 import { Accordion } from 'react-bootstrap';
-import { ChecklistContent } from '@/pages/checklist/[userId]';
 import { AccordionCustom } from '@/styles/styled';
 import ChecklistAccordionTitle from './ChecklistAccordionTitle';
+import { ChecklistContent } from '@/usequery/useChecklist';
 
 export default function ChecklistAccordion({
   checklist,
