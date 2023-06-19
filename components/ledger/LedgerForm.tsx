@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { Button, InputGroup, Form, Col } from 'react-bootstrap';
 import useInput from '../hooks/useInput';
 import { ledgerAdd } from '@/pages/api/ledger';
-import { Ledger } from '@/pages/ledger/[userId]';
 import ToastMessage from '../toast/ToastMessage';
+import { Ledger } from '@/usequery/useLedger';
 
 export default function LedgerForm() {
   const queryClient = useQueryClient();

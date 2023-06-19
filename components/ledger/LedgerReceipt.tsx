@@ -6,13 +6,13 @@ import {
   faArrowUp,
   faArrowDown,
 } from '@fortawesome/free-solid-svg-icons';
-import { Ledger, LedgerItem } from '@/pages/ledger/[userId]';
 import { Cursor } from '@/styles/styled';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { userInfo } from '@/pages/api/sign';
 import { ledgerDelete, ledgerDeleteAll } from '@/pages/api/ledger';
 import CheckModal from '../modal/CheckModal';
 import { AxiosError } from 'axios';
+import { Ledger, LedgerItem } from '@/usequery/useLedger';
 
 export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
   const queryClient = useQueryClient();
