@@ -1,28 +1,20 @@
 import { userImageInfo, userInfo } from '@/pages/api/sign';
 import { TabContainer, UserImage } from '@/styles/styled';
 import { useQuery } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Row, Tab, Nav } from 'react-bootstrap';
 
-export default function MypageNav() {
+interface IMypageNavProps {
+  activeKey: string;
+  handleTabSelect: (eventKey: string | null) => void;
+}
+
+export default function MypageNav({
+  activeKey,
+  handleTabSelect,
+}: IMypageNavProps) {
   const { data: user } = useQuery(['user'], userInfo);
   const { data: userImage } = useQuery(['userImage'], userImageInfo);
-
-  const [activeKey, setActiveKey] = useState('');
-
-  useEffect(() => {
-    const storedActiveKey = sessionStorage.getItem('activeTab');
-    const isValidKey = ['plan', 'checklist', 'ledger', 'review'].includes(
-      storedActiveKey || '',
-    );
-
-    setActiveKey(isValidKey ? storedActiveKey || 'plan' : 'plan');
-  }, []);
-
-  const handleTabSelect = (eventKey: string | null) => {
-    setActiveKey(eventKey || 'plan');
-    sessionStorage.setItem('activeTab', eventKey || 'plan');
-  };
 
   return (
     <Row xs={1} sm={1} md={1}>
