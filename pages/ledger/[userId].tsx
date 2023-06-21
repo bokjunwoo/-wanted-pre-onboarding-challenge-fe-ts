@@ -1,5 +1,4 @@
 import LedgerForm from '@/components/ledger/LedgerForm';
-import LedgerReceipt from '@/components/ledger/LedgerReceipt';
 import axios from 'axios';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
@@ -7,17 +6,13 @@ import { Row, Col } from 'react-bootstrap';
 import { userInfo } from '../api/sign';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
-import { useLedgerData } from '@/usequery/useLedger';
 import UserInfo from '@/components/common/UserInfo';
+import { LedgerSection } from '@/components/ledger/LedgerSection';
 
 export default function LedgerUserId() {
   const { data: user, isLoading: userLoading } = useQuery(['user'], userInfo);
 
-  const { ledger, ledgerLoading } = useLedgerData();
-
-  const ledgerContent = ledger?.chargeList || [];
-
-  if (userLoading || ledgerLoading) return <LoadingSpinner />;
+  if (userLoading) return <LoadingSpinner />;
 
   return (
     <>
@@ -43,7 +38,7 @@ export default function LedgerUserId() {
         </Col>
 
         <Col>
-          <LedgerReceipt ledger={ledgerContent} />
+          <LedgerSection />
         </Col>
       </Row>
     </>

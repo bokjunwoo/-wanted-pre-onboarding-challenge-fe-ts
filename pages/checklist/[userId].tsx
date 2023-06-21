@@ -1,21 +1,16 @@
-import ChecklistAccordion from '@/components/checklist/ChecklistAccordion';
 import Head from 'next/head';
 import { userInfo } from '@/pages/api/sign';
 import { useQuery } from '@tanstack/react-query';
 import { GetServerSidePropsContext } from 'next';
 import axios from 'axios';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
-import { useChecklistData } from '@/usequery/useChecklist';
 import UserInfo from '@/components/common/UserInfo';
+import { ChecklistSection } from '@/components/checklist/ChecklistChecklistSection';
 
 export default function CkecklistUserId() {
   const { data: user, isLoading: userLoading } = useQuery(['user'], userInfo);
 
-  const { checklist, checklistLoading } = useChecklistData();
-
-  const checklistContent = checklist?.content || [];
-
-  if (userLoading || checklistLoading) return <LoadingSpinner />;
+  if (userLoading) return <LoadingSpinner />;
 
   return (
     <>
@@ -25,7 +20,7 @@ export default function CkecklistUserId() {
 
       <UserInfo user={user} message="여행 체크리스트 📝" />
 
-      <ChecklistAccordion checklist={checklistContent} />
+      <ChecklistSection />
     </>
   );
 }
