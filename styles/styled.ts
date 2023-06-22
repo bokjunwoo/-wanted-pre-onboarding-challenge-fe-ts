@@ -147,6 +147,15 @@ export const CenterToast = styled(ToastContainer)`
   transform: translate(-50%, -50%);
 `;
 
+export const ParentLoadingSpinner = styled.div`
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const TabContainer = styled.div`
   .nav-pills .nav-link {
     color: #198754;
