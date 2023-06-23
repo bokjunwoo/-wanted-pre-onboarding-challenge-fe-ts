@@ -17,3 +17,7 @@ p {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.light {
+  background-color: #e8eaec;
+}
