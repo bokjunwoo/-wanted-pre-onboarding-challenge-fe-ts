@@ -17,20 +17,20 @@ export default function MypageNav({
   const { data: userImage } = useQuery(['userImage'], userImageInfo);
 
   return (
-    <Row xs={1} sm={1} md={1}>
+    <Row xs={1} sm={1} md={1} className="light rounded mb-5">
       <Tab.Container activeKey={activeKey} onSelect={handleTabSelect}>
         <TabContainer>
           <div className="d-flex flex-column align-items-center">
             <UserImage
               src={userImage === '' ? '/images/defaultImage.png' : userImage}
               alt="회원 이미지"
-              className="bg-dark rounded"
+              className="rounded p-4"
             />
             <p className="fs-3 text-center text-success fw-bold m-2">{user}</p>
           </div>
           <Nav
             variant="pills"
-            className="flex-column mt-4 text-center"
+            className="flex-column mt-4 text-center mb-4"
             style={{ color: '#333' }}
           >
             <Nav.Item>
