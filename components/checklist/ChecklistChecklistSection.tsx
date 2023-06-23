@@ -1,12 +1,12 @@
 import { useChecklistData } from '@/usequery/useChecklist';
 import ChecklistAccordion from './ChecklistAccordion';
-import LoadingSpinner from '../common/LoadingSpinner';
+import ParentLoading from '../common/ParentLoading';
 
 export const ChecklistSection = () => {
   const { checklist, checklistLoading } = useChecklistData();
 
   if (checklistLoading) {
-    return <LoadingSpinner />;
+    return <ParentLoading />;
   }
 
   return <ChecklistAccordion checklist={checklist?.content || []} />;
