@@ -7,7 +7,7 @@ interface IUserInfoProps {
 
 export default function UserInfo({ user, message }: IUserInfoProps) {
   return (
-    <h1 className="fw-bold lh-base mt-5 mb-5">
+    <h1 className="fw-bold lh-base">
       <span style={{ color: '#198754' }}>{user}</span>
       <span> 님의 </span>
       <br></br>
