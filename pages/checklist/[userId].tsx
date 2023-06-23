@@ -18,7 +18,13 @@ export default function CkecklistUserId() {
         <title>{`${user}님의 - 체크리스트`}</title>
       </Head>
 
-      <UserInfo user={user} message="여행 체크리스트 📝" />
+      <div className="mt-5">
+        <UserInfo user={user} message="여행 체크리스트 📝" />
+      </div>
+
+      <div className="mb-4">
+        <p>체크리스트를 통해 여행에 필요한 물품을 챙겨보아요.</p>
+      </div>
 
       <ChecklistSection />
     </>

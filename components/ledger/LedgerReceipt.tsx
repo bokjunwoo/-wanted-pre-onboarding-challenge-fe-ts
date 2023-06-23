@@ -83,7 +83,7 @@ export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
 
   return (
     <div
-      className="p-4 rounded border mt-4"
+      className="p-4 rounded border mb-3"
       style={{ backgroundColor: '#fafafa' }}
     >
       <div>

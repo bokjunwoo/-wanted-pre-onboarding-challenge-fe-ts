@@ -22,12 +22,12 @@ export default function LedgerUserId() {
 
       <Row xs={1} sm={1} md={1} lg={2}>
         <Col>
-          <div>
+          <div className="mt-5">
             <UserInfo user={user} message="정산 내역 💶" />
           </div>
 
-          <div>
-            <p className="mb-4">
+          <div className="mb-4">
+            <p>
               일행과 함께 지출한 비용이 있다면,
               <br />
               총무에게 내야 할 금액을 정산해드려요.
@@ -37,7 +37,7 @@ export default function LedgerUserId() {
           <LedgerForm />
         </Col>
 
-        <Col>
+        <Col className="mt-5">
           <LedgerSection />
         </Col>
       </Row>
