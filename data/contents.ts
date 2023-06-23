@@ -606,3 +606,14 @@ export const regionContents = {
     tour: jejuTour,
   },
 };
+
+type RegionNames = {
+  [key: string]: string;
+};
+
+export const activeKeyList: RegionNames = {
+  plan: '여행 일정 🛫',
+  checklist: '여행 체크리스트 📝',
+  ledger: '정산 내역 💶',
+  review: '작성한 리뷰 ✏️',
+};
