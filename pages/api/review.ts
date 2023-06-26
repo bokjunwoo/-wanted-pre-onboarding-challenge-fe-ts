@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { IReviewAdd, IReviewDelete, IReviewEdit } from './api';
 import apiClient from './apiClient';
 
@@ -25,5 +26,10 @@ export const reviewDelete = async (data: IReviewDelete) => {
     url: '/review/delete',
     data,
   });
+  return response.data;
+};
+
+export const reviewAll = async () => {
+  const response = await axios.post('/review/all');
   return response.data;
 };
