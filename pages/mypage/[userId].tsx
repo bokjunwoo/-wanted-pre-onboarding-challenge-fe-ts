@@ -13,6 +13,7 @@ import { useQuery } from '@tanstack/react-query';
 import LedgerForm from '@/components/ledger/LedgerForm';
 import { activeKeyList } from '@/data/contents';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
+import MypageReviewSection from '@/components/mypage/MypageReviewSection';
 
 const MypageNavWithNoSSR = dynamic(import('@/components/mypage/MypageNav'), {
   ssr: false,
@@ -65,7 +66,7 @@ export default function MypageUserId() {
               <LedgerForm />
             </>
           )}
-          {activeKey === 'review' && <div>작성된 여행 일정이 없습니다.</div>}
+          {activeKey === 'review' && <MypageReviewSection />}
           {activeKey === 'plan' && <div>작성된 리뷰가 없습니다.</div>}
         </Col>
       </Row>
