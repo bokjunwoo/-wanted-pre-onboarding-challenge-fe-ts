@@ -26,6 +26,7 @@ export interface IListInfo {
 export interface IReviewInfo {
   _id: string;
   contentid: string;
+  region: string;
   title: string;
   nickname: string;
   userImage: string;
