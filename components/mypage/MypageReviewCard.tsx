@@ -1,4 +1,5 @@
 import { IReviewInfo } from '@/pages/api/api';
+import Link from 'next/link';
 import React from 'react';
 import { Card } from 'react-bootstrap';
 
@@ -10,18 +11,20 @@ export default function MypageReviewCard({ review }: { review: IReviewInfo }) {
   }
 
   return (
-    <Card border="secondary" className="m-2">
-      <Card.Header>
-        {review.title}{' '}
-        {stars.map((star, i) => (
-          <span key={i} style={{ color: star === 0 ? 'gray' : '#ffd400' }}>
-            ★
-          </span>
-        ))}
-      </Card.Header>
-      <Card.Body>
-        <Card.Text>{review.content}</Card.Text>
-      </Card.Body>
-    </Card>
+    <Link href={`/detail/${review.region}/${review.contentid}`}>
+      <Card border="secondary" className="m-2">
+        <Card.Header>
+          {review.title}{' '}
+          {stars.map((star, i) => (
+            <span key={i} style={{ color: star === 0 ? 'gray' : '#ffd400' }}>
+              ★
+            </span>
+          ))}
+        </Card.Header>
+        <Card.Body>
+          <Card.Text>{review.content}</Card.Text>
+        </Card.Body>
+      </Card>
+    </Link>
   );
 }
