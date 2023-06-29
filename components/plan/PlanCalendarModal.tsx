@@ -1,4 +1,7 @@
+import { userInfo } from '@/pages/api/sign';
+import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import Calendar from 'react-calendar';
@@ -6,19 +9,25 @@ import 'react-calendar/dist/Calendar.css';
 
 type PlanCalendarModalProps = {
   show: boolean;
-  onHide: () => void;
+  onHide: React.Dispatch<React.SetStateAction<boolean>>;
+  region: string | undefined;
 };
 
 export default function PlanCalendarModal({
   show,
   onHide,
+  region,
 }: PlanCalendarModalProps) {
+  const router = useRouter();
+
+  const { data: user } = useQuery(['user'], userInfo);
+
   const [value, onChange] = useState<Date[]>([new Date()]);
 
   // 모달창이 닫힐 때 value 상태값을 초기화
   const handleClose = () => {
     onChange([new Date()]);
-    onHide();
+    onHide(false);
   };
 
   const handleSelect = () => {
@@ -29,6 +38,7 @@ export default function PlanCalendarModal({
       const nights = Math.floor(duration.asDays()); // 체크인/체크아웃 모두 포함한 박수 계산
       const days = duration.hours() > 0 ? duration.days() + 1 : duration.days(); // 일수 계산
       console.log(`${nights}박 ${days}일`);
+      router.push(`/plan/${region}/${user}/1`);
     } else {
       console.log('1일');
     }
@@ -54,15 +64,15 @@ export default function PlanCalendarModal({
           </div>
         ) : (
           <div className="bold text-center mb-3">
-            <span>오늘 : {moment(value[0]).format('YYYY년 MM월 DD일')}</span>
+            <span>Today : {moment(value[0]).format('YYYY년 MM월 DD일')}</span>
           </div>
         )}
         <Calendar
           className="w-100"
-          onChange={handleClose}
+          onChange={(newValue) => onChange(newValue as Date[])}
           minDate={new Date()}
           selectRange={true}
-          formatDay={(locale, date) => moment(date).format('DD')}
+          formatDay={(_, date) => moment(date).format('DD')}
           calendarType="US"
         ></Calendar>
       </Modal.Body>
