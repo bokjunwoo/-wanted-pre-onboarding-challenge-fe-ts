@@ -4,6 +4,7 @@ import { userInfo } from '@/pages/api/sign';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { Preparation } from '@/styles/styled';
+import PlanCalendarModal from '../plan/PlanCalendarModal';
 
 interface ContentProps {
   content: string;
@@ -16,11 +17,12 @@ export default function SubPreparation({ content, region }: ContentProps) {
   const { data: user } = useQuery(['user'], userInfo);
 
   const [show, setShow] = useState(false);
+  const [calendarShow, setCalendarShow] = useState(false);
 
   const handleClick = () => {
     if (user) {
       if (region) {
-        router.push(`/${content}/${region}/테스트/1`);
+        setCalendarShow(true);
       } else {
         router.push(`/${content}/${user}`);
       }
@@ -40,6 +42,12 @@ export default function SubPreparation({ content, region }: ContentProps) {
       </Preparation>
 
       <LoginRequired show={show} setShow={setShow} />
+
+      <PlanCalendarModal
+        show={calendarShow}
+        onHide={setCalendarShow}
+        region={region}
+      />
     </>
   );
 }
