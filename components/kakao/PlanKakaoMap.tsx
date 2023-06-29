@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
 
 type RegionCoordinates = {
@@ -27,12 +28,11 @@ declare global {
 }
 
 interface KakaoMapSize {
-  width: string;
-  height: string;
   region: string;
+  idx: number;
 }
 
-export default function PlanKakaoMap({ width, height, region }: KakaoMapSize) {
+export default function PlanKakaoMap({ region, idx }: KakaoMapSize) {
   const [kakaoLoaded, setKakaoLoaded] = useState(false);
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export default function PlanKakaoMap({ width, height, region }: KakaoMapSize) {
 
   useEffect(() => {
     if (kakaoLoaded) {
-      const container = document.getElementById('map');
+      const container = document.getElementById(`map${idx}`);
       const options = {
         center: new window.kakao.maps.LatLng(
           regionCoordinates[region][0].mapY,
@@ -72,16 +72,29 @@ export default function PlanKakaoMap({ width, height, region }: KakaoMapSize) {
       //   position: new window.kakao.maps.LatLng(coordinates[0].mapY, coordinates[0].mapX),
       // });
     }
-  }, [kakaoLoaded, region]);
+  }, [kakaoLoaded, region, idx]);
 
   return (
-    <>
-      <Map id="map" width={width} height={height}></Map>
-    </>
+    <MapContainer>
+      <Map id={`map${idx}`}></Map>
+    </MapContainer>
   );
 }
 
-const Map = styled.div<{ width: string; height: string }>`
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
+const Map = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+const MapContainer = styled(Card.Body)`
+  height: 450px;
+  @media screen and (max-width: 530px) {
+    height: 400px;
+  }
+  @media screen and (max-width: 480px) {
+    height: 370px;
+  }
+  @media screen and (max-width: 420px) {
+    height: 350px;
+  }
 `;
