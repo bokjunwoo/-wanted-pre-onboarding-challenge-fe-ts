@@ -170,3 +170,13 @@ export const UserImage = styled.img`
   width: 12rem;
   height: 12rem;
 `;
+
+export const NumberBox = styled.div`
+  width: 25px;
+  height: 25px;
+  border: 1px solid black;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

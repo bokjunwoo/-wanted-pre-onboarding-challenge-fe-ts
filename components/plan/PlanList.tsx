@@ -1,14 +1,14 @@
 import React from 'react';
 import { CloseButton, ListGroup } from 'react-bootstrap';
-import { UserIamge } from '../detail/review/ReviewContent';
+import { NumberBox } from '@/styles/styled';
 
-export default function PlanList() {
+export default function PlanList({ number }: { number: number }) {
   return (
     <ListGroup.Item className="ps-2 pe-2">
       <div className="d-flex justify-content-between">
         <div className="d-flex">
           <div className="d-flex align-items-center">
-            <UserIamge src="/images/main/card0.jpg" alt="" />
+            <NumberBox>{number + 1}</NumberBox>
           </div>
 
           <div className="ms-2">
