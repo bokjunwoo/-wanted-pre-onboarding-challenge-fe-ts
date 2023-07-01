@@ -99,7 +99,7 @@ export default function LedgerReceipt({ ledger }: { ledger: LedgerItem[] }) {
       <div>
         <Row className="text-start">
           <Col className="fw-bold col-3 fs-5">Day</Col>
-          <Col className="fw-bold col-4 fs-5">ITEM</Col>
+          <Col className="fw-bold col-4 fs-5">Item</Col>
           <Col className="fw-bold col-3 fs-5">Price</Col>
           <Col className="fw-bold col-2 fs-5 text-end">Del</Col>
         </Row>
