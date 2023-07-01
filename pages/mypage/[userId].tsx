@@ -57,7 +57,7 @@ export default function MypageUserId() {
           />
         </Col>
         <Col md={12} lg={1}></Col>
-        <Col md={12} lg={8} className="light rounded">
+        <Col md={12} lg={8} className="rounded">
           <UserInfo user={user} message={activeKeyList[activeKey]} />
           {activeKey === 'checklist' && <ChecklistSection />}
           {activeKey === 'ledger' && (
