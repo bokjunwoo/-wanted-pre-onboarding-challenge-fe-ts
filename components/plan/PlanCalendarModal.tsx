@@ -6,6 +6,9 @@ import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { useSetRecoilState } from 'recoil';
+import 'moment/locale/ko';
+import { PlanData, selectedDatesState } from '@/atom/planSelector';
 
 type PlanCalendarModalProps = {
   show: boolean;
@@ -22,6 +25,8 @@ export default function PlanCalendarModal({
 
   const { data: user } = useQuery(['user'], userInfo);
 
+  const setSelectedDates = useSetRecoilState(selectedDatesState);
+
   const [value, onChange] = useState<Date[]>([new Date()]);
 
   // 모달창이 닫힐 때 value 상태값을 초기화
@@ -31,17 +36,28 @@ export default function PlanCalendarModal({
   };
 
   const handleSelect = () => {
-    if (value.length > 1) {
-      const start = moment(value[0]);
-      const end = moment(value[1]);
-      const duration = moment.duration(end.diff(start));
-      const nights = Math.floor(duration.asDays()); // 체크인/체크아웃 모두 포함한 박수 계산
-      const days = duration.hours() > 0 ? duration.days() + 1 : duration.days(); // 일수 계산
-      console.log(`${nights}박 ${days}일`);
-      router.push(`/plan/${region}/${user}/1`);
-    } else {
-      console.log('1일');
+    const start = moment(value[0]);
+    const end = moment(value[1]);
+
+    const dates: PlanData[] = [];
+    const currentDate = start.clone();
+    while (currentDate <= end) {
+      const dateStr = `${currentDate.format(
+        'YYYY년 M월 D일',
+      )} ${currentDate.format('dd')}`;
+      const planData: PlanData = {
+        date: dateStr,
+        list: [],
+        region: '',
+        nickname: '',
+      };
+      dates.push(planData);
+      currentDate.add(1, 'day');
     }
+
+    setSelectedDates(dates);
+
+    router.push(`/plan/${region}/${user}/1`);
   };
 
   return (
