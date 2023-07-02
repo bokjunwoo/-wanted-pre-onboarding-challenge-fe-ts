@@ -102,3 +102,8 @@ export interface IDetailLikeInc {
   region: string;
   user: string;
 }
+
+export interface ISearchData {
+  region: string;
+  search: string;
+}
