@@ -2,17 +2,22 @@ import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import PlanListForm from '../plan/PlanListForm';
 
-export default function SearchModal() {
+interface ISearchProps {
+  show: boolean;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function SearchModal({ show, setShow }: ISearchProps) {
   const handleClose = () => {
-    // setShow(false);
+    setShow(false);
   };
 
   const handleSuccess = () => {
-    // setShow(false);
+    setShow(false);
   };
 
   return (
-    <Modal show={true} aria-labelledby="example-modal-sizes-title-sm" centered>
+    <Modal show={show} aria-labelledby="example-modal-sizes-title-sm" centered>
       <Modal.Header>
         <Modal.Title id="example-modal-sizes-title-sm">
           <img
