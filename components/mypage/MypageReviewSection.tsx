@@ -10,7 +10,7 @@ export default function MypageReviewSection() {
     return <ParentLoading />;
   }
 
-  if (!userReview) {
+  if (userReview?.length === 0) {
     return <div>작성한 리뷰가 없습니다.</div>;
   }
 
