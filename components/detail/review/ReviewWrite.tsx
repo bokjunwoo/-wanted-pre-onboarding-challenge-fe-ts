@@ -88,6 +88,7 @@ export default function ReviewWrite({
           content: text,
           star,
           time: new Date(),
+          region: '',
         });
 
         return newReview;
