@@ -1,20 +1,15 @@
+import { ISearchDataInfo } from '@/pages/api/api';
 import { searchTitle } from '@/pages/api/plan';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, QueryObserverResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 export const useSearchData = (
   region: string,
   search: string,
-): {
-  searchData: any;
-  searchDataLoading: boolean;
-} => {
-  const { data: searchData, isLoading: searchDataLoading } = useQuery(
-    ['searchTitle'],
-    () => searchTitle({ region, search }),
-    {
-      enabled: false, // 초기에 요청 비활성화
-    },
-  );
-
-  return { searchData, searchDataLoading };
+): QueryObserverResult<ISearchDataInfo, AxiosError> => {
+  return useQuery<ISearchDataInfo, AxiosError>({
+    queryKey: ['searchTitle', region, search],
+    queryFn: () => searchTitle({ region, search }),
+    enabled: false, // 초기에 요청 비활성화
+  });
 };
