@@ -107,3 +107,12 @@ export interface ISearchData {
   region: string;
   search: string;
 }
+
+export interface ISearchDataInfo {
+  title: string;
+  star: {
+    star: number;
+  }[];
+  addr1: string;
+  like: number;
+}
