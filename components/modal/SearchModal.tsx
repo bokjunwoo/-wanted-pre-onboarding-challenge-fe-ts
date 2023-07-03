@@ -1,18 +1,20 @@
 import React from 'react';
-import { Button, Modal } from 'react-bootstrap';
-import PlanListForm from '../plan/PlanListForm';
+import { Button, ListGroup, Modal } from 'react-bootstrap';
+import { ISearchDataInfo } from '@/pages/api/api';
+import PlanList from '../plan/PlanList';
 
 interface ISearchProps {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
+  data: ISearchDataInfo;
 }
 
-export default function SearchModal({ show, setShow }: ISearchProps) {
+export default function SearchModal({ show, setShow, data }: ISearchProps) {
   const handleClose = () => {
     setShow(false);
   };
 
-  const handleSuccess = () => {
+  const addLocation = () => {
     setShow(false);
   };
 
@@ -30,15 +32,23 @@ export default function SearchModal({ show, setShow }: ISearchProps) {
       </Modal.Header>
 
       <Modal.Body>
-        <PlanListForm />
+        <ListGroup>
+          {data !== null ? (
+            <PlanList
+              title={data.title}
+              star={data.star}
+              addr1={data.addr1}
+              like={data.like}
+            />
+          ) : (
+            <div>검색결과가 없습니다.</div>
+          )}
+        </ListGroup>
       </Modal.Body>
 
       <Modal.Footer>
         <Button variant="outline-danger" size="sm" onClick={handleClose}>
           취소
-        </Button>
-        <Button variant="outline-success" size="sm" onClick={handleSuccess}>
-          확인
         </Button>
       </Modal.Footer>
     </Modal>
