@@ -18,15 +18,19 @@ export default function PlanListForm() {
     setSearchShow(true);
   };
 
-  const [search, onChangeSearch, setSearch] = useInput('');
+  const [search, onChangeSearch] = useInput('');
   const [toastShow, setToastShow] = useState(false);
   const [searchShow, setSearchShow] = useState(false);
 
-  const { searchData, searchDataLoading } = useSearchData(region, search);
+  const { data: searchData, refetch: searchDataRefetch } = useSearchData(
+    region,
+    search,
+  );
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     searchHelper();
+    searchDataRefetch();
   };
 
   return (
@@ -53,7 +57,14 @@ export default function PlanListForm() {
         message="검색어를 입력해주세요."
         variant="danger"
       />
-      <SearchModal show={searchShow} setShow={setSearchShow} />
+
+      {searchData !== undefined && (
+        <SearchModal
+          show={searchShow}
+          setShow={setSearchShow}
+          data={searchData}
+        />
+      )}
     </>
   );
 }
