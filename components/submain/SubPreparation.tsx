@@ -43,11 +43,7 @@ export default function SubPreparation({ content, region }: ContentProps) {
 
       <LoginRequired show={show} setShow={setShow} />
 
-      <PlanCalendarModal
-        show={calendarShow}
-        onHide={setCalendarShow}
-        region={region}
-      />
+      <PlanCalendarModal show={calendarShow} onHide={setCalendarShow} />
     </>
   );
 }
