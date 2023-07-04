@@ -8,20 +8,19 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useSetRecoilState } from 'recoil';
 import 'moment/locale/ko';
-import { PlanData, selectedDatesState } from '@/atom/planSelector';
+import { selectedDatesState } from '@/atom/planSelector';
 
 type PlanCalendarModalProps = {
   show: boolean;
   onHide: React.Dispatch<React.SetStateAction<boolean>>;
-  region: string | undefined;
 };
 
 export default function PlanCalendarModal({
   show,
   onHide,
-  region,
 }: PlanCalendarModalProps) {
   const router = useRouter();
+  const { region } = router.query as { region: string };
 
   const { data: user } = useQuery(['user'], userInfo);
 
@@ -39,23 +38,21 @@ export default function PlanCalendarModal({
     const start = moment(value[0]);
     const end = moment(value[1]);
 
-    const dates: PlanData[] = [];
+    const dates = [];
     const currentDate = start.clone();
     while (currentDate <= end) {
       const dateStr = `${currentDate.format(
         'YYYY년 M월 D일',
       )} ${currentDate.format('dd')}`;
-      const planData: PlanData = {
+      const planData = {
         date: dateStr,
         list: [],
-        region: '',
-        nickname: '',
       };
       dates.push(planData);
       currentDate.add(1, 'day');
     }
 
-    setSelectedDates(dates);
+    setSelectedDates({ nickname: user, region: region, plan: dates });
 
     router.push(`/plan/${region}/${user}/1`);
   };
@@ -68,18 +65,25 @@ export default function PlanCalendarModal({
       onHide={handleClose}
     >
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">TripLog</Modal.Title>
+        <Modal.Title id="example-modal-sizes-title-sm">
+          <img
+            src="/images/Logo.png"
+            style={{ width: '30px' }}
+            alt="로고"
+          ></img>
+          TripLog
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <h4 className="text-center mb-3">🛫 여행 날짜를 선택해주세요</h4>
         {value.length > 1 ? (
-          <div className="bold text-center mb-3">
+          <div className="bold text-center mb-3 text-success">
             <span>{moment(value[0]).format('YYYY년 MM월 DD일')}</span>
             <span> ~ </span>
             <span>{moment(value[1]).format('YYYY년 MM월 DD일')}</span>
           </div>
         ) : (
-          <div className="bold text-center mb-3">
+          <div className="bold text-center mb-3 text-success">
             <span>Today : {moment(value[0]).format('YYYY년 MM월 DD일')}</span>
           </div>
         )}
