@@ -115,4 +115,6 @@ export interface ISearchDataInfo {
   }[];
   addr1: string;
   like: number;
+  mapX: string;
+  mapY: string;
 }

@@ -1,18 +1,12 @@
+import { ISearchDataInfo } from '@/pages/api/api';
 import { atom } from 'recoil';
-
-export type ListItem = {
-  title: string;
-  addr: string;
-  mapX: string;
-  mapY: string;
-};
 
 type DateItem = {
   date: string;
-  list: ListItem[];
+  list: ISearchDataInfo[];
 };
 
-type DateObject = {
+export type DateObject = {
   nickname: string;
   region: string;
   plan: DateItem[];
