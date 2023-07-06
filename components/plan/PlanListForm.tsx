@@ -6,7 +6,11 @@ import SearchModal from '../modal/SearchModal';
 import { useRouter } from 'next/router';
 import { useSearchData } from '@/usequery/useSearch';
 
-export default function PlanListForm() {
+type PlanListFormType = {
+  date: string;
+};
+
+export default function PlanListForm(date: PlanListFormType) {
   const router = useRouter();
   const { region } = router.query as { region: string };
 
@@ -63,6 +67,7 @@ export default function PlanListForm() {
           show={searchShow}
           setShow={setSearchShow}
           data={searchData}
+          date={date.date}
         />
       )}
     </>
