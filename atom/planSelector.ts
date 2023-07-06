@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-type ListItem = {
+export type ListItem = {
   title: string;
   addr: string;
   mapX: string;
@@ -18,8 +18,8 @@ type DateObject = {
   plan: DateItem[];
 };
 
-export const selectedDatesState = atom<DateObject>({
-  key: 'selectedDatesState',
+export const planListState = atom<DateObject>({
+  key: 'planListState',
   default: {
     nickname: '',
     region: '',

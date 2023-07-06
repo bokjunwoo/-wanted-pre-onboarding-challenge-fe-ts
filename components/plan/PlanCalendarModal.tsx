@@ -8,7 +8,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useSetRecoilState } from 'recoil';
 import 'moment/locale/ko';
-import { selectedDatesState } from '@/atom/planSelector';
+import { planListState } from '@/atom/planSelector';
 
 type PlanCalendarModalProps = {
   show: boolean;
@@ -24,7 +24,7 @@ export default function PlanCalendarModal({
 
   const { data: user } = useQuery(['user'], userInfo);
 
-  const setSelectedDates = useSetRecoilState(selectedDatesState);
+  const setSelectedDates = useSetRecoilState(planListState);
 
   const [value, onChange] = useState<Date[]>([new Date()]);
 
