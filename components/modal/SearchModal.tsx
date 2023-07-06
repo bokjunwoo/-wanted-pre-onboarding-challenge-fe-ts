@@ -7,14 +7,16 @@ interface ISearchProps {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
   data: ISearchDataInfo;
+  date: string;
 }
 
-export default function SearchModal({ show, setShow, data }: ISearchProps) {
+export default function SearchModal({
+  show,
+  setShow,
+  data,
+  date,
+}: ISearchProps) {
   const handleClose = () => {
-    setShow(false);
-  };
-
-  const addLocation = () => {
     setShow(false);
   };
 
@@ -34,12 +36,7 @@ export default function SearchModal({ show, setShow, data }: ISearchProps) {
       <Modal.Body>
         <ListGroup>
           {data !== null ? (
-            <PlanList
-              title={data.title}
-              star={data.star}
-              addr1={data.addr1}
-              like={data.like}
-            />
+            <PlanList listItem={data} date={date} />
           ) : (
             <div>검색결과가 없습니다.</div>
           )}
