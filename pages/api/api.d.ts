@@ -109,12 +109,13 @@ export interface ISearchData {
 }
 
 export interface ISearchDataInfo {
+  id: Date;
   title: string;
   star: {
     star: number;
   }[];
   addr1: string;
   like: number;
-  mapX: string;
-  mapY: string;
+  mapx: string;
+  mapy: string;
 }
