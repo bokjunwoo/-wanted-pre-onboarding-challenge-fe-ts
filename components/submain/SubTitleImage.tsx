@@ -14,7 +14,7 @@ export default function SubTitleImage({ region, regionName }: SubMainProps) {
         <img alt="지역대표이미지" src={`/images/submain/${region}.jpg`} />
       )}
       <Card.ImgOverlay>
-        <AreaName>{regionName}</AreaName>
+        <AreaName>{region.toLocaleUpperCase()}</AreaName>
         <Areatext>
           온전히 내 취향대로, 나만의 감성을 그대로 담은 나만의 여행로그
         </Areatext>
@@ -25,32 +25,39 @@ export default function SubTitleImage({ region, regionName }: SubMainProps) {
 
 const AreaName = styled.p`
   color: #fff;
-  font: 9rem/1 'ChosunBg';
-  margin: 2% 2% 0 2%;
+  font: 8rem/1 'ChosunBg';
+  font-weight: bold;
+  margin: 30% 2% 0 2%;
 
   @media screen and (max-width: 1200px) {
     font: 8rem/1 'ChosunBg';
-    margin: 2% 2% 0 2%;
+    font-weight: bold;
+    margin: 28% 2% 0 2%;
   }
   @media screen and (max-width: 991px) {
     font: 6rem/1 'ChosunBg';
-    margin: 2% 2% 0 2%;
+    font-weight: bold;
+    margin: 30% 2% 0 2%;
   }
   @media screen and (max-width: 767px) {
     font: 4rem/1 'ChosunBg';
-    margin: 2% 2% 0 2%;
+    font-weight: bold;
+    margin: 31% 2% 0 2%;
   }
   @media screen and (max-width: 575px) {
     font: 4rem/1 'ChosunBg';
-    margin: 2% 2% 0 2%;
+    font-weight: bold;
+    margin: 29% 2% 0 2%;
   }
   @media screen and (max-width: 480px) {
     font: 3.5rem/1 'ChosunBg';
-    margin: 2% 2% 0 2%;
+    font-weight: bold;
+    margin: 28% 2% 0 2%;
   }
   @media screen and (max-width: 390px) {
     font: 3rem/1 'ChosunBg';
-    margin: 2% 2% 0 2%;
+    font-weight: bold;
+    margin: 28% 2% 0 2%;
   }
 `;
 
@@ -58,30 +65,34 @@ const Areatext = styled.p`
   color: #fff;
   font-size: 1.5rem;
   font-family: Inter;
-  margin: 0 2% 0 2%;
+  margin: -2% 2% 0 2%;
 
   @media screen and (max-width: 1200px) {
     font: 1.4rem/1.5 ‘Inter’;
-    margin: 0 2% 0 2%;
+    margin: -2% 2% 0 2%;
   }
   @media screen and (max-width: 991px) {
     font: 1.2rem/1.5 ‘Inter’;
-    margin: 0 2% 0 2%;
+    margin: -2% 2% 0 2%;
   }
   @media screen and (max-width: 767px) {
     font: 1rem/1.5 ‘Inter’;
-    margin: 0 2% 0 2%;
+    margin: -2% 2% 0 2%;
   }
   @media screen and (max-width: 575px) {
     font: 0.9rem/1.5 ‘Inter’;
-    margin: 0 2% 0 2%;
+    margin: -2% 2% 0 2%;
   }
   @media screen and (max-width: 480px) {
     font: 0.8rem/1 'ChosunBg';
-    margin: 0 2% 0 2%;
+    margin: -2% 2% 0 2%;
+  }
+  @media screen and (max-width: 440px) {
+    font: 0.7rem/1 'ChosunBg';
+    margin: -2% 2% 0 2%;
   }
   @media screen and (max-width: 390px) {
     font: 0.7rem/1 'ChosunBg';
-    margin: 0 2% 0 2%;
+    margin: -2% 2% 0 2%;
   }
 `;
