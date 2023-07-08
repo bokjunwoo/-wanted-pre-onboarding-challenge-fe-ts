@@ -1,3 +1,4 @@
+import { DateItem } from '@/atom/planSelector';
 import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
@@ -30,9 +31,10 @@ declare global {
 interface KakaoMapSize {
   region: string;
   idx: number;
+  listItem: DateItem;
 }
 
-export default function PlanKakaoMap({ region, idx }: KakaoMapSize) {
+export default function PlanKakaoMap({ region, idx, listItem }: KakaoMapSize) {
   const [kakaoLoaded, setKakaoLoaded] = useState(false);
 
   useEffect(() => {
@@ -67,12 +69,14 @@ export default function PlanKakaoMap({ region, idx }: KakaoMapSize) {
       const map = new window.kakao.maps.Map(container, options);
       map.setZoomable(false);
 
-      // new window.kakao.maps.Marker({
-      //   map: map,
-      //   position: new window.kakao.maps.LatLng(coordinates[0].mapY, coordinates[0].mapX),
-      // });
+      listItem.list.map((v) => {
+        new window.kakao.maps.Marker({
+          map: map,
+          position: new window.kakao.maps.LatLng(v.mapy, v.mapx),
+        });
+      });
     }
-  }, [kakaoLoaded, region, idx]);
+  }, [kakaoLoaded, region, idx, listItem.list]);
 
   return (
     <MapContainer>

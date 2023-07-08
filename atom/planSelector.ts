@@ -1,7 +1,7 @@
 import { ISearchDataInfo } from '@/pages/api/api';
 import { atom } from 'recoil';
 
-type DateItem = {
+export type DateItem = {
   date: string;
   list: ISearchDataInfo[];
 };
