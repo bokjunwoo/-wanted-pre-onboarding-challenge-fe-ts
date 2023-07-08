@@ -69,11 +69,30 @@ export default function PlanKakaoMap({ region, idx, listItem }: KakaoMapSize) {
       const map = new window.kakao.maps.Map(container, options);
       map.setZoomable(false);
 
+      const pathArr: string[] = [];
+
       listItem.list.map((v) => {
         new window.kakao.maps.Marker({
           map: map,
           position: new window.kakao.maps.LatLng(v.mapy, v.mapx),
         });
+
+        pathArr.push(new window.kakao.maps.LatLng(v.mapy, v.mapx));
+      });
+
+      new window.kakao.maps.Polyline({
+        // 지도생성
+        map: map,
+        // path의 배열
+        path: pathArr,
+        // 선을 굵기
+        strokeWeight: 5,
+        // 선의 색
+        strokeColor: '#db4040',
+        // 선의 불투명도
+        strokeOpacity: 1,
+        // 선의 스타일
+        strokeStyle: 'solid',
       });
     }
   }, [kakaoLoaded, region, idx, listItem.list]);
