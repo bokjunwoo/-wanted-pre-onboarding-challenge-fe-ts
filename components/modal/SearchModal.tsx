@@ -34,7 +34,7 @@ export default function SearchModal({
       </Modal.Header>
 
       <Modal.Body>
-        <ListGroup>
+        <ListGroup variant="flush">
           {data !== null ? (
             <PlanList listItem={data} date={date} />
           ) : (

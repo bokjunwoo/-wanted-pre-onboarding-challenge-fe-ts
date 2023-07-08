@@ -55,7 +55,9 @@ export default function PlanList({ number, listItem, date }: IPlanList) {
     setToastVariant('primary');
   };
 
-  const deleteLocation = () => {
+  const deleteLocation = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+
     const deleteDates = planList.plan.map((dateItem) => {
       if (dateItem.date === date) {
         const updatedList = dateItem.list.filter(
@@ -82,7 +84,10 @@ export default function PlanList({ number, listItem, date }: IPlanList) {
 
   return (
     <>
-      <ListGroup.Item className="ps-2 pe-2" onClick={addLocation}>
+      <ListGroup.Item
+        className="ps-2 pe-2"
+        onClick={!number ? addLocation : undefined}
+      >
         <div className="d-flex justify-content-between">
           <div className="d-flex">
             <div className="d-flex align-items-center">
@@ -100,7 +105,11 @@ export default function PlanList({ number, listItem, date }: IPlanList) {
             </div>
           </div>
 
-          {number && <div className="d-flex align-items-center"></div>}
+          {number && (
+            <div className="d-flex align-items-center">
+              <CloseButton onClick={deleteLocation} />
+            </div>
+          )}
         </div>
       </ListGroup.Item>
 
@@ -110,8 +119,6 @@ export default function PlanList({ number, listItem, date }: IPlanList) {
         message={toastMessage}
         variant={toastVariant}
       />
-
-      <CloseButton onClick={deleteLocation} />
     </>
   );
 }
