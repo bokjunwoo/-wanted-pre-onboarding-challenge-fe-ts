@@ -53,7 +53,7 @@ export default function PlanUserId() {
                 <span className="text-dark">({v.date})</span>
               </Accordion.Header>
               <Accordion.Body className="pb-0">
-                <PlanKakaoMap region={region} idx={i} />
+                <PlanKakaoMap region={region} idx={i} listItem={v} />
 
                 <div className="mt-3 mb-3">
                   <PlanListForm date={v.date} />
