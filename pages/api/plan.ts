@@ -1,6 +1,7 @@
 import { DateObject } from '@/atom/planSelector';
 import { ISearchData } from './api';
 import apiClient from './apiClient';
+import axios from 'axios';
 
 export const searchTitle = async (data: ISearchData) => {
   const response = await apiClient({
@@ -17,5 +18,10 @@ export const planAdd = async (data: DateObject) => {
     url: '/plan/add',
     data,
   });
+  return response.data;
+};
+
+export const planAll = async () => {
+  const response = await axios.post('/plan/all');
   return response.data;
 };
