@@ -9,6 +9,7 @@ export type DateItem = {
 export type DateObject = {
   nickname: string;
   region: string;
+  title: string;
   plan: DateItem[];
 };
 
@@ -17,6 +18,7 @@ export const planListState = atom<DateObject>({
   default: {
     nickname: '',
     region: '',
+    title: '',
     plan: [],
   },
 });
