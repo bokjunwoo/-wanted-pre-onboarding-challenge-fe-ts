@@ -180,3 +180,15 @@ export const NumberBox = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+export const InputTitle = styled.input`
+  width: 100%;
+  height: 72px;
+  font-size: 30px;
+  font-weight: bold;
+  border: 0;
+  border-radius: 15px;
+  outline: none;
+  padding-left: 10px;
+  background-color: rgb(233, 233, 233);
+`;
