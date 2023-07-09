@@ -18,10 +18,7 @@ export default function Region({ region, stay, tour }: ISubmainParams) {
         <title>{`${regionNames[region]} - 여행지`}</title>
       </Head>
 
-      <SubTitleImage
-        region={region as string}
-        regionName={regionNames[region]}
-      />
+      <SubTitleImage region={region as string} />
 
       <SubText
         mainText={`${regionNames[region]}의 여행지`}

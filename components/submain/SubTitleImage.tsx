@@ -4,10 +4,9 @@ import { Card } from 'react-bootstrap';
 
 export interface SubMainProps {
   region: string;
-  regionName: string;
 }
 
-export default function SubTitleImage({ region, regionName }: SubMainProps) {
+export default function SubTitleImage({ region }: SubMainProps) {
   return (
     <Card className="card mt-5 rounded-0">
       {region && (
