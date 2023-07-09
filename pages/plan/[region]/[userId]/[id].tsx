@@ -5,11 +5,13 @@ import PlanKakaoMap from '@/components/kakao/PlanKakaoMap';
 import PlanList from '@/components/plan/PlanList';
 import PlanListForm from '@/components/plan/PlanListForm';
 import PlanTitleForm from '@/components/plan/PlanTitleForm';
+import ToastMessage from '@/components/toast/ToastMessage';
+import { planAdd } from '@/pages/api/plan';
 import { userInfo } from '@/pages/api/sign';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import React from 'react';
-import { Accordion, ListGroup } from 'react-bootstrap';
+import React, { useCallback, useState } from 'react';
+import { Accordion, Button, ListGroup } from 'react-bootstrap';
 import { useRecoilValue } from 'recoil';
 
 export default function PlanUserId() {
@@ -20,6 +22,25 @@ export default function PlanUserId() {
 
   const planList = useRecoilValue(planListState);
   const dateLength = planList.plan.length;
+
+  const [toastShow, setToastShow] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastVariant, setToastVariant] = useState('');
+
+  const onSubmitPlanData = useCallback(() => {
+    if (planList.title === undefined || planList.title === '') {
+      setToastMessage('여행 타이틀을 작성해주세요.');
+      setToastVariant('danger');
+      setToastShow(true);
+      return;
+    }
+
+    planAdd(planList);
+    setToastMessage('여행 계획이 작성되었습니다.');
+    setToastVariant('primary');
+    setToastShow(true);
+    router.replace(`/submain/${region}`);
+  }, [planList, region, router]);
 
   if (userLoading) return <LoadingSpinner />;
 
@@ -79,6 +100,19 @@ export default function PlanUserId() {
           );
         })}
       </Accordion>
+
+      <div className="d-grid gap-2 mt-3">
+        <Button variant="outline-success" size="lg" onClick={onSubmitPlanData}>
+          계획저장하기
+        </Button>
+      </div>
+
+      <ToastMessage
+        show={toastShow}
+        setShow={setToastShow}
+        message={toastMessage}
+        variant={toastVariant}
+      />
     </>
   );
 }
