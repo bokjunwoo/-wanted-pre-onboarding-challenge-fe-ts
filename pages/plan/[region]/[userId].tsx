@@ -21,6 +21,7 @@ export default function PlanUserId() {
   const { data: user, isLoading: userLoading } = useQuery(['user'], userInfo);
 
   const planList = useRecoilValue(planListState);
+  console.log(planList);
   const dateLength = planList.plan.length;
 
   const [toastShow, setToastShow] = useState(false);
@@ -28,7 +29,7 @@ export default function PlanUserId() {
   const [toastVariant, setToastVariant] = useState('');
 
   const onSubmitPlanData = useCallback(() => {
-    if (planList.title === undefined || planList.title === '') {
+    if (planList.title === '') {
       setToastMessage('여행 타이틀을 작성해주세요.');
       setToastVariant('danger');
       setToastShow(true);

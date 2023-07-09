@@ -52,9 +52,14 @@ export default function PlanCalendarModal({
       currentDate.add(1, 'day');
     }
 
-    setSelectedDates({ nickname: user, region: region, plan: dates });
+    setSelectedDates({
+      nickname: user,
+      region: region,
+      plan: dates,
+      title: '',
+    });
 
-    router.push(`/plan/${region}/${user}/1`);
+    router.push(`/plan/${region}/${user}`);
   };
 
   return (
