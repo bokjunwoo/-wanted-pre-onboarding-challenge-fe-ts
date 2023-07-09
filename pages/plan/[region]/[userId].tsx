@@ -10,7 +10,7 @@ import { planAdd } from '@/pages/api/plan';
 import { userInfo } from '@/pages/api/sign';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Accordion, Button, ListGroup } from 'react-bootstrap';
 import { useRecoilValue } from 'recoil';
 
@@ -21,7 +21,6 @@ export default function PlanUserId() {
   const { data: user, isLoading: userLoading } = useQuery(['user'], userInfo);
 
   const planList = useRecoilValue(planListState);
-  console.log(planList);
   const dateLength = planList.plan.length;
 
   const [toastShow, setToastShow] = useState(false);
@@ -42,6 +41,20 @@ export default function PlanUserId() {
     setToastShow(true);
     router.replace(`/submain/${region}`);
   }, [planList, region, router]);
+
+  const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = '';
+  };
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    history.pushState(null, '', location.href);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
 
   if (userLoading) return <LoadingSpinner />;
 
