@@ -4,6 +4,7 @@ import UserInfo from '@/components/common/UserInfo';
 import PlanKakaoMap from '@/components/kakao/PlanKakaoMap';
 import PlanList from '@/components/plan/PlanList';
 import PlanListForm from '@/components/plan/PlanListForm';
+import PlanTitleForm from '@/components/plan/PlanTitleForm';
 import { userInfo } from '@/pages/api/sign';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
@@ -41,6 +42,8 @@ export default function PlanUserId() {
             : planList.plan[0].date}
         </h6>
       </div>
+
+      <PlanTitleForm />
 
       <Accordion defaultActiveKey="0" alwaysOpen className="mt-3">
         {planList.plan.map((v, i) => {
