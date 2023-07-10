@@ -119,3 +119,8 @@ export interface ISearchDataInfo {
   mapx: string;
   mapy: string;
 }
+
+export interface IPlanDelete {
+  _id: string;
+  user: string;
+}
