@@ -6,12 +6,12 @@ export type DateItem = {
   list: ISearchDataInfo[];
 };
 
-export type DateObject = {
+export interface DateObject {
   nickname: string;
   region: string;
   title: string;
   plan: DateItem[];
-};
+}
 
 export const planListState = atom<DateObject>({
   key: 'planListState',
