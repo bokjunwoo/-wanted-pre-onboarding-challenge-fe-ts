@@ -5,7 +5,6 @@ import MypagePlanCard from './MypagePlanCard';
 
 export default function MypagePlanSection() {
   const { userPlan, userPlanLoading } = useUserPlanData();
-  console.log(userPlan);
 
   if (userPlanLoading) {
     return <ParentLoading />;
