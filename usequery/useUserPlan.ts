@@ -1,19 +1,37 @@
 import { DateObject } from '@/atom/planSelector';
-import { planAll } from '@/pages/api/plan';
-import { useQuery } from '@tanstack/react-query';
+import { IPlanDelete } from '@/pages/api/api';
+import { planAll, planDelete } from '@/pages/api/plan';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
+export interface ExtendedDateObject extends DateObject {
+  _id: string;
+}
+
 export const useUserPlanData = (): {
-  userPlan: DateObject[] | undefined;
+  userPlan: ExtendedDateObject[] | undefined;
   userPlanLoading: boolean;
+  handleDeletePlan: (data: IPlanDelete) => void;
 } => {
+  const queryClient = useQueryClient();
+
   const { data: userPlan, isLoading: userPlanLoading } = useQuery<
-    DateObject[],
+    ExtendedDateObject[],
     AxiosError
   >({
     queryKey: ['userPlan'],
     queryFn: () => planAll(),
   });
 
-  return { userPlan, userPlanLoading };
+  const deletePlanMutation = useMutation(['userPlan'], planDelete, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['userPlan']);
+    },
+  });
+
+  const handleDeletePlan = (data: IPlanDelete) => {
+    deletePlanMutation.mutate(data);
+  };
+
+  return { userPlan, userPlanLoading, handleDeletePlan };
 };
