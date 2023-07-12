@@ -14,6 +14,7 @@ import LedgerForm from '@/components/ledger/LedgerForm';
 import { activeKeyList } from '@/data/contents';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import MypageReviewSection from '@/components/mypage/MypageReviewSection';
+import MypagePlanSection from '@/components/mypage/MypagePlanSection';
 
 const MypageNavWithNoSSR = dynamic(import('@/components/mypage/MypageNav'), {
   ssr: false,
@@ -67,7 +68,7 @@ export default function MypageUserId() {
             </>
           )}
           {activeKey === 'review' && <MypageReviewSection />}
-          {activeKey === 'plan' && <div>작성된 리뷰가 없습니다.</div>}
+          {activeKey === 'plan' && <MypagePlanSection />}
         </Col>
       </Row>
     </div>
