@@ -11,7 +11,7 @@ export default function MypagePlanSection() {
   }
 
   if (userPlan?.length === 0) {
-    return <div>작성한 리뷰가 없습니다.</div>;
+    return <div>작성한 여행계획이 없습니다.</div>;
   }
 
   return (
