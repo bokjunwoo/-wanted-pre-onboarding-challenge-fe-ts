@@ -5,6 +5,7 @@ import CheckModal from '../modal/CheckModal';
 import { ExtendedDateObject, useUserPlanData } from '@/usequery/useUserPlan';
 import { useQuery } from '@tanstack/react-query';
 import { userInfo } from '@/pages/api/sign';
+import PlanDetailModal from '../plan/PlanDetailModal';
 
 export default function MypagePlanCard({ data }: { data: ExtendedDateObject }) {
   const { data: user } = useQuery(['user'], userInfo);
@@ -13,11 +14,16 @@ export default function MypagePlanCard({ data }: { data: ExtendedDateObject }) {
   const lastDay = data.plan[data.plan.length - 1].date;
 
   const [modalShow, setModalShow] = useState(false);
+  const [detailShow, setDatailShow] = useState(false);
 
   const { handleDeletePlan } = useUserPlanData();
 
   const modalHandler = useCallback(() => {
     setModalShow(true);
+  }, []);
+
+  const detialHandler = useCallback(() => {
+    setDatailShow(true);
   }, []);
 
   const onSubmitPlanDelete = useCallback(() => {
@@ -47,7 +53,11 @@ export default function MypagePlanCard({ data }: { data: ExtendedDateObject }) {
             >
               삭제
             </Button>
-            <Button size="sm" variant="outline-secondary" className="">
+            <Button
+              size="sm"
+              variant="outline-secondary"
+              onClick={detialHandler}
+            >
               자세히보기
             </Button>
           </div>
@@ -60,6 +70,8 @@ export default function MypagePlanCard({ data }: { data: ExtendedDateObject }) {
         message1="해당 계획을 삭제 하실건가요?"
         onSubmit={onSubmitPlanDelete}
       />
+
+      <PlanDetailModal show={detailShow} setShow={setDatailShow} data={data} />
     </>
   );
 }
