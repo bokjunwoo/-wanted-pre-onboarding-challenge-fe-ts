@@ -12,7 +12,7 @@ export default function MypageReviewCard({ review }: { review: IReviewInfo }) {
 
   return (
     <Link href={`/detail/${review.region}/${review.contentid}`}>
-      <Card border="" className="m-2 rounded-0">
+      <Card border="" className="m-2 rounded-1">
         <Card.Header>
           {review.title}{' '}
           {stars.map((star, i) => (

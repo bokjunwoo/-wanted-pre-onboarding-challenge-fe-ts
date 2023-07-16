@@ -32,7 +32,7 @@ export default function MypagePlanCard({ data }: { data: ExtendedDateObject }) {
 
   return (
     <>
-      <Card className="rounded-2 mt-2 mb-2">
+      <Card className="rounded-1 mt-2 mb-2">
         <Card.Body className="p-2">
           <Card.Title className="mb-2">여행 : {data.title}</Card.Title>
 
