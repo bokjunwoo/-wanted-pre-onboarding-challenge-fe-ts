@@ -5,6 +5,7 @@ import {
   faUser,
   faMagnifyingGlass,
   faRightFromBracket,
+  faRightToBracket,
 } from '@fortawesome/free-solid-svg-icons';
 import { userInfo, userlogout } from '@/pages/api/sign';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -118,7 +119,7 @@ export default function Header() {
           ) : (
             <Link href="/login">
               <Navbar.Brand>
-                <FontAwesomeIcon icon={faUser} />
+                <span className="fs-6 fw-bold">로그인/회원가입</span>
               </Navbar.Brand>
             </Link>
           )}
