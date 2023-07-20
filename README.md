@@ -25,57 +25,41 @@
 
 ## 🚀 지금까지 구현된 기능
 
-### 2023.02.16 ~ 2023.03.27 (배포)
+### 06.18 ~ 07.16
 
-⭐️ React CRA로 프로젝트를 진행한 프로젝트를 Next.js로 리빌딩작업
+⭐️ 마이페이지 구현(getServerSideProps)
 
-- 기본적인 페이지 구성이 완료, 반응형 웹페이지를 지원
+- getServerSideProps를 사용하여 사용자의 로그인 상태에 따라 리디렉션 설정
+- 마이페이지의 네비게이션 키 구현을 위한 sessionStorage 활용
+    - sessionStorage를 활용하여 마이페이지를 요청했을 때, useEffect를 사용하여 페이지가 로드되기 전에 해당 키 값을 받아와 이후 해당 키 값에 따라 리뷰, 가계부, 체크리스트, 여행계획 등 사용자 정보를 가져와서 렌더
+- useQuery 커스텀 훅을 활용한 데이터 요청
+    - useQuery 커스텀 훅을 활용하여 sessionStorage 키 값을 기반으로 데이터를 요청해 useQuery를 사용하여 해당 키 값을 기반으로 필요한 데이터를 서버로부터 가져와 사용자에게 제공합니다.
+- <img src='https://github.com/bokjunwoo/TripLog-Next.js-refactoring/assets/106523012/0a5138fb-55d0-4234-8bbf-87892c3c74f9' width='400px'>
 
-### 03.28 ~ 04.03
+⭐️ 여행계획 작성 구현
 
-⭐️ React-Query를 이용해 서브페이지(getStaticProps), 디테일페이지(getServerSideProps)구현
+- react-calendar를 통해 여행 계획 일정 선택
+    - react-calendar를 활용하여 여행 계획의 일정을 선택하면 recoil을 업데이트하고, 이를 통해 여행 계획 페이지로 이동
+    - <img src='https://github.com/bokjunwoo/TripLog-Next.js-refactoring/assets/106523012/6160913a-f391-4845-88fd-600d01bb83e7' width='400px'>
 
-- 서브페이지는 getStaticProps를 이용해 구현
-    - 서브페이지는 페이지 변경이 잃어나지 않기 때문에 빌드 될 시 정적페이지를 생성해주는 getStaticProps를 사용
-- 디테일페이지의 경우는 getServerSideProps를 이용해 구현
-    - React-Query의 fetchQuery를 이용해 서버에서 받아온 데이터를 요청
+    
+- recoil를 이용하여 여행계획 정보를 전역관리
+    - recoil을 이용하여 여행 계획 정보를 전역적으로 관리하여 props drilling을 방지하고, 자식 컴포넌트에서 부모 컴포넌트로 데이터 전송을 통해 페이지를 렌더
+- Kakao Map을 통해 위치 확인
+    - 여행지를 선택하면 지도에 마커를 표시하여 위치를 확인할 수 있습니다. 여러 곳을 선택하면 해당 동선을 볼 수 있도록 지원
 
-### 04.04 ~ 04.08
+### 06.01 ~ 06.13
 
-⭐️ React-Query를 이용해 리스트페이지(getStaticProps) 및 페이지네이션 구현
+⭐️ react-query를 이용해 디테일 페이지 리뷰 작성, 수정, 삭제, 좋아요의 기능 구현
 
-- 리스트페이지는 getStaticProps를 이용해 구현
-    - 모두가 똑같이 보는 공통 페이지로 미리 렌더링하며 개인 별로 페이지가 변경될 경우 새로운 api를 요청
-- Next.js 13버전에서 제공하는 useSearchParams를 이용하여 현재 URL의 쿼리 문자열을 받아와 페이지네이션을 구현
-    - 쿼리스트링(ex. ?page=1)을 활용하여 현재 URL에 따라 사용자가 모두 동일한 페이지를 볼 수 있도록 하여, 뒤로 가기나 공유 시 같은 페이지를 보여주어 사용자 경험을 향상
+- 로그인 여부에 따른 Toast 알림
+    - react-query의 useQuery 훅을 사용하여 사용자의 로그인 상태를 확인해 로그인이 필요한 기능에 접근할 때, 로그인 상태를 체크하고 비로그인 상태인 경우 Toast를 사용하여 사용자에게 알림
+    - <img src='https://github.com/bokjunwoo/TripLog-Next.js-refactoring/assets/106523012/3cd2a750-2927-4f2e-bdfa-44624d2a3f0b' width='400px'>
 
-### 04.10 ~ 04.17
-
-⭐️ 로컬 회원가입, 로그인 구현
-
-- 회원가입
-    - 아이디, 비밀번호, 닉네임 등 회원 정보를 입력받고, 입력값 유효성 검사
-    - <img src='https://github.com/bokjunwoo/TripLog-Next.js-refactoring/assets/106523012/8728adc0-0f0d-47ef-bbd5-ece75d6a8f85' width='200px'>
-
-    - 서버에 데이터 요청을 통해 중복 아이디 및 닉네임 검사
-- 로그인
-    - 아이디, 비밀번호를 서버에 데이터요청을 통한 메세지 전달
-
-⭐️ 디테일 페이지 Data Fetching 리팩토링
-
-- getStaticProps를 사용하여 미리 빌드된 정적 파일을 제공하므로써, 매번 서버에 새로운 요청을 보내지 않고도 페이지를 생성하고 성능과 속도를 향상시킴
-- React-Query의 prefetchQuery를 사용하여 데이터를 캐싱하여 성능과 속도를 향상시킴
-
-### 04.18 ~ 04.25
-
-⭐️ 카카오 회원가입, 로그인 구현
-
-- 회원가입
-    - 카카오 API를 이용해 사용자의 정보를 받아 트립로그에 사용을 원하는 닉네임을 설정해 가입을 완료
-    - <img src='https://github.com/bokjunwoo/TripLog-Next.js-refactoring/assets/106523012/4266c662-3908-4c9d-86ca-a9bee798e386' width='200px'>
-
-- 로그인
-    - 카카오 가입 유무를 확인해 입력한 닉네임을 통해 트립로그의 서비스 이용가능
+- 리뷰 작성, 수정, 삭제, 좋아요
+    - react-query의 useMutation 훅을 사용하여 리뷰 작성 기능을 구현
+    - API 요청을 수행하는 함수를 useMutation으로 감싸고, 요청 결과를 처리
+    - API 요청이 성공적으로 이루어지면 UI를 업데이트하고, 실패한 경우 에러를 처리
 
 ### 05.04 ~ 05.25
 
@@ -100,15 +84,54 @@
 
 - 헤더의 로그인 상태에 따른 아이콘 변경과 서버에 로그아웃 요청
 
-### 06.01 ~ 06.13
+### 04.18 ~ 04.25
 
-⭐️ react-query를 이용해 디테일 페이지 리뷰 작성, 수정, 삭제, 좋아요의 기능 구현
+⭐️ 카카오 회원가입, 로그인 구현
 
-- 로그인 여부에 따른 Toast 알림
-    - react-query의 useQuery 훅을 사용하여 사용자의 로그인 상태를 확인해 로그인이 필요한 기능에 접근할 때, 로그인 상태를 체크하고 비로그인 상태인 경우 Toast를 사용하여 사용자에게 알림
-    - <img src='https://github.com/bokjunwoo/TripLog-Next.js-refactoring/assets/106523012/3cd2a750-2927-4f2e-bdfa-44624d2a3f0b' width='400px'>
+- 회원가입
+    - 카카오 API를 이용해 사용자의 정보를 받아 트립로그에 사용을 원하는 닉네임을 설정해 가입을 완료
+    - <img src='https://github.com/bokjunwoo/TripLog-Next.js-refactoring/assets/106523012/4266c662-3908-4c9d-86ca-a9bee798e386' width='200px'>
 
-- 리뷰 작성, 수정, 삭제, 좋아요
-    - react-query의 useMutation 훅을 사용하여 리뷰 작성 기능을 구현
-    - API 요청을 수행하는 함수를 useMutation으로 감싸고, 요청 결과를 처리
-    - API 요청이 성공적으로 이루어지면 UI를 업데이트하고, 실패한 경우 에러를 처리
+- 로그인
+    - 카카오 가입 유무를 확인해 입력한 닉네임을 통해 트립로그의 서비스 이용가능
+
+### 04.10 ~ 04.17
+
+⭐️ 로컬 회원가입, 로그인 구현
+
+- 회원가입
+    - 아이디, 비밀번호, 닉네임 등 회원 정보를 입력받고, 입력값 유효성 검사
+    - <img src='https://github.com/bokjunwoo/TripLog-Next.js-refactoring/assets/106523012/8728adc0-0f0d-47ef-bbd5-ece75d6a8f85' width='200px'>
+
+    - 서버에 데이터 요청을 통해 중복 아이디 및 닉네임 검사
+- 로그인
+    - 아이디, 비밀번호를 서버에 데이터요청을 통한 메세지 전달
+
+⭐️ 디테일 페이지 Data Fetching 리팩토링
+
+- getStaticProps를 사용하여 미리 빌드된 정적 파일을 제공하므로써, 매번 서버에 새로운 요청을 보내지 않고도 페이지를 생성하고 성능과 속도를 향상시킴
+- React-Query의 prefetchQuery를 사용하여 데이터를 캐싱하여 성능과 속도를 향상시킴
+
+### 04.04 ~ 04.08
+
+⭐️ React-Query를 이용해 리스트페이지(getStaticProps) 및 페이지네이션 구현
+
+- 리스트페이지는 getStaticProps를 이용해 구현
+    - 모두가 똑같이 보는 공통 페이지로 미리 렌더링하며 개인 별로 페이지가 변경될 경우 새로운 api를 요청
+- Next.js 13버전에서 제공하는 useSearchParams를 이용하여 현재 URL의 쿼리 문자열을 받아와 페이지네이션을 구현
+    - 쿼리스트링(ex. ?page=1)을 활용하여 현재 URL에 따라 사용자가 모두 동일한 페이지를 볼 수 있도록 하여, 뒤로 가기나 공유 시 같은 페이지를 보여주어 사용자 경험을 향상
+
+### 03.28 ~ 04.03
+
+⭐️ React-Query를 이용해 서브페이지(getStaticProps), 디테일페이지(getServerSideProps)구현
+
+- 서브페이지는 getStaticProps를 이용해 구현
+    - 서브페이지는 페이지 변경이 잃어나지 않기 때문에 빌드 될 시 정적페이지를 생성해주는 getStaticProps를 사용
+- 디테일페이지의 경우는 getServerSideProps를 이용해 구현
+    - React-Query의 fetchQuery를 이용해 서버에서 받아온 데이터를 요청
+
+### 2023.02.16 ~ 2023.03.27 (배포)
+
+⭐️ React CRA로 프로젝트를 진행한 프로젝트를 Next.js로 리빌딩작업
+
+- 기본적인 페이지 구성이 완료, 반응형 웹페이지를 지원
