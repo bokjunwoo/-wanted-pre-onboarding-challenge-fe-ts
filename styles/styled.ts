@@ -166,11 +166,6 @@ export const TabContainer = styled.div`
   }
 `;
 
-export const UserImage = styled.img`
-  width: 12rem;
-  height: 12rem;
-`;
-
 export const NumberBox = styled.div`
   width: 25px;
   height: 25px;
