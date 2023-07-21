@@ -1,8 +1,8 @@
-import { userImageInfo, userInfo } from '@/pages/api/sign';
-import { TabContainer, UserImage } from '@/styles/styled';
-import { useQuery } from '@tanstack/react-query';
+import { TabContainer } from '@/styles/styled';
 import React from 'react';
 import { Row, Tab, Nav } from 'react-bootstrap';
+import MypageImageForm from './MypageImageForm';
+import UserImage from '../common/UserImage';
 
 interface IMypageNavProps {
   activeKey: string;
@@ -13,21 +13,12 @@ export default function MypageNav({
   activeKey,
   handleTabSelect,
 }: IMypageNavProps) {
-  const { data: user } = useQuery(['user'], userInfo);
-  const { data: userImage } = useQuery(['userImage'], userImageInfo);
-
   return (
     <Row xs={1} sm={1} md={1} className="light rounded mb-5">
       <Tab.Container activeKey={activeKey} onSelect={handleTabSelect}>
+        <UserImage />
+
         <TabContainer>
-          <div className="d-flex flex-column align-items-center">
-            <UserImage
-              src={userImage === '' ? '/images/defaultImage.png' : userImage}
-              alt="회원 이미지"
-              className="rounded p-4"
-            />
-            <p className="fs-3 text-center text-success fw-bold m-2">{user}</p>
-          </div>
           <Nav
             variant="pills"
             className="flex-column mt-4 text-center mb-4"
@@ -47,6 +38,8 @@ export default function MypageNav({
             </Nav.Item>
           </Nav>
         </TabContainer>
+
+        <MypageImageForm />
       </Tab.Container>
     </Row>
   );
