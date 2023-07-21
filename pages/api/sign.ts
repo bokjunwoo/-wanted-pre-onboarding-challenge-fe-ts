@@ -64,7 +64,7 @@ export const userInfo = async () => {
   return response.data;
 };
 
-export const userImageInfo = async () => {
+export const userImageData = async () => {
   const response = await axios.get('/user/image');
   return response.data;
 };
