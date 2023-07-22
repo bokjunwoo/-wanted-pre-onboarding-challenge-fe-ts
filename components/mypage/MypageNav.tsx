@@ -2,7 +2,7 @@ import { TabContainer } from '@/styles/styled';
 import React from 'react';
 import { Row, Tab, Nav } from 'react-bootstrap';
 import MypageImageForm from './MypageImageForm';
-import UserImage from '../common/UserImage';
+import UserImageUpload from '../common/UserImageUpload';
 
 interface IMypageNavProps {
   activeKey: string;
@@ -16,7 +16,9 @@ export default function MypageNav({
   return (
     <Row xs={1} sm={1} md={1} className="light rounded mb-5">
       <Tab.Container activeKey={activeKey} onSelect={handleTabSelect}>
-        <UserImage />
+        <div className="mt-4">
+          <UserImageUpload />
+        </div>
 
         <TabContainer>
           <Nav

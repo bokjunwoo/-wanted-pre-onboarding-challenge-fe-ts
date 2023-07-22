@@ -1,30 +1,27 @@
-import { userErrorState } from '@/atom/userErrorSelector';
 import { userImageState } from '@/atom/userImageSelector';
-import { userImageData, userInfo } from '@/pages/api/sign';
+import { userImageData } from '@/pages/api/sign';
 import { useQuery } from '@tanstack/react-query';
-import React, { useCallback } from 'react';
-import { Button } from 'react-bootstrap';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import React from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
-export default function UserImage() {
-  const [userImage, setuserImage] = useRecoilState(userImageState);
-  const userError = useRecoilValue(userErrorState);
+interface IUserImageProps {
+  width: string;
+  height: string;
+}
 
-  const { data: user } = useQuery(['user'], userInfo);
+export default function UserImage({ width, height }: IUserImageProps) {
+  const userImage = useRecoilValue(userImageState);
   const { data: userImageInfo } = useQuery(['userImage'], userImageData);
 
-  const onClcikCancel = useCallback(() => {
-    setuserImage('');
-  }, [setuserImage]);
-
   return (
-    <div className="d-flex flex-column align-items-center">
+    <span>
       {userImage !== '' && userImageInfo === '' ? (
         <UserImageSize
           src={`http://localhost:4000/${userImage}`}
           alt="회원 이미지"
-          className="m-4 mb-2"
+          width={width}
+          height={height}
         />
       ) : (
         <UserImageSize
@@ -34,35 +31,17 @@ export default function UserImage() {
               : `http://localhost:4000/${userImage}`
           }
           alt="회원 이미지"
-          className="mt-4"
+          width={width}
+          height={height}
         />
       )}
-      {userImage !== '' && (
-        <div className="d-flex justify-content-center mb-2">
-          <Button size="sm" className="ms-2 me-2" variant="outline-primary">
-            저장
-          </Button>
-          <Button
-            size="sm"
-            className="ms-2 me-2"
-            variant="outline-danger"
-            onClick={onClcikCancel}
-          >
-            취소
-          </Button>
-        </div>
-      )}
-
-      {userError !== '' && <div className="text-danger mt-2">{userError}</div>}
-
-      <p className="fs-3 text-center text-success fw-bold m-2">{user}</p>
-    </div>
+    </span>
   );
 }
 
-export const UserImageSize = styled.img`
-  width: 150px;
-  height: 150px;
+const UserImageSize = styled.img`
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
   border-radius: 50%;
   background-color: #d9d9d9;
 `;
