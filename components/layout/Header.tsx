@@ -2,10 +2,8 @@ import Link from 'next/link';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faUser,
   faMagnifyingGlass,
   faRightFromBracket,
-  faRightToBracket,
 } from '@fortawesome/free-solid-svg-icons';
 import { userInfo, userlogout } from '@/pages/api/sign';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -14,6 +12,7 @@ import { Cursor } from '@/styles/styled';
 import { useCallback, useState } from 'react';
 import { ILogoutResult } from '@/pages/api/api';
 import SignSuccess from '../modal/SignSuccess';
+import UserImage from '../common/UserImage';
 
 export default function Header() {
   const queryClient = useQueryClient();
@@ -107,7 +106,7 @@ export default function Header() {
             <div>
               <Link href={`/mypage/${user}`}>
                 <Navbar.Brand>
-                  <FontAwesomeIcon icon={faUser} />
+                  <UserImage width="30px" height="30px" />
                 </Navbar.Brand>
               </Link>
               <Cursor onClick={onLogOut}>
