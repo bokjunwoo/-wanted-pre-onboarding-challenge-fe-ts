@@ -13,22 +13,31 @@ export default function UserImage() {
   const { data: userImageInfo } = useQuery(['userImage'], userImageData);
 
   const onClcikCancel = useCallback(() => {
-    setuserImage(userImageInfo);
-  }, [setuserImage, userImageInfo]);
+    setuserImage('');
+  }, [setuserImage]);
 
   return (
     <div className="d-flex flex-column align-items-center">
-      <UserImageSize
-        src={
-          userImage === ''
-            ? '/images/noneUserImage.png'
-            : `http://localhost:4000/${userImage}`
-        }
-        alt="회원 이미지"
-        className="m-4"
-      />
-      {userImage !== '' ? (
-        <div className="d-flex justify-content-center">
+      {userImage !== '' && userImageInfo === '' ? (
+        <UserImageSize
+          src={`http://localhost:4000/${userImage}`}
+          alt="회원 이미지"
+          className="m-4 mb-2"
+        />
+      ) : (
+        <UserImageSize
+          src={
+            userImage === ''
+              ? '/images/noneUserImage.png'
+              : `http://localhost:4000/${userImage}`
+          }
+          alt="회원 이미지"
+          className="mt-4"
+        />
+      )}
+
+      {userImage !== '' && (
+        <div className="d-flex justify-content-center mb-2">
           <Button size="sm" className="ms-2 me-2" variant="outline-primary">
             저장
           </Button>
@@ -41,7 +50,7 @@ export default function UserImage() {
             취소
           </Button>
         </div>
-      ) : null}
+      )}
       <p className="fs-3 text-center text-success fw-bold m-2">{user}</p>
     </div>
   );
@@ -51,4 +60,5 @@ export const UserImageSize = styled.img`
   width: 150px;
   height: 150px;
   border-radius: 50%;
+  background-color: #d9d9d9;
 `;
