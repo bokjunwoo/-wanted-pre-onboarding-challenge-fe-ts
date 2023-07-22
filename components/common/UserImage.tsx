@@ -1,13 +1,15 @@
+import { userErrorState } from '@/atom/userErrorSelector';
 import { userImageState } from '@/atom/userImageSelector';
 import { userImageData, userInfo } from '@/pages/api/sign';
 import { useQuery } from '@tanstack/react-query';
 import React, { useCallback } from 'react';
 import { Button } from 'react-bootstrap';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 export default function UserImage() {
   const [userImage, setuserImage] = useRecoilState(userImageState);
+  const userError = useRecoilValue(userErrorState);
 
   const { data: user } = useQuery(['user'], userInfo);
   const { data: userImageInfo } = useQuery(['userImage'], userImageData);
@@ -35,7 +37,6 @@ export default function UserImage() {
           className="mt-4"
         />
       )}
-
       {userImage !== '' && (
         <div className="d-flex justify-content-center mb-2">
           <Button size="sm" className="ms-2 me-2" variant="outline-primary">
@@ -51,6 +52,9 @@ export default function UserImage() {
           </Button>
         </div>
       )}
+
+      {userError !== '' && <div className="text-danger mt-2">{userError}</div>}
+
       <p className="fs-3 text-center text-success fw-bold m-2">{user}</p>
     </div>
   );
