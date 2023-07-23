@@ -16,9 +16,11 @@ export default function UserImage({ width, height }: IUserImageProps) {
 
   return (
     <span>
-      {userImage !== '' && userImageInfo === '' ? (
+      {userImage === '' &&
+      userImageInfo !== '' &&
+      userImageInfo !== undefined ? (
         <UserImageSize
-          src={`http://localhost:4000/${userImage}`}
+          src={`http://localhost:4000/${userImageInfo}`}
           alt="회원 이미지"
           width={width}
           height={height}
