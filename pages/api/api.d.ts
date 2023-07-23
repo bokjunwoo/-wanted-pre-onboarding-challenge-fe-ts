@@ -124,3 +124,8 @@ export interface IPlanDelete {
   _id: string;
   user: string;
 }
+
+export interface IUserImageSave {
+  user: string;
+  image: string;
+}
