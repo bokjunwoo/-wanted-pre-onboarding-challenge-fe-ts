@@ -13,6 +13,8 @@ import AlretModal from '@/components/modal/AlertModal';
 import { ERROR_MESSAGE } from '@/constants/message';
 import { useRouter } from 'next/router';
 import ToastMessage from '@/components/toast/ToastMessage';
+import ReviewUploadImage from './ReviewUploadImage';
+import ReviewUploadButton from './ReviewUploadButton';
 
 interface ReviewWriteProps {
   value?: string;
@@ -35,6 +37,7 @@ export default function ReviewWrite({
   const { data: user } = useQuery(['user'], userInfo);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const [text, onChangeText, setText] = useInput('');
   const [starclicked, setStarClicked] = useState([
     false,
@@ -60,13 +63,6 @@ export default function ReviewWrite({
     }
     setStarClicked(clickStates);
   };
-
-  useEffect(() => {
-    if (autoFocus && textareaRef.current && value) {
-      textareaRef.current.focus();
-      textareaRef.current.setSelectionRange(value.length, value.length);
-    }
-  }, [autoFocus, value]);
 
   const handleTextareaClick = () => {
     if (!user) {
@@ -120,6 +116,13 @@ export default function ReviewWrite({
     mutationAdd.mutate({ user, text, star, region, id });
   }, [mutationAdd, id, region, star, text, user]);
 
+  useEffect(() => {
+    if (autoFocus && textareaRef.current && value) {
+      textareaRef.current.focus();
+      textareaRef.current.setSelectionRange(value.length, value.length);
+    }
+  }, [autoFocus, value]);
+
   return (
     <>
       <Form>
@@ -151,6 +154,10 @@ export default function ReviewWrite({
           <label htmlFor="floatingTextarea">내용</label>
         </div>
 
+        <ReviewUploadImage />
+
+        <ReviewUploadButton />
+
         <div className="d-flex justify-content-end">
           <Button
             size="sm"
@@ -163,9 +170,7 @@ export default function ReviewWrite({
           </Button>
         </div>
       </Form>
-
       <AlretModal show={show} setShow={setShow} message={message} />
-
       <ToastMessage
         variant="danger"
         show={isLogin}
