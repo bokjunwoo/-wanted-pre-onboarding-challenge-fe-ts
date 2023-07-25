@@ -15,3 +15,8 @@ export const userImageSave = async (data: IUserImageSave) => {
   });
   return response.data;
 };
+
+export const reviewImagesUpload = async (image: FormData) => {
+  const response = await axios.post('/review/images', image);
+  return response.data;
+};
