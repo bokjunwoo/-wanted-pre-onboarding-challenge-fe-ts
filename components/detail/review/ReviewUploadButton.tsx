@@ -1,4 +1,5 @@
 import { reviewImageState } from '@/atom/reviewImageSelector';
+import { userErrorState } from '@/atom/userErrorSelector';
 import ToastMessage from '@/components/toast/ToastMessage';
 import { reviewImagesUpload } from '@/pages/api/image';
 import { userInfo } from '@/pages/api/sign';
@@ -11,6 +12,7 @@ export default function ReviewUploadButton() {
   const { data: user } = useQuery(['user'], userInfo);
 
   const setReviewImage = useSetRecoilState(reviewImageState);
+  const setUserError = useSetRecoilState(userErrorState);
 
   const imageInput = useRef<HTMLInputElement>(null);
   const [isLogin, setIsLogin] = useState(false);
@@ -49,9 +51,12 @@ export default function ReviewUploadButton() {
         })
         .catch((error) => {
           console.error('Image upload failed:', error);
+          setUserError(
+            '이미지 등록이 실패했습니다. 새로고침 후 다시 시도해 주세요.',
+          );
         });
     },
-    [setReviewImage],
+    [setReviewImage, setUserError],
   );
 
   return (

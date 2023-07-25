@@ -15,6 +15,8 @@ import { useRouter } from 'next/router';
 import ToastMessage from '@/components/toast/ToastMessage';
 import ReviewUploadImage from './ReviewUploadImage';
 import ReviewUploadButton from './ReviewUploadButton';
+import { userErrorState } from '@/atom/userErrorSelector';
+import { useRecoilValue } from 'recoil';
 
 interface ReviewWriteProps {
   value?: string;
@@ -35,6 +37,8 @@ export default function ReviewWrite({
   const { region, id } = router.query as { region: string; id: string };
 
   const { data: user } = useQuery(['user'], userInfo);
+
+  const userError = useRecoilValue(userErrorState);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -141,6 +145,7 @@ export default function ReviewWrite({
             );
           })}
         </Stars>
+
         <div className="form-floating">
           <TextareaAutosize
             className="form-control"
@@ -155,6 +160,9 @@ export default function ReviewWrite({
         </div>
 
         <ReviewUploadImage />
+        {userError !== '' && (
+          <div className="text-danger mt-2">{userError}</div>
+        )}
 
         <ReviewUploadButton />
 
@@ -170,7 +178,9 @@ export default function ReviewWrite({
           </Button>
         </div>
       </Form>
+
       <AlretModal show={show} setShow={setShow} message={message} />
+
       <ToastMessage
         variant="danger"
         show={isLogin}
