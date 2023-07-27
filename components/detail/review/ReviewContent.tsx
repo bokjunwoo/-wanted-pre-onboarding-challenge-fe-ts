@@ -10,6 +10,7 @@ import { reviewDelete } from '@/pages/api/review';
 import { useRouter } from 'next/router';
 import CheckModal from '@/components/modal/CheckModal';
 import ToastMessage from '@/components/toast/ToastMessage';
+import { ReviewImageSize } from '@/styles/styled';
 
 moment.locale('ko');
 
@@ -120,6 +121,19 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
           ) : (
             <span>{review.content}</span>
           )}
+        </div>
+
+        <div>
+          {review.reviewImage?.map((v) => {
+            return (
+              <ReviewImageSize
+                src={`http://localhost:4000/${v}`}
+                key={v}
+                alt={v}
+                className="me-2 mt-2"
+              />
+            );
+          })}
         </div>
       </ListGroup.Item>
 
