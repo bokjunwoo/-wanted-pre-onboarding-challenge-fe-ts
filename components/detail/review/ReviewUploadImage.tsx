@@ -1,9 +1,9 @@
 import { reviewImageState } from '@/atom/reviewImageSelector';
 import React, { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
-import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
+import { FlexBox, ReviewImageSize, ImageDelete } from '@/styles/styled';
 
 export default function ReviewUploadImage() {
   const [reviewImage, setReviewImage] = useRecoilState(reviewImageState);
@@ -32,25 +32,3 @@ export default function ReviewUploadImage() {
     </div>
   );
 }
-
-const FlexBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #cccccc;
-  margin: 10px 10px 0px 0px;
-`;
-
-const ReviewImageSize = styled.img`
-  width: 100px;
-  height: 100px;
-`;
-
-const ImageDelete = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100px;
-  height: 30px;
-  border-top: 1px solid #cccccc;
-  cursor: pointer;
-`;

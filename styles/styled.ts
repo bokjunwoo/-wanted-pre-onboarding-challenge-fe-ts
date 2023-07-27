@@ -187,3 +187,25 @@ export const InputTitle = styled.input`
   padding-left: 10px;
   background-color: rgb(233, 233, 233);
 `;
+
+export const FlexBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #cccccc;
+  margin: 10px 10px 0px 0px;
+`;
+
+export const ReviewImageSize = styled.img`
+  width: 100px;
+  height: 100px;
+`;
+
+export const ImageDelete = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 30px;
+  border-top: 1px solid #cccccc;
+  cursor: pointer;
+`;
