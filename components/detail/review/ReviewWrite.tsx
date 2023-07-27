@@ -16,7 +16,8 @@ import ToastMessage from '@/components/toast/ToastMessage';
 import ReviewUploadImage from './ReviewUploadImage';
 import ReviewUploadButton from './ReviewUploadButton';
 import { userErrorState } from '@/atom/userErrorSelector';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { reviewImageState } from '@/atom/reviewImageSelector';
 
 interface ReviewWriteProps {
   value?: string;
@@ -38,6 +39,7 @@ export default function ReviewWrite({
 
   const { data: user } = useQuery(['user'], userInfo);
 
+  const [reviewImage, setReviewImage] = useRecoilState(reviewImageState);
   const userError = useRecoilValue(userErrorState);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -89,6 +91,7 @@ export default function ReviewWrite({
           star,
           time: new Date(),
           region: '',
+          reviewImage: reviewImage,
         });
 
         return newReview;
@@ -98,6 +101,7 @@ export default function ReviewWrite({
     onSuccess() {
       setText('');
       setStarClicked([false, false, false, false, false]);
+      setReviewImage([]);
       queryClient.refetchQueries(['fetchReview', id]);
     },
   });
@@ -117,8 +121,8 @@ export default function ReviewWrite({
       setMessage(ERROR_MESSAGE.NO_REVIEW_WRITE);
       return;
     }
-    mutationAdd.mutate({ user, text, star, region, id });
-  }, [mutationAdd, id, region, star, text, user]);
+    mutationAdd.mutate({ user, text, star, region, id, image: reviewImage });
+  }, [mutationAdd, id, region, star, text, user, reviewImage]);
 
   useEffect(() => {
     if (autoFocus && textareaRef.current && value) {
