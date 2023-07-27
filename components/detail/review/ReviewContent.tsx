@@ -65,7 +65,14 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
         <div className="d-flex justify-content-between">
           <div className="d-flex">
             <div className="d-flex align-items-center">
-              <UserIamge src="/images/main/card0.jpg" alt="" />
+              <UserIamge
+                src={
+                  review.userImage !== ''
+                    ? `http://localhost:4000/${review.userImage}`
+                    : '/images/noneUserImage.png'
+                }
+                alt="유저이미지"
+              />
             </div>
 
             <div className="ms-2">
@@ -136,6 +143,6 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
 export const UserIamge = styled.img`
   width: 35px;
   height: 35px;
-  border: 1px solid black;
+  background-color: #d9d9d9;
   border-radius: 50%;
 `;
