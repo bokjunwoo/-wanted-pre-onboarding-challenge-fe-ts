@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import CheckModal from '@/components/modal/CheckModal';
 import ToastMessage from '@/components/toast/ToastMessage';
 import { ReviewImageSize } from '@/styles/styled';
+import ReviewImageModal from './ReviewImageModal';
 
 moment.locale('ko');
 
@@ -25,6 +26,8 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
   const [show, setShow] = useState(false);
   const [edit, setEdit] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [imageShow, setImageShow] = useState(false);
+  const [imageIndex, setImageIndex] = useState(0);
 
   const onClickEdit = useCallback(() => {
     setEdit((prev) => !prev);
@@ -50,6 +53,11 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
 
   const modalHandler = useCallback(() => {
     setShow(true);
+  }, []);
+
+  const imageModalHandler = useCallback((index: number) => {
+    setImageIndex(index);
+    setImageShow(true);
   }, []);
 
   const onSubmitReviewDelete = useCallback(() => {
@@ -124,13 +132,14 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
         </div>
 
         <div>
-          {review.reviewImage?.map((v) => {
+          {review.reviewImage?.map((v, i) => {
             return (
               <ReviewImageSize
                 src={`http://localhost:4000/${v}`}
                 key={v}
                 alt={v}
                 className="me-2 mt-2"
+                onClick={() => imageModalHandler(i)}
               />
             );
           })}
@@ -149,6 +158,13 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
         show={isLogin}
         setShow={setIsLogin}
         message="로그인이 필요한 기능입니다."
+      />
+
+      <ReviewImageModal
+        show={imageShow}
+        setShow={setImageShow}
+        image={review.reviewImage}
+        index={imageIndex}
       />
     </>
   );
