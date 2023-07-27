@@ -33,6 +33,7 @@ export interface IReviewInfo {
   content: string;
   star: number;
   time: Date;
+  reviewImage: string[];
 }
 
 export interface IReviewDelete {
@@ -54,6 +55,7 @@ export interface IReviewAdd {
   star: number;
   region: string;
   id: string;
+  image: string[];
 }
 
 export interface IKoreaAPI {
