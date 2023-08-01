@@ -77,7 +77,7 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
               <UserIamge
                 src={
                   review.userImage !== ''
-                    ? `http://localhost:4000/${review.userImage}`
+                    ? `${review.userImage}`
                     : '/images/noneUserImage.png'
                 }
                 alt="유저이미지"
@@ -135,7 +135,7 @@ export default function ReviewContent({ review }: { review: IReviewInfo }) {
           {review.reviewImage?.map((v, i) => {
             return (
               <ReviewImageSize
-                src={`http://localhost:4000/${v}`}
+                src={v}
                 key={v}
                 alt={v}
                 className="me-2 mt-2"

@@ -22,7 +22,7 @@ export default function ReviewUploadImage() {
       {reviewImage.map((v) => {
         return (
           <FlexBox key={v}>
-            <ReviewImageSize src={`http://localhost:4000/${v}`} alt={v} />
+            <ReviewImageSize src={v} alt={v} />
             <ImageDelete onClick={() => deleteImage(v)}>
               <FontAwesomeIcon icon={faX} />
             </ImageDelete>

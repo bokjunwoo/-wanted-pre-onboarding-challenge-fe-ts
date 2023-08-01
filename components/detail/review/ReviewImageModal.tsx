@@ -53,10 +53,7 @@ export default function ReviewImageModal({
           {image?.map((v) => {
             return (
               <Carousel.Item key={v}>
-                <ReviewImageModalSize
-                  src={`http://localhost:4000/${v}`}
-                  alt={v}
-                />
+                <ReviewImageModalSize src={v} alt={v} />
               </Carousel.Item>
             );
           })}
