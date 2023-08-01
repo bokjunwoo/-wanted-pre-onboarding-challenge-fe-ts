@@ -131,6 +131,7 @@ export default function Signup() {
                 ref={emailInputRef}
                 value={email}
                 onChange={onChangeEmail}
+                autoComplete="current-email"
               />
               <Form.Text
                 className={`${
@@ -150,6 +151,7 @@ export default function Signup() {
                 ref={passwordInputRef}
                 value={password}
                 onChange={onChangePassword}
+                autoComplete="current-password"
               />
               <Form.Text
                 className={`${
@@ -169,6 +171,7 @@ export default function Signup() {
                 ref={repasswordInputRef}
                 value={repassword}
                 onChange={onChangePasswordCheck}
+                autoComplete="current-password"
               />
               <Form.Text
                 className={`${

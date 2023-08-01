@@ -97,6 +97,7 @@ export default function Login() {
                 ref={emailInputRef}
                 value={email}
                 onChange={onChangeEmail}
+                autoComplete="current-email"
               />
               <VisibilityHidden className="text-muted">
                 visibilityHidden
@@ -112,6 +113,7 @@ export default function Login() {
                 ref={passwordInputRef}
                 value={password}
                 onChange={onChangePassword}
+                autoComplete="current-password"
               />
               <VisibilityHidden className="text-muted">
                 visibilityHidden
