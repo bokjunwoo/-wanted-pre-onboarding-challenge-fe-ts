@@ -25,6 +25,16 @@
 
 ## 🚀 지금까지 구현된 기능
 
+### 07.18 ~ 08.01
+⭐️ 이미지 등록 기능 구현
+
+- 이미지 저장을 위해 S3를 활용하는 기능 추가
+    - 마이페이지에서 사용자의 이미지를 등록
+    - <img src='https://github.com/bokjunwoo/TripLog-Next.js-refactoring/assets/106523012/215c081b-fd37-4c88-9d03-2a0421a3ab1a' width='400px'>
+
+    - 리뷰 작성 시 이미지를 등록및 취소
+    - <img src='https://github.com/bokjunwoo/TripLog-Next.js-refactoring/assets/106523012/d6b6098f-cf40-4588-b12d-7607b038ce49' width='400px'>
+
 ### 06.18 ~ 07.16
 
 ⭐️ 마이페이지 구현(getServerSideProps)
