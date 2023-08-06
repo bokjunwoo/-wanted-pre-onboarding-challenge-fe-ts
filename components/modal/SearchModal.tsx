@@ -6,7 +6,7 @@ import PlanList from '../plan/PlanList';
 interface ISearchProps {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
-  data: ISearchDataInfo;
+  data: ISearchDataInfo[];
   date: string;
 }
 
@@ -36,7 +36,9 @@ export default function SearchModal({
       <Modal.Body>
         <ListGroup variant="flush">
           {data !== null ? (
-            <PlanList listItem={data} date={date} />
+            data.map((v, i) => {
+              return <PlanList listItem={v} date={date} key={i} />;
+            })
           ) : (
             <div>검색결과가 없습니다.</div>
           )}
