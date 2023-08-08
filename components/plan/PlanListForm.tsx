@@ -4,7 +4,7 @@ import useInput from '../hooks/useInput';
 import ToastMessage from '../toast/ToastMessage';
 import SearchModal from '../modal/SearchModal';
 import { useRouter } from 'next/router';
-import { useSearchData } from '@/usequery/useSearch';
+import { useSearchPlan } from '@/usequery/useSearchPlan';
 
 type PlanListFormType = {
   date: string;
@@ -26,7 +26,7 @@ export default function PlanListForm(date: PlanListFormType) {
   const [toastShow, setToastShow] = useState(false);
   const [searchShow, setSearchShow] = useState(false);
 
-  const { data: searchData, refetch: searchDataRefetch } = useSearchData(
+  const { data: searchData, refetch: searchDataRefetch } = useSearchPlan(
     region,
     search,
   );

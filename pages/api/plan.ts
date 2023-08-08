@@ -3,7 +3,7 @@ import { IPlanDelete, ISearchData } from './api';
 import apiClient from './apiClient';
 import axios from 'axios';
 
-export const searchTitle = async (data: ISearchData) => {
+export const planSearch = async (data: ISearchData) => {
   const response = await apiClient({
     method: 'post',
     url: '/plan/search',
