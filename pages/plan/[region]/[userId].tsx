@@ -56,6 +56,12 @@ export default function PlanUserId() {
     };
   }, []);
 
+  useEffect(() => {
+    if (dateLength === 0) {
+      router.replace('/');
+    }
+  }, [router, dateLength]);
+
   if (userLoading) return <LoadingSpinner />;
 
   return (
