@@ -78,9 +78,8 @@ export default function PlanUserId() {
             : `(${dateLength}일)`}
         </h2>
         <h6>
-          {dateLength > 1
-            ? `${planList.plan[0].date} ~ ${planList.plan[dateLength - 1].date}`
-            : planList.plan[0].date}
+          {dateLength > 0 &&
+            `${planList.plan[0].date} ~ ${planList.plan[dateLength - 1].date}`}
         </h6>
       </div>
 
