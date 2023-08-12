@@ -99,7 +99,9 @@ export default function Header() {
           </Navbar.Collapse>
 
           <Navbar.Brand>
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
+            <Link href={`/search`}>
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </Link>
           </Navbar.Brand>
 
           {user ? (
