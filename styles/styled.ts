@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Card, ToastContainer } from 'react-bootstrap';
+import { Card, Form, ToastContainer } from 'react-bootstrap';
 
 export const Container = styled(Card)`
   height: 450px;
@@ -208,4 +208,20 @@ export const ImageDelete = styled.div`
   height: 30px;
   border-top: 1px solid #cccccc;
   cursor: pointer;
+`;
+
+export const Input = styled.input`
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+
+  :hover {
+    border-color: #999;
+  }
+
+  :focus {
+    outline: none;
+    border-color: #28a745;
+  }
 `;
