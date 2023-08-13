@@ -49,7 +49,9 @@ export default function Search() {
     <>
       <Head>
         <title>
-          {region ? `${regionNames[region]} - 결과` : '트립로그 - 검색하기'}
+          {region && searchTitle
+            ? `${regionNames[region]} - ${searchTitle}`
+            : '트립로그 - 검색하기'}
         </title>
       </Head>
 
