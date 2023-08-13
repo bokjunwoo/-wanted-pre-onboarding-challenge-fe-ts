@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Card, Form, ToastContainer } from 'react-bootstrap';
+import { Card, ToastContainer } from 'react-bootstrap';
 
 export const Container = styled(Card)`
   height: 450px;
