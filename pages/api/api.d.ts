@@ -108,6 +108,7 @@ export interface IDetailLikeInc {
 export interface ISearchData {
   region: string;
   search: string;
+  page?: number;
 }
 
 export interface ISearchDataInfo {
