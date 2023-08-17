@@ -7,12 +7,14 @@ import { useSearchParams } from 'next/navigation';
 import { loadsearchTitle } from './api/search';
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
+import { Row } from 'react-bootstrap';
+import ListCard from '@/components/list/ListCard';
 
 export default function Search() {
   const searchParams = useSearchParams();
 
   const searchTitle = searchParams.get('title');
-  const region = searchParams.get('region');
+  const region = searchParams.get('region') as string;
 
   const [ref, inView] = useInView();
 
@@ -81,9 +83,11 @@ export default function Search() {
 
       <SearchForm />
 
-      {allPosts?.map((v) => {
-        return <div key={v._id}>{v.title}</div>;
-      })}
+      <Row xs={1} sm={2} md={2} lg={3} className="mt-2">
+        {allPosts?.map((v) => {
+          return <ListCard key={v._id} data={v} region={region} />;
+        })}
+      </Row>
 
       <div
         ref={readToLoad ? ref : undefined}
