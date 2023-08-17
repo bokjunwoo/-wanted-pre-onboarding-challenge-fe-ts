@@ -20,9 +20,10 @@ export default function Search() {
     data,
     isLoading: loadSearchLoading,
     fetchNextPage,
+    hasNextPage,
   } = useInfiniteQuery(
     ['search', searchTitle],
-    ({ pageParam = '' }) =>
+    ({ pageParam = 1 }) =>
       loadsearchTitle({
         search: searchTitle as string,
         region: region as string,
@@ -31,16 +32,14 @@ export default function Search() {
     {
       getNextPageParam: (lastPage) => {
         if (!lastPage) {
-          return null; // 첫 번째 페이지이므로 파라미터 필요 없음
+          return null;
         }
 
         const currentPage = parseInt(lastPage.currentPage);
-        const totalPages = parseInt(lastPage.totalPages);
+        const totalPages = parseInt(lastPage.totalPage);
 
-        // 다음 페이지의 페이지 번호를 계산
         const nextPage = currentPage + 1;
 
-        // 마지막 페이지까지 도달하면 더 이상 요청하지 않음
         if (nextPage > totalPages) {
           return null;
         }
@@ -52,14 +51,11 @@ export default function Search() {
 
   const allPosts = data?.pages.flatMap((page) => page.data);
   const isEmpty = data?.pages[0]?.length === 0;
-  const isReachingEnd =
-    isEmpty ||
-    (data && data.pages[data.pages.length - 1]?.length < 12 && !fetchNextPage);
+  const isReachingEnd = isEmpty || (data && !hasNextPage);
   const hasMorePosts = !isEmpty && !isReachingEnd;
   const readToLoad = hasMorePosts && !loadSearchLoading;
 
   useEffect(() => {
-    console.log('inView!!!', inView);
     if (inView && readToLoad) {
       fetchNextPage();
     }
