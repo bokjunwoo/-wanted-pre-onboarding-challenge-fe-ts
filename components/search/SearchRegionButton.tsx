@@ -22,18 +22,15 @@ export default function SearchRegionButton() {
     [],
   );
 
-  useEffect(() => {
-    if (regionParam) {
-      const activeButtonId = buttonData.find(
-        (button) => button.name === regionParam,
-      )?.id;
-      setActiveButton(activeButtonId || null);
-    }
-  }, [regionParam, buttonData]);
+  const handleRegionChange = (buttonId: number) => {
+    const selectedRegion = buttonData[buttonId - 1].name;
+    const queryString = createQueryString('region', selectedRegion);
+    router.push('?' + queryString);
+  };
 
   const handleButtonClick = (buttonId: number) => {
     setActiveButton(buttonId === activeButton ? null : buttonId);
-    handlePageChange(buttonId);
+    handleRegionChange(buttonId);
   };
 
   const createQueryString = useCallback(
@@ -46,11 +43,14 @@ export default function SearchRegionButton() {
     [searchParams],
   );
 
-  const handlePageChange = (buttonId: number) => {
-    const selectedRegion = buttonData[buttonId - 1].name;
-    const queryString = createQueryString('region', selectedRegion);
-    router.push('?' + queryString);
-  };
+  useEffect(() => {
+    if (regionParam) {
+      const activeButtonId = buttonData.find(
+        (button) => button.name === regionParam,
+      )?.id;
+      setActiveButton(activeButtonId || null);
+    }
+  }, [regionParam, buttonData]);
 
   return (
     <>
