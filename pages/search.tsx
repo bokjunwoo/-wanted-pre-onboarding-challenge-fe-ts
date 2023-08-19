@@ -1,19 +1,18 @@
 import SearchForm from '@/components/search/SearchForm';
 import SearchRegionButton from '@/components/search/SearchRegionButton';
 import { regionNames } from '@/data/region';
-import { useInfiniteQuery } from '@tanstack/react-query';
 import Head from 'next/head';
 import { useSearchParams } from 'next/navigation';
-import { loadsearchTitle } from './api/search';
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
 import { Row } from 'react-bootstrap';
 import ListCard from '@/components/list/ListCard';
+import { useSearch } from '@/usequery/useSearch';
 
 export default function Search() {
   const searchParams = useSearchParams();
 
-  const searchTitle = searchParams.get('title');
+  const searchTitle = searchParams.get('title') as string;
   const region = searchParams.get('region') as string;
 
   const [ref, inView] = useInView();
@@ -23,33 +22,7 @@ export default function Search() {
     isLoading: loadSearchLoading,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery(
-    ['search', searchTitle],
-    ({ pageParam = 1 }) =>
-      loadsearchTitle({
-        search: searchTitle as string,
-        region: region as string,
-        page: pageParam,
-      }),
-    {
-      getNextPageParam: (lastPage) => {
-        if (!lastPage) {
-          return null;
-        }
-
-        const currentPage = parseInt(lastPage.currentPage);
-        const totalPages = parseInt(lastPage.totalPage);
-
-        const nextPage = currentPage + 1;
-
-        if (nextPage > totalPages) {
-          return null;
-        }
-
-        return nextPage;
-      },
-    },
-  );
+  } = useSearch(searchTitle, region);
 
   const allPosts = data?.pages.flatMap((page) => page.data);
   const isEmpty = data?.pages[0]?.length === 0;
@@ -89,10 +62,7 @@ export default function Search() {
         })}
       </Row>
 
-      <div
-        ref={readToLoad ? ref : undefined}
-        style={{ height: 50, backgroundColor: 'yellow' }}
-      />
+      <div ref={readToLoad ? ref : undefined}></div>
     </>
   );
 }
