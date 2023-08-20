@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 export default function SearchForm() {
   const searchParams = useSearchParams();
   const region = searchParams.get('region');
+  const searchTitle = searchParams.get('title');
 
   const router = useRouter();
 
@@ -66,7 +67,9 @@ export default function SearchForm() {
         </Button>
       </Form>
 
-      {showMessage && <div className="text-danger">{message}</div>}
+      {showMessage && !searchTitle && (
+        <div className="text-danger">{message}</div>
+      )}
     </>
   );
 }
