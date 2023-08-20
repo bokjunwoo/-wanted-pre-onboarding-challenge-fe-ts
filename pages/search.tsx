@@ -25,7 +25,7 @@ export default function Search() {
   } = useSearch(searchTitle, region);
 
   const allPosts = data?.pages.flatMap((page) => page.data);
-  const isEmpty = data?.pages[0]?.length === 0;
+  const isEmpty = data?.pages.length === 0;
   const isReachingEnd = isEmpty || (data && !hasNextPage);
   const hasMorePosts = !isEmpty && !isReachingEnd;
   const readToLoad = hasMorePosts && !loadSearchLoading;
@@ -56,11 +56,19 @@ export default function Search() {
 
       <SearchForm />
 
-      <Row xs={1} sm={2} md={2} lg={3} className="mt-2">
-        {allPosts?.map((v) => {
-          return <ListCard key={v._id} data={v} region={region} />;
-        })}
-      </Row>
+      {searchTitle && <h1 className="fs-2 mt-3">{searchTitle}의 검색결과</h1>}
+
+      {allPosts?.length !== 0 && (
+        <Row xs={1} sm={2} md={2} lg={3} className="mt-2">
+          {allPosts?.map((v) => (
+            <ListCard key={v._id} data={v} region={region} />
+          ))}
+        </Row>
+      )}
+
+      {allPosts?.length !== 0 && !searchTitle && !region && (
+        <span>검색결과가 없습니다.</span>
+      )}
 
       <div ref={readToLoad ? ref : undefined}></div>
     </>
