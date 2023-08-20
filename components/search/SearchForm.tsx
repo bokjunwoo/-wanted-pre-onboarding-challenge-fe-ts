@@ -4,6 +4,7 @@ import React, { useCallback, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import useInput from '../hooks/useInput';
 import { useRouter } from 'next/router';
+import { isValidInput } from '@/utils/letterHelper';
 
 export default function SearchForm() {
   const searchParams = useSearchParams();
@@ -17,17 +18,23 @@ export default function SearchForm() {
   const [showMessage, setShowMessage] = useState(false);
 
   const searchHelper = () => {
+    if (!isValidInput(value)) {
+      setMessage('한글 2글자 이상 입력해주세요.');
+      setShowMessage(true);
+      return false;
+    }
     if (region === null) {
       setMessage('지역을 선택해주세요.');
       setShowMessage(true);
-      return;
+      return false;
     }
     if (value.length === 0) {
       setMessage('검색어를 입력해주세요.');
       setShowMessage(true);
-      return;
+      return false;
     }
     setShowMessage(false);
+    return true;
   };
 
   const handleTitleChange = () => {
@@ -37,9 +44,11 @@ export default function SearchForm() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    searchHelper();
-    handleTitleChange();
-    setValue('');
+    const searchHelperResult = searchHelper(); // searchHelper 실행 결과 저장
+    if (searchHelperResult) {
+      handleTitleChange();
+      setValue('');
+    }
   };
 
   const createQueryString = useCallback(
