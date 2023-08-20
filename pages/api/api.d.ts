@@ -23,6 +23,12 @@ export interface IListInfo {
   total: number;
 }
 
+export interface ISearchInfo {
+  data: IDetailInfo[];
+  currentPage: number;
+  totalPage: number;
+}
+
 export interface IReviewInfo {
   _id: string;
   contentid: string;
