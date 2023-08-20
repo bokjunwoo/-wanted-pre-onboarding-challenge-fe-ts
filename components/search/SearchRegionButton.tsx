@@ -49,6 +49,8 @@ export default function SearchRegionButton() {
         (button) => button.name === regionParam,
       )?.id;
       setActiveButton(activeButtonId || null);
+    } else {
+      setActiveButton(null);
     }
   }, [regionParam, buttonData]);
 
