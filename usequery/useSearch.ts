@@ -1,9 +1,10 @@
+import { ISearchInfo } from '@/pages/api/api';
 import { loadsearchTitle } from '@/pages/api/search';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 export function useSearch(searchTitle: string, region: string) {
-  return useInfiniteQuery(
-    ['search', searchTitle],
+  return useInfiniteQuery<ISearchInfo>(
+    ['search', searchTitle, region],
     ({ pageParam = 1 }) =>
       loadsearchTitle({
         search: searchTitle as string,
@@ -16,8 +17,8 @@ export function useSearch(searchTitle: string, region: string) {
           return null;
         }
 
-        const currentPage = parseInt(lastPage.currentPage);
-        const totalPages = parseInt(lastPage.totalPage);
+        const currentPage = lastPage.currentPage;
+        const totalPages = lastPage.totalPage;
 
         const nextPage = currentPage + 1;
 
