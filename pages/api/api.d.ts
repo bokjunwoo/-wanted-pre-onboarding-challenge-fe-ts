@@ -16,6 +16,7 @@ export interface IDetailInfo {
     writeTime: string;
   }[];
   like: number;
+  region?: string;
 }
 
 export interface IListInfo {
