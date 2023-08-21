@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { Row } from 'react-bootstrap';
 import ListCard from '@/components/list/ListCard';
 import { useSearch } from '@/usequery/useSearch';
+import SearchBestList from '@/components/search/SearchBestList';
 
 export default function Search() {
   const searchParams = useSearchParams();
@@ -56,7 +57,11 @@ export default function Search() {
 
       <SearchForm />
 
-      {searchTitle && <h1 className="fs-2 mt-3">{searchTitle}의 검색결과</h1>}
+      {region && searchTitle && (
+        <h1 className="fs-2 mt-3">
+          {`${regionNames[region]} | ${searchTitle}`}의 검색결과
+        </h1>
+      )}
 
       {allPosts?.length !== 0 && (
         <Row xs={1} sm={2} md={2} lg={3} className="mt-2">
@@ -66,11 +71,13 @@ export default function Search() {
         </Row>
       )}
 
-      {allPosts?.length !== 0 && !searchTitle && !region && (
+      {allPosts?.length === 0 && searchTitle && region && (
         <span>검색결과가 없습니다.</span>
       )}
 
       <div ref={readToLoad ? ref : undefined}></div>
+
+      <SearchBestList />
     </>
   );
 }
