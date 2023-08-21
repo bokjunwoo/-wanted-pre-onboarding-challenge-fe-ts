@@ -1,7 +1,7 @@
 export const isValidInput = (value: string): boolean => {
   const koreanRegex = /^[가-힣]+$/;
 
-  if (koreanRegex.test(value)) {
+  if (!koreanRegex.test(value)) {
     return false; // 입력값이 한글이 아님
   }
 
