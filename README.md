@@ -25,6 +25,14 @@
 
 ## 🚀 지금까지 구현된 기능
 
+### 08.06 ~ 08.21
+⭐️ 검색 기능 구현(무한 스크롤)
+
+- /search 라우터에서 useSearchParams를 활용하여 검색 기능을 추가하고 검색 결과를 무한 스크롤 (infinite scroll) 방식으로 구현
+    - 지역 버튼을 클릭하면 region 쿼리스트링을 통해 해당 지역의 데이터를 요청
+    - 입력창에 검색하고 싶은 지역을 입력하면 title 쿼리스트링을 활용하여 해당 지역의 데이터를 요청
+    - <img src='https://github.com/bokjunwoo/TripLog-Next.js-refactoring/assets/106523012/8159ecd9-1ed5-4001-8d87-19a0e619445c' width='400px'>
+
 ### 07.18 ~ 08.01
 ⭐️ 이미지 등록 기능 구현
 
