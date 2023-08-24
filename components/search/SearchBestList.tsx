@@ -5,6 +5,7 @@ import { Row } from 'react-bootstrap';
 import { regionNames } from '@/data/region';
 import { loadSearchBest } from '@/pages/api/search';
 import { useQuery } from '@tanstack/react-query';
+import ListCardPlaceholder from '../list/ListCardPlaceholder';
 
 export default function SearchBestList() {
   const searchParams = useSearchParams();
@@ -17,7 +18,13 @@ export default function SearchBestList() {
   );
 
   if (isLoading) {
-    return <p>로딩중...</p>;
+    return (
+      <Row xs={1} sm={2} md={2} lg={3} className="mt-2">
+        {Array.from({ length: 3 }).map((_, i) => {
+          return <ListCardPlaceholder key={i} />;
+        })}
+      </Row>
+    );
   }
 
   return (
