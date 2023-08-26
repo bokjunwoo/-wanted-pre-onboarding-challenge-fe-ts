@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import TextareaAutosize from 'react-textarea-autosize';
 import AlretModal from '@/components/modal/AlertModal';
 import { ERROR_MESSAGE } from '@/constants/message';
@@ -133,7 +133,7 @@ export default function ReviewWrite({
 
   return (
     <>
-      <Form>
+      <div>
         <Stars className="mt-3 mb-3 justify-content-center">
           {starArr.map((v, i) => {
             return (
@@ -181,7 +181,7 @@ export default function ReviewWrite({
             등록
           </Button>
         </div>
-      </Form>
+      </div>
 
       <AlretModal show={show} setShow={setShow} message={message} />
 
