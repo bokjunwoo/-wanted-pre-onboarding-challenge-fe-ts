@@ -33,6 +33,11 @@ const AreaName = styled.p`
     font-weight: bold;
     margin: 28% 2% 0 2%;
   }
+  @media screen and (max-width: 1080px) {
+    font: 7rem/1 'ChosunBg';
+    font-weight: bold;
+    margin: 30% 2% 0 2%;
+  }
   @media screen and (max-width: 991px) {
     font: 6rem/1 'ChosunBg';
     font-weight: bold;
