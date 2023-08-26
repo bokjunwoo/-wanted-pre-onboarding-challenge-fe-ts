@@ -1,6 +1,6 @@
 import { Input } from '@/styles/styled';
 import { useSearchParams } from 'next/navigation';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import useInput from '../hooks/useInput';
 import { useRouter } from 'next/router';
@@ -9,7 +9,6 @@ import { isValidInput } from '@/utils/letterHelper';
 export default function SearchForm() {
   const searchParams = useSearchParams();
   const region = searchParams.get('region');
-  const searchTitle = searchParams.get('title');
 
   const router = useRouter();
 
@@ -61,6 +60,12 @@ export default function SearchForm() {
     [searchParams],
   );
 
+  useEffect(() => {
+    if (region) {
+      setMessage('');
+    }
+  }, [region]);
+
   return (
     <>
       <Form className="d-flex align-items-center" onSubmit={handleSubmit}>
@@ -76,9 +81,7 @@ export default function SearchForm() {
         </Button>
       </Form>
 
-      {showMessage && !searchTitle && (
-        <div className="text-danger">{message}</div>
-      )}
+      {showMessage && <div className="text-danger">{message}</div>}
     </>
   );
 }
