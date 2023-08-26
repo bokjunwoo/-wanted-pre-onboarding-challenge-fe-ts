@@ -1,12 +1,12 @@
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 export default function SearchRegionButton() {
   const searchParams = useSearchParams();
-  const regionParam = searchParams.get('region');
 
-  const router = useRouter();
+  const regionParam = searchParams.get('region');
+  const searchTitle = searchParams.get('title') as string;
 
   const [activeButton, setActiveButton] = useState<number | null>(null);
 
@@ -20,27 +20,6 @@ export default function SearchRegionButton() {
       { id: 6, label: '제주', name: 'jeju' },
     ],
     [],
-  );
-
-  const handleRegionChange = (buttonId: number) => {
-    const selectedRegion = buttonData[buttonId - 1].name;
-    const queryString = createQueryString('region', selectedRegion);
-    router.push('?' + queryString);
-  };
-
-  const handleButtonClick = (buttonId: number) => {
-    setActiveButton(buttonId === activeButton ? null : buttonId);
-    handleRegionChange(buttonId);
-  };
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams);
-      params.set(name, value);
-
-      return params.toString();
-    },
-    [searchParams],
   );
 
   useEffect(() => {
@@ -57,13 +36,18 @@ export default function SearchRegionButton() {
   return (
     <>
       {buttonData.map((button) => (
-        <button
+        <Link
           key={button.id}
-          onClick={() => handleButtonClick(button.id)}
-          className={activeButton === button.id ? 'active' : ''}
+          href={
+            searchTitle
+              ? `/search?region=${button.name}&title=${searchTitle}`
+              : `/search?region=${button.name}`
+          }
         >
-          {button.label}
-        </button>
+          <button className={activeButton === button.id ? 'active' : ''}>
+            {button.label}
+          </button>
+        </Link>
       ))}
     </>
   );
