@@ -15,7 +15,7 @@ export default function ChecklistAccordion({
         defaultActiveKey="0"
         flush
         alwaysOpen
-        className="m-auto col-lg-6 col-md-8"
+        className="m-auto col-md-8 col-sm-10"
       >
         {checklist.map((v, i) => {
           return (

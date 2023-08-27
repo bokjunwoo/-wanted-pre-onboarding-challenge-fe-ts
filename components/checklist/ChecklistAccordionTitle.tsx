@@ -1,12 +1,13 @@
 import { checklistAdd } from '@/pages/api/checklist';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useState } from 'react';
-import { Accordion, Form, InputGroup, Button } from 'react-bootstrap';
+import { Accordion, Form, Button } from 'react-bootstrap';
 import useInput from '../hooks/useInput';
 import { userInfo } from '@/pages/api/sign';
 import ChecklistAccordionItem from './ChecklistAccordionItem';
 import ToastMessage from '../toast/ToastMessage';
 import { ChecklistContent, Checklist } from '@/usequery/useChecklist';
+import { Input } from '@/styles/styled';
 
 export default function ChecklistAccordionTitle({
   title,
@@ -76,16 +77,16 @@ export default function ChecklistAccordionTitle({
                 />
               );
             })}
-            <InputGroup className="mt-3">
-              <Form.Control
+            <div className="d-flex align-items-center justify-content-center mt-3">
+              <Input
                 type="text"
                 placeholder="아이템 추가하기"
+                className="me-2 w-75"
                 value={text}
                 onChange={onChangeText}
               />
               <Button
                 variant="success"
-                id="button-addon2"
                 type="button"
                 onClick={() => {
                   onSubmitItem(title, text);
@@ -93,7 +94,7 @@ export default function ChecklistAccordionTitle({
               >
                 추가
               </Button>
-            </InputGroup>
+            </div>
           </Form>
         </Accordion.Body>
       </Accordion.Item>
