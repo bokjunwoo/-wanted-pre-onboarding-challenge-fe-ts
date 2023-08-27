@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Nav } from 'react-bootstrap';
 
 interface SubNavProps {
@@ -8,19 +8,24 @@ interface SubNavProps {
   margin?: string;
 }
 
+const navItems = [
+  { key: 'sightseeing', icon: '🌴', label: '관광' },
+  { key: 'culture', icon: '🗿', label: '문화' },
+  { key: 'food', icon: '🍽', label: '음식' },
+  { key: 'lodgment', icon: '🏠', label: '숙소' },
+  { key: 'shopping', icon: '💵', label: '쇼핑' },
+];
+
 export default function ListNav({ region, type, margin }: SubNavProps) {
   const router = useRouter();
 
   const [activeKey, setActiveKey] = useState<string | undefined>(type);
 
-  const routerHandle = useCallback(
-    (type: string | null) => {
-      if (type !== undefined) {
-        router.push(`/list/${region}/${type}?page=1`);
-      }
-    },
-    [router, region],
-  );
+  const handleNavSelect = (selectedKey: string | null) => {
+    if (selectedKey !== null) {
+      router.push(`/list/${region}/${selectedKey}?page=1`);
+    }
+  };
 
   useEffect(() => {
     setActiveKey(type);
@@ -30,45 +35,18 @@ export default function ListNav({ region, type, margin }: SubNavProps) {
     <Nav
       fill
       variant="tabs"
-      defaultActiveKey={activeKey}
       activeKey={activeKey}
-      onSelect={routerHandle}
+      onSelect={handleNavSelect}
       className={margin}
     >
-      <Nav.Item>
-        <Nav.Link eventKey="sightseeing">
-          <h2>🌴</h2>
-          <p>관광</p>
-        </Nav.Link>
-      </Nav.Item>
-
-      <Nav.Item>
-        <Nav.Link eventKey="culture">
-          <h2>🗿</h2>
-          <p>문화</p>
-        </Nav.Link>
-      </Nav.Item>
-
-      <Nav.Item>
-        <Nav.Link eventKey="food">
-          <h2>🍽</h2>
-          <p>음식</p>
-        </Nav.Link>
-      </Nav.Item>
-
-      <Nav.Item>
-        <Nav.Link eventKey="lodgment">
-          <h2>🏠</h2>
-          <p>숙소</p>
-        </Nav.Link>
-      </Nav.Item>
-
-      <Nav.Item>
-        <Nav.Link eventKey="shopping">
-          <h2>💵</h2>
-          <p>쇼핑</p>
-        </Nav.Link>
-      </Nav.Item>
+      {navItems.map((navItem) => (
+        <Nav.Item key={navItem.key}>
+          <Nav.Link eventKey={navItem.key}>
+            <h2>{navItem.icon}</h2>
+            <p className="fw-bold">{navItem.label}</p>
+          </Nav.Link>
+        </Nav.Item>
+      ))}
     </Nav>
   );
 }
