@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import UserInfo from '@/components/common/UserInfo';
 import { LedgerSection } from '@/components/ledger/LedgerSection';
+import { SubTitle } from '@/styles/styled';
 
 export default function LedgerUserId() {
   const { data: user, isLoading: userLoading } = useQuery(['user'], userInfo);
@@ -27,11 +28,11 @@ export default function LedgerUserId() {
           </div>
 
           <div className="mb-4">
-            <p>
+            <SubTitle>
               일행과 함께 지출한 비용이 있다면,
               <br />
               총무에게 내야 할 금액을 정산해드려요.
-            </p>
+            </SubTitle>
           </div>
 
           <LedgerForm />

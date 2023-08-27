@@ -6,6 +6,7 @@ import axios from 'axios';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import UserInfo from '@/components/common/UserInfo';
 import { ChecklistSection } from '@/components/checklist/ChecklistChecklistSection';
+import { SubTitle } from '@/styles/styled';
 
 export default function CkecklistUserId() {
   const { data: user, isLoading: userLoading } = useQuery(['user'], userInfo);
@@ -23,7 +24,7 @@ export default function CkecklistUserId() {
       </div>
 
       <div className="mb-4">
-        <p>체크리스트를 통해 여행에 필요한 물품을 챙겨보아요.</p>
+        <SubTitle>체크리스트를 통해 여행에 필요한 물품을 챙겨보아요.</SubTitle>
       </div>
 
       <ChecklistSection />

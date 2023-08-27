@@ -1,6 +1,6 @@
+import { Title, SubTitle } from '@/styles/styled';
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import styled from 'styled-components';
 
 interface SubTextProps {
   mainText: string;
@@ -19,19 +19,9 @@ export default function SubText({ mainText, icon, subText }: SubTextProps) {
 
         <div>
           <Title style={{ visibility: 'hidden' }}>{icon} </Title>
-          <span>{subText}</span>
+          <SubTitle>{subText}</SubTitle>
         </div>
       </Col>
     </Row>
   );
 }
-
-export const Title = styled.span`
-  font: 2rem/1 'Inter';
-  @media screen and (max-width: 1200px) {
-    font: 2rem/1 'Inter';
-  }
-  @media screen and (max-width: 992px) {
-    font: 1.5rem/1 'Inter';
-  }
-`;

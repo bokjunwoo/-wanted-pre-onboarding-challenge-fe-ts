@@ -225,3 +225,20 @@ export const Input = styled.input`
     border-color: #28a745;
   }
 `;
+
+export const Title = styled.span`
+  font: 2rem/1 'Inter';
+  font-weight: bold;
+  @media screen and (max-width: 1200px) {
+    font: 2rem/1 'Inter';
+    font-weight: bold;
+  }
+  @media screen and (max-width: 992px) {
+    font: 1.5rem/1 'Inter';
+    font-weight: bold;
+  }
+`;
+
+export const SubTitle = styled.span`
+  font-weight: 600;
+`;
