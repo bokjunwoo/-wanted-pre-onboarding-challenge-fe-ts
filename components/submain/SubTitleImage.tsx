@@ -27,6 +27,8 @@ const AreaName = styled.p`
   font: 8rem/1 'ChosunBg';
   font-weight: bold;
   margin: 30% 2% 0 2%;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black;
 
   @media screen and (max-width: 1200px) {
     font: 8rem/1 'ChosunBg';
@@ -70,33 +72,28 @@ const Areatext = styled.p`
   font-size: 1.5rem;
   font-family: Inter;
   margin: -2% 2% 0 2%;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black;
 
   @media screen and (max-width: 1200px) {
     font: 1.4rem/1.5 ‘Inter’;
-    margin: -2% 2% 0 2%;
   }
   @media screen and (max-width: 991px) {
     font: 1.2rem/1.5 ‘Inter’;
-    margin: -2% 2% 0 2%;
   }
   @media screen and (max-width: 767px) {
     font: 1rem/1.5 ‘Inter’;
-    margin: -2% 2% 0 2%;
   }
   @media screen and (max-width: 575px) {
     font: 0.9rem/1.5 ‘Inter’;
-    margin: -2% 2% 0 2%;
   }
   @media screen and (max-width: 480px) {
     font: 0.8rem/1 'ChosunBg';
-    margin: -2% 2% 0 2%;
   }
   @media screen and (max-width: 440px) {
     font: 0.7rem/1 'ChosunBg';
-    margin: -2% 2% 0 2%;
   }
   @media screen and (max-width: 390px) {
     font: 0.7rem/1 'ChosunBg';
-    margin: -2% 2% 0 2%;
   }
 `;
