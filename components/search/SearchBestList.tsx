@@ -9,50 +9,37 @@ import ListCardPlaceholder from '../list/ListCardPlaceholder';
 
 export default function SearchBestList() {
   const searchParams = useSearchParams();
-
   const region = searchParams.get('region') as string;
+
+  const title = region ? regionNames[region] : '';
 
   const { data, isLoading } = useQuery<IDetailInfo[]>(
     ['bestSearchtData', region],
     () => loadSearchBest(region),
   );
 
-  if (isLoading) {
-    return (
-      <Row xs={1} sm={2} md={2} lg={3} className="mt-2">
-        {Array.from({ length: 3 }).map((_, i) => {
-          return <ListCardPlaceholder key={i} />;
-        })}
-      </Row>
-    );
-  }
-
   return (
     <>
-      {region ? (
-        <>
-          <h1 className="fs-2 mt-3">
-            ✨ {regionNames[region]}의 트랜디한 트립로그의 Pick!
-          </h1>
+      <h1 className="fs-2 mt-3">
+        ✨ {region ? `${title}의` : '트랜디한'} 트립로그의 Pick!
+      </h1>
 
-          <Row xs={1} sm={2} md={2} lg={3} className="mt-2">
-            {data?.map((v) => {
-              return <ListCard key={v._id} data={v} region={region} />;
-            })}
-          </Row>
-        </>
+      {isLoading ? (
+        <Row xs={1} sm={2} md={2} lg={3} className="mt-2">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <ListCardPlaceholder key={i} />
+          ))}
+        </Row>
       ) : (
-        <>
-          <h1 className="fs-2 mt-3">✨ 트랜디한 트립로그의 Pick!</h1>
-
-          <Row xs={1} sm={2} md={2} lg={3} className="mt-2">
-            {data?.map((v) => {
-              return (
-                <ListCard key={v._id} data={v} region={v.region as string} />
-              );
-            })}
-          </Row>
-        </>
+        <Row xs={1} sm={2} md={2} lg={3} className="mt-2">
+          {data?.map((v) => (
+            <ListCard
+              key={v._id}
+              data={v}
+              region={region ? region : (v.region as string)}
+            />
+          ))}
+        </Row>
       )}
     </>
   );
