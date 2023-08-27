@@ -9,9 +9,9 @@ import { fetchList } from '@/pages/api/list';
 import { useRouter } from 'next/router';
 import { GetStaticPropsContext } from 'next';
 import { useSearchParams } from 'next/navigation';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
 import PaginatedItems from '@/components/common/PaginatedItems';
 import { useList } from '@/usequery/useList';
+import ListCardPlaceholder from '@/components/list/ListCardPlaceholder';
 
 export default function Type() {
   const searchParams = useSearchParams();
@@ -40,8 +40,6 @@ export default function Type() {
     router.push('?' + createQueryString('page', pageNumber));
   };
 
-  if (listLoading) return <LoadingSpinner />;
-
   return (
     <>
       <Head>
@@ -52,11 +50,19 @@ export default function Type() {
 
       <CommonNav region={region} type={type} margin="mt-5" />
 
-      <Row xs={1} sm={2} md={2} lg={3} className="mt-2">
-        {list?.data.map((data) => {
-          return <ListCard key={data._id} data={data} region={region} />;
-        })}
-      </Row>
+      {listLoading ? (
+        <Row xs={1} sm={2} md={2} lg={3} className="mt-2">
+          {Array.from({ length: 6 }).map((_, i) => {
+            return <ListCardPlaceholder key={i} />;
+          })}
+        </Row>
+      ) : (
+        <Row xs={1} sm={2} md={2} lg={3} className="mt-2">
+          {list?.data.map((data) => {
+            return <ListCard key={data._id} data={data} region={region} />;
+          })}
+        </Row>
+      )}
 
       <PaginatedItems
         page={page}
