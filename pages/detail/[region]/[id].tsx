@@ -2,7 +2,6 @@ import DetailContentCard from '@/components/detail/DetailContentCard';
 import DetailImageCard from '@/components/detail/DetailImageCard';
 import { Col, ListGroup, Row } from 'react-bootstrap';
 import { useCallback, useRef, useState } from 'react';
-import { Title } from '@/components/submain/SubText';
 import DetailInformation from '@/components/detail/DetailInformation';
 import ReviewWrite from '@/components/detail/review/ReviewWrite';
 import ReviewContent from '@/components/detail/review/ReviewContent';
@@ -11,7 +10,7 @@ import {
   getAverageStar,
   getLikeClickUser,
 } from '@/utils/detailHelper';
-import { Cursor } from '@/styles/styled';
+import { Cursor, Title } from '@/styles/styled';
 import Head from 'next/head';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
