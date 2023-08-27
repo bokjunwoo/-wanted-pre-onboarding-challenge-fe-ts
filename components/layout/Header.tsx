@@ -13,6 +13,7 @@ import { useCallback, useState } from 'react';
 import { ILogoutResult } from '@/pages/api/api';
 import SignSuccess from '../modal/SignSuccess';
 import UserImage from '../common/UserImage';
+import styled from 'styled-components';
 
 export default function Header() {
   const queryClient = useQueryClient();
@@ -40,7 +41,7 @@ export default function Header() {
 
   return (
     <>
-      <Navbar expand="lg" className="my-1">
+      <HeaderNav expand="lg" fixed="top" bg="white">
         <Container>
           <Link href="/">
             <Navbar.Brand>
@@ -125,10 +126,13 @@ export default function Header() {
             </Link>
           )}
         </Container>
-      </Navbar>
-      <hr className="clearfix w-100 m-0" />
+      </HeaderNav>
 
       <SignSuccess show={show} setShow={setShow} result={logoutResult} />
     </>
   );
 }
+
+const HeaderNav = styled(Navbar)`
+  border-bottom: 1px solid #f1f1f1;
+`;
